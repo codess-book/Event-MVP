@@ -2,37 +2,51 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import cookieParser from "cookie-parser";
-import rateLimit from "express-rate-limit";
-
+import compression from "compression";
+import mongoose from "mongoose";
+import router from "./routes/index.js";
+import { apiLimiter } from "./middleware/rateLimiters.js";
+import { notFound, errorHandler } from "./middleware/errorHandler.js";
 const app = express();
 
+// Render/Vercel proxy ke peeche asli user IP milne ke liye (rate limit sahi chale)
+app.set("trust proxy", 1);
+
+// Security headers (XSS, clickjacking waghera se bachaav)
 app.use(helmet());
 
+// Sirf apna frontend API call kar sake
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
-    credentials: true,
-  })
+    origin: process.env.CLIENT_URL
+      ? process.env.CLIENT_URL.split(",").map((s) => s.trim())
+      : "http://localhost:5173",
+  }),
 );
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(morgan("dev"));
+// Response gzip: slow network pe chhota data
+app.use(compression());
 
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 300,
-});
+// Body 10KB se bada nahi, koi bada payload bhej ke server slow na kar sake
+app.use(express.json({ limit: "10kb" }));
 
-app.use("/api", apiLimiter);
+// Request logs
+app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 
+// Health check: rate limiter se pehle, taaki UptimeRobot/Render pings block na hon
 app.get("/api/v1/health", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "Aaradh API is running",
+  const dbUp = mongoose.connection.readyState === 1;
+  res.status(dbUp ? 200 : 503).json({
+    success: dbUp,
+    message: dbUp ? "Aaradh API is running" : "Database not connected",
   });
 });
+
+// Saari API /api/v1 ke neeche, rate limit ke saath
+app.use("/api/v1", apiLimiter, router);
+
+// Ye dono hamesha sabse neeche (Express upar se neeche chalta hai)
+app.use(notFound);
+app.use(errorHandler);
 
 export default app;

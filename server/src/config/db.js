@@ -1,12 +1,17 @@
 import dns from "node:dns";
 import mongoose from "mongoose";
 
-// SRV lookup fail ho raha tha, isliye Google/Cloudflare DNS force kar rahe hain
-dns.setServers(["8.8.8.8", "1.1.1.1"]);
+
+if (process.env.NODE_ENV !== "production") {
+  dns.setServers(["8.8.8.8", "1.1.1.1"]);
+}
 
 export const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 10000, 
+      maxPoolSize: 20,                
+    });
 
     console.log("MongoDB connected successfully");
   } catch (error) {
@@ -14,3 +19,7 @@ export const connectDB = async () => {
     process.exit(1);
   }
 };
+
+mongoose.connection.on("disconnected", () => console.warn("MongoDB disconnected"));
+mongoose.connection.on("reconnected", () => console.log("MongoDB reconnected"));
+mongoose.connection.on("error", (err) => console.error("MongoDB error:", err.message));

@@ -1,3 +1,15 @@
 node_modules
 .env
 dist
+node_modules
+.env
+.env.*
+!.env.example
+dist
+*.log
+
+server/path/
+*.json.key
+key.json
+
+server/scripts/

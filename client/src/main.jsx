@@ -1,10 +1,22 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-
-createRoot(document.getElementById('root')).render(
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { SWRConfig } from "swr";
+import "./index.css";
+import App from "./App.jsx";
+import { api } from "./lib/api";
+import { logout } from "./hooks/auth/useAuthMutations";
+import { ToastProvider } from "./components/Toast.jsx";
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
+    <SWRConfig
+      value={{
+        fetcher: api,
+        onError: (e) => e.status === 401 && logout(),
+      }}
+    >
+      <ToastProvider>
+        <App />
+      </ToastProvider>
+    </SWRConfig>
   </StrictMode>,
-)
+);

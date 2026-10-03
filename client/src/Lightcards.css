@@ -1,0 +1,28 @@
+/* Import in pages that use .card; adds class "lc" on the page root */
+.pf.lc .card { background: #fffaf0; color: #3a0d12; border: 1px solid #ecd9b4; }
+.pf.lc .card__name { color: #6b0f1a; }
+.pf.lc .card__meta { color: #6b5a50; }
+
+.pf.lc .card,
+.pf.lc .sp__list .card {
+  background: #fffaf0 !important;
+  color: #3a0d12 !important;
+  border: 1px solid #ecd9b4 !important;
+  box-shadow: 0 2px 10px rgba(107, 15, 26, 0.08) !important;
+}
+.pf.lc .card__name {
+  color: #6b0f1a !important;
+  font-weight: 700;
+}
+.pf.lc .card__meta,
+.pf.lc .card p {
+  color: #6b5a50 !important;
+}
+/* badges (Dress code, 7:00 PM, winner...) */
+.pf.lc .card .badge,
+.pf.lc .card .badge--gold {
+  color: #6b0f1a !important;
+  background: #f6e3b4 !important;
+  border: 1px solid #d9b45a !important;
+}
+ 

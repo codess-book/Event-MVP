@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 import router from "./routes/index.js";
 import { apiLimiter } from "./middleware/rateLimiters.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
-import cors from "cors";
+
 
 const app = express();
 
@@ -34,7 +34,7 @@ app.use(
       return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
-  })
+  }),
 );
 // Response gzip: slow network pe chhota data
 app.use(compression());

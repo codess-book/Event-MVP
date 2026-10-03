@@ -6,6 +6,9 @@ import App from "./App.jsx";
 import { api } from "./lib/api";
 import { logout } from "./hooks/auth/useAuthMutations";
 import { ToastProvider } from "./components/Toast.jsx";
+import { registerSW } from "virtual:pwa-register";
+
+registerSW({ immediate: true });
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <SWRConfig

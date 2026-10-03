@@ -40,6 +40,7 @@ import { useWinners } from "../hooks/challenges/useChallenges";
 import { removeDeviceToken } from "../lib/push";
 import "../auth.css";
 import "../profile.css";
+import InstallBanner from "../components/InstallBanner";
 
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : "");
 
@@ -565,6 +566,7 @@ export default function Profile() {
             appear in the app once it is approved.
           </div>
         )}
+        <InstallBanner />
 
         <PushBanner />
 

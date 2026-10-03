@@ -1,8 +1,8 @@
 {
+  "headers": [
+    { "source": "/sw.js", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] }
+  ],
   "rewrites": [
-    {
-      "source": "/((?!firebase-messaging-sw\\.js|assets/).*)",
-      "destination": "/index.html"
-    }
+    { "source": "/((?!sw\\.js|manifest\\.webmanifest|assets/|.*\\.(?:png|ico|svg|webp|jpg)$).*)", "destination": "/index.html" }
   ]
 }

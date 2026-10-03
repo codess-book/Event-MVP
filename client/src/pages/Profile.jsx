@@ -18,7 +18,7 @@ import {
   Megaphone,
   CalendarDays,
   Camera,
-  ScrollText ,
+  ScrollText,
   Users,
   Gift,
 } from "lucide-react";
@@ -238,10 +238,7 @@ export default function Profile() {
             >
               <Menu size={22} />
             </button>
-            <div className="pf__brandBox">
-              <div className="pf__brand">AARADHNA</div>
-              <div className="pf__tag">NAVRATRI GARBA</div>
-            </div>
+          
             <div className="topbar__right">
               <button
                 className="iconbtn"

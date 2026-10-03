@@ -8,7 +8,7 @@ const TYPES = [
   { value: "player", label: "Player" },
   { value: "member", label: "Member" },
   { value: "sponsor", label: "Sponsor" },
-   { value: "visitor", label: "Visitor" },
+  { value: "visitor", label: "Visitor" },
 ];
 const GENDERS = [
   { value: "male", label: "Male" },
@@ -37,7 +37,6 @@ export default function Register() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    // Send only the fields that belong to the selected category
     const { userType, name, phone, password } = form;
     const payload = { userType, name, phone, password };
     if (userType === "player") {
@@ -50,16 +49,32 @@ export default function Register() {
       await trigger(payload);
       navigate("/", { replace: true });
     } catch {
-      // The message is shown from `error`
+      /* error shown via `error` */
     }
   };
 
   return (
     <main className="auth">
-      <h1 className="auth__brand">Aaradhna</h1>
-      <p className="auth__tag">Navratri Garba</p>
+      {/* ---------- Brand ---------- */}
+      <div className="auth__brand">
+        <img src="/aradhana-logo.png" alt="Aaradhna" className="auth__logo" />
+        <p className="auth__brand-sub">Couple Garba</p>
+      </div>
 
-      <h2 className="auth__title">Create account</h2>
+      {/* ---------- Om divider ---------- */}
+      <div className="auth__divider">
+        <span className="auth__divider-line" />
+        <span className="auth__divider-om">ॐ</span>
+        <span className="auth__divider-line" />
+      </div>
+
+      {/* ---------- Title ---------- */}
+      <h2 className="auth__title">Create Account</h2>
+      <p className="auth__tag">
+        Join the rhythm of <strong>Aaradhna</strong>
+      </p>
+
+      {/* ---------- Form ---------- */}
       <form className="auth__form" onSubmit={onSubmit}>
         <Chips
           label="I am a"
@@ -68,18 +83,42 @@ export default function Register() {
           onChange={(v) => set("userType", v)}
         />
 
-        <Field id="name" name="name" label="Full name" autoComplete="name"
-          value={form.name} onChange={onChange} required />
+        <Field
+          id="name"
+          name="name"
+          label="Full name"
+          autoComplete="name"
+          value={form.name}
+          onChange={onChange}
+          required
+        />
 
-        <Field id="phone" name="phone" label="Mobile number" type="tel"
-          inputMode="numeric" autoComplete="tel" maxLength={15}
-          placeholder="98765 43210" value={form.phone} onChange={onChange} required />
+        <Field
+          id="phone"
+          name="phone"
+          label="Mobile number"
+          type="tel"
+          inputMode="numeric"
+          autoComplete="tel"
+          maxLength={15}
+          placeholder="98765 43210"
+          value={form.phone}
+          onChange={onChange}
+          required
+        />
 
         {form.userType === "player" && (
           <>
-            <Field id="passNumber" name="passNumber" label="Pass number"
-              autoCapitalize="characters" maxLength={10}
-              value={form.passNumber} onChange={onChange} required />
+            <Field
+              id="passNumber"
+              name="passNumber"
+              label="Pass number"
+              autoCapitalize="characters"
+              maxLength={10}
+              value={form.passNumber}
+              onChange={onChange}
+              required
+            />
             <Chips
               label="Gender"
               options={GENDERS}
@@ -90,27 +129,48 @@ export default function Register() {
         )}
 
         {form.userType === "sponsor" && (
-          <Field id="businessName" name="businessName" label="Shop / business name"
-            value={form.businessName} onChange={onChange} required />
+          <Field
+            id="businessName"
+            name="businessName"
+            label="Shop / business name"
+            value={form.businessName}
+            onChange={onChange}
+            required
+          />
         )}
 
-        <Field id="password" name="password" label="Password (min 6 characters)"
-          type="password" autoComplete="new-password"
-          value={form.password} onChange={onChange} required />
+        <Field
+          id="password"
+          name="password"
+          label="Password (min 6 characters)"
+          type="password"
+          autoComplete="new-password"
+          value={form.password}
+          onChange={onChange}
+          required
+        />
 
-        {error && <div className="form-error" role="alert">{error.message}</div>}
+        {error && (
+          <div className="form-error" role="alert">
+            {error.message}
+          </div>
+        )}
 
         <button
           className="btn"
           disabled={isMutating || (form.userType === "player" && !form.gender)}
         >
-          {isMutating ? "Creating account…" : "Create account"}
+          {isMutating ? "Creating account…" : "Create Account"}
         </button>
       </form>
 
+      {/* ---------- Footer ---------- */}
       <p className="auth__alt">
         Already registered? <Link to="/login">Sign in</Link>
       </p>
+
+      <p className="auth__footer">✦ Celebrating the Divine Energy ✦</p>
     </main>
   );
 }
+

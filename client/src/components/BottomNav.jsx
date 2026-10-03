@@ -5,8 +5,9 @@ import { Home, CalendarDays,Gift , User, Menu ,Store} from "lucide-react";
 const ITEMS = [
   { label: "Home", icon: Home  , to: "/profile"},
   { label: "Sponsors", icon: Store, to: "/sponsors" },
-  { label: "Profile", icon: User, to: "/profile" },
+//   
   { label: "Prizes", icon: Gift, to: "/prizes" },
+  { label: "Profile", icon: User, to: "/profile" },
 ];
 
 export default function BottomNav() {

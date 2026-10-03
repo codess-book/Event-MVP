@@ -1,7 +1,113 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* ---------- Brand logo ---------- */
+.auth__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 4px;
+}
 
+.auth__logo {
+  width: 260px; 
+  height: auto;
+  max-height: 160px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 24px rgba(212, 175, 55, 0.4));
+  transition: transform 0.4s ease;
+}
+
+.auth__logo:hover {
+  transform: scale(1.03);
+}
+
+/* Garba tagline below the logo */
+.auth__brand-sub {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  opacity: 0.85;
+  text-align: center;
+}
+
+/* Small decorative dot accents around the tagline (optional) */
+.auth__brand-sub::before,
+.auth__brand-sub::after {
+  content: "✦";
+  color: var(--gold);
+  margin: 0 8px;
+  font-size: 10px;
+  letter-spacing: 0;
+  opacity: 0.7;
+}
+/* ---------- Ornamental Om divider ---------- */
+.auth__divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0 22px;
+}
+.auth__divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(212, 175, 55, 0.5),
+    transparent
+  );
+}
+.auth__divider-om {
+  color: var(--gold);
+  font-size: 14px;
+  letter-spacing: 0.3em;
+}
+
+/* ---------- Title / tag tweaks ---------- */
+.auth__title {
+  text-align: center;
+  color: var(--text);
+}
+.auth__tag {
+  margin-top: -6px;
+}
+.auth__tag strong {
+  color: var(--gold-soft);
+  font-weight: 600;
+}
+
+/* ---------- Forgot password row ---------- */
+.auth__row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -6px;
+}
+.auth__row .link {
+  font-size: 13px;
+}
+
+/* ---------- Footer tagline ---------- */
+.auth__footer {
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  color: var(--muted);
+  opacity: 0.6;
+  margin-top: 26px;
+  text-transform: uppercase;
+}
+
+/* ---------- Password show/hide polish ---------- */
+.field__toggle {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
 :root {
   --bg: #14070a;
   --surface: #1e0d12;
@@ -16,13 +122,15 @@
   --font-body: "Inter", system-ui, sans-serif;
 }
 
-* { box-sizing: border-box; margin: 0; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
 
 body {
   min-height: 100dvh;
   background:
-    radial-gradient(circle at 50% -10%, #3a1219 0%, transparent 55%),
-    var(--bg);
+    radial-gradient(circle at 50% -10%, #3a1219 0%, transparent 55%), var(--bg);
   color: var(--text);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -58,14 +166,35 @@ body {
   font-size: 28px;
   margin-bottom: 18px;
 }
-.auth__form { display: grid; gap: 16px; }
-.auth__alt { text-align: center; color: var(--muted); font-size: 14px; margin-top: 22px; }
-.auth__alt a, .link { color: var(--gold-soft); text-decoration: none; font-weight: 500; }
+.auth__form {
+  display: grid;
+  gap: 16px;
+}
+.auth__alt {
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 22px;
+}
+.auth__alt a,
+.link {
+  color: var(--gold-soft);
+  text-decoration: none;
+  font-weight: 500;
+}
 
 /* Inputs */
-.field { display: grid; gap: 6px; }
-.field label { font-size: 13px; color: var(--muted); }
-.field__wrap { position: relative; }
+.field {
+  display: grid;
+  gap: 6px;
+}
+.field label {
+  font-size: 13px;
+  color: var(--muted);
+}
+.field__wrap {
+  position: relative;
+}
 .field input {
   width: 100%;
   height: 54px;
@@ -77,35 +206,62 @@ body {
   font: inherit;
   font-size: 16px; /* 16px stops iOS from zooming on focus */
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 .field input:focus {
   border-color: var(--gold);
   box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18);
 }
 .field__toggle {
-  position: absolute; right: 6px; top: 6px;
-  height: 42px; padding: 0 12px;
-  background: none; border: 0;
-  color: var(--gold-soft); font-size: 13px; cursor: pointer;
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  height: 42px;
+  padding: 0 12px;
+  background: none;
+  border: 0;
+  color: var(--gold-soft);
+  font-size: 13px;
+  cursor: pointer;
 }
 
 /* Primary button with a gold shimmer */
 .btn {
-  position: relative; overflow: hidden;
-  width: 100%; height: 54px;
-  border: 0; border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 54px;
+  border: 0;
+  border-radius: var(--radius);
   background: linear-gradient(135deg, #b8932a, var(--gold) 50%, #f0d77a);
   color: #2a1006;
-  font: inherit; font-weight: 600; font-size: 16px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 16px;
   cursor: pointer;
-  transition: transform 0.1s, opacity 0.2s;
+  transition:
+    transform 0.1s,
+    opacity 0.2s;
 }
-.btn:active { transform: scale(0.98); }
-.btn:disabled { opacity: 0.65; cursor: not-allowed; }
+.btn:active {
+  transform: scale(0.98);
+}
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
 .btn::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.45) 50%, transparent 65%);
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 65%
+  );
   transform: translateX(-100%);
   animation: shimmer 3.5s infinite;
 }
@@ -119,43 +275,88 @@ body {
   font-size: 14px;
 }
 
-@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@keyframes shimmer { 0%, 60% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes shimmer {
+  0%,
+  60% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .auth, .btn::after { animation: none; }
+  .auth,
+  .btn::after {
+    animation: none;
+  }
 }
 /* Category / gender chips */
-.chips { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; }
+.chips {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 8px;
+}
 .chip {
   height: 48px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   color: var(--muted);
-  font: inherit; font-size: 15px; font-weight: 500;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
-  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background 0.2s;
 }
 .chip[aria-pressed="true"] {
   border-color: var(--gold);
   color: var(--gold-soft);
   background: rgba(212, 175, 55, 0.1);
 }
-.chips-label { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.chips-label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
 
 /* Home */
-.home { max-width: 520px; margin: 0 auto; padding: 32px 22px; }
+.home {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 32px 22px;
+}
 .notice {
   background: rgba(212, 175, 55, 0.08);
   border: 1px solid rgba(212, 175, 55, 0.35);
   color: var(--gold-soft);
-  padding: 14px 16px; border-radius: 12px; font-size: 14px; line-height: 1.5;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.5;
 }
 .btn--ghost {
-  background: none; border: 1px solid var(--border); color: var(--text);
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text);
 }
-.btn--ghost::after { display: none; }
+.btn--ghost::after {
+  display: none;
+}
 .field input.code {
   text-align: center;
   font-size: 24px;
@@ -166,7 +367,10 @@ body {
   background: rgba(212, 175, 55, 0.08);
   border: 1px solid rgba(212, 175, 55, 0.35);
   color: var(--gold-soft);
-  padding: 12px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 /* Admin reset list */
@@ -175,24 +379,51 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px;
-  display: grid; gap: 10px;
+  display: grid;
+  gap: 10px;
 }
-.card__top { display: flex; justify-content: space-between; gap: 12px; }
-.card__name { font-weight: 600; }
-.card__meta { color: var(--muted); font-size: 13px; margin-top: 2px; }
+.card__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.card__name {
+  font-weight: 600;
+}
+.card__meta {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 2px;
+}
 .badge {
-  font-size: 12px; padding: 4px 10px; border-radius: 999px; height: fit-content;
-  border: 1px solid var(--border); color: var(--muted); white-space: nowrap;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  height: fit-content;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  white-space: nowrap;
 }
-.badge--gold { border-color: var(--gold); color: var(--gold-soft); }
+.badge--gold {
+  border-color: var(--gold);
+  color: var(--gold-soft);
+}
 .code-box {
   text-align: center;
   font-family: var(--font-display);
-  font-size: 40px; font-weight: 700; letter-spacing: 0.3em;
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
   color: var(--gold);
   padding: 10px 0 10px 0.3em;
   border: 1px dashed var(--gold);
   border-radius: 12px;
 }
-.stack { display: grid; gap: 14px; }
-.btn--sm { height: 44px; font-size: 15px; }
+.stack {
+  display: grid;
+  gap: 14px;
+}
+.btn--sm {
+  height: 44px;
+  font-size: 15px;
+}

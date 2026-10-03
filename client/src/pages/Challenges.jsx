@@ -12,7 +12,7 @@ import {
 import "../auth.css";
 import "../profile.css";
 import "../sponsers.css";
-import "../lightcards.css";
+import "../Lightcards.css";
 
 const MAX_MB = 10;
 const isMobile = () => /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);

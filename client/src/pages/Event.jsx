@@ -19,7 +19,7 @@ import { useEvent } from "../hooks/events/useEvents";
 import "../auth.css";
 import "../profile.css";
 import "../sponsers.css";
-import "../lightcards.css";
+import "../Lightcards.css";
 
 export const todayIST = () =>
   new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });

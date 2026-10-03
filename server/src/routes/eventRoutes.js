@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { requireAuth, requireAdmin } from "../middleware/auth.js";
-import { listEvent, createEvent, deleteEvent } from "../controllers/event.controller.js";
+import { listEvent, createEvent, deleteEvent } from "../controllers/Event.controller.js";
 
 const router = Router();
 router.get("/", requireAuth, listEvent);

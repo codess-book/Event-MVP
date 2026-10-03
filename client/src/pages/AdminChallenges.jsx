@@ -12,7 +12,7 @@ import {
 import "../auth.css";
 import "../profile.css";
 import "../sponsers.css";
-import "../lightcards.css";
+// import "../Lightcards.css";
 
 export default function AdminChallenges() {
   const toast = useToast();

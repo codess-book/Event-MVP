@@ -9,7 +9,7 @@ import { todayIST, UPDATE_LABEL, PLACE_LABEL } from "./Event";
 import "../auth.css";
 import "../profile.css";
 import "../sponsers.css";
-import "../lightcards.css";
+// import "../Lightcards.css";
 
 const empty = (kind) => ({
   kind, category: kind === "update" ? "dresscode" : "washroom",

@@ -8,7 +8,6 @@ import router from "./routes/index.js";
 import { apiLimiter } from "./middleware/rateLimiters.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
-
 const app = express();
 
 // Render/Vercel proxy ke peeche asli user IP milne ke liye (rate limit sahi chale)
@@ -20,13 +19,16 @@ app.use(helmet());
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
+
+  "https://event-mvp-three.vercel.app",
+
+  "https://event-mvp-git-main-luv47863-6344.vercel.app",
   "https://event-oxpnzr3jq-luv47863-6344.vercel.app",
 ];
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Postman/server-to-server requests mein origin nahi hota
       if (!origin || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }

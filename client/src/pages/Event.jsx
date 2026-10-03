@@ -1,22 +1,52 @@
 // pages/Event.jsx
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { ArrowLeft, MapPin, Calendar, Clock, Utensils, Droplets, Car, DoorOpen, Shirt, Swords, Info, MapPinned } from "lucide-react";
+import {
+  ArrowLeft,
+  MapPin,
+  Calendar,
+  Clock,
+  Utensils,
+  Droplets,
+  Car,
+  DoorOpen,
+  Shirt,
+  Swords,
+  Info,
+  MapPinned,
+} from "lucide-react";
 import { useEvent } from "../hooks/events/useEvents";
 import "../auth.css";
 import "../profile.css";
 import "../sponsers.css";
 import "../lightcards.css";
 
-export const todayIST = () => new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+export const todayIST = () =>
+  new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
 const fmtTime = (t) => {
   const [h, m] = t.split(":").map(Number);
   return `${h % 12 || 12}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
 };
-const fmtDay = (d) => new Date(`${d}T12:00:00+05:30`).toLocaleDateString("en-IN", { day: "numeric", month: "short", weekday: "short" });
+const fmtDay = (d) =>
+  new Date(`${d}T12:00:00+05:30`).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+    weekday: "short",
+  });
 
-export const UPDATE_LABEL = { dresscode: "Dress code", challenge: "Challenge", other: "Update" };
-export const PLACE_LABEL = { washroom: "Washroom", food: "Food", water: "Water", parking: "Parking", entry: "Entry", other: "Other" };
+export const UPDATE_LABEL = {
+  dresscode: "Dress code",
+  challenge: "Challenge",
+  other: "Update",
+};
+export const PLACE_LABEL = {
+  washroom: "Washroom",
+  food: "Food",
+  water: "Water",
+  parking: "Parking",
+  entry: "Entry",
+  other: "Other",
+};
 
 const PLACE_ICONS = {
   washroom: DoorOpen,
@@ -76,7 +106,10 @@ function Today({ items }) {
   const today = todayIST();
   const order = { dresscode: 0, other: 1 };
   const upd = items
-    .filter((i) => i.kind === "update" && i.category !== "challenge" && i.day === today)
+    .filter(
+      (i) =>
+        i.kind === "update" && i.category !== "challenge" && i.day === today,
+    )
     .sort((a, b) => order[a.category] - order[b.category]);
   const sched = items
     .filter((i) => i.kind === "schedule" && i.day === today)
@@ -103,7 +136,9 @@ function Today({ items }) {
                 <Icon size={18} strokeWidth={2} />
               </div>
               <div className="ev-card__content">
-                <span className="ev-badge ev-badge--gold">{UPDATE_LABEL[i.category]}</span>
+                <span className="ev-badge ev-badge--gold">
+                  {UPDATE_LABEL[i.category]}
+                </span>
                 <h3 className="ev-card__title">{i.title}</h3>
                 {i.body && <p className="ev-card__body">{i.body}</p>}
               </div>
@@ -119,7 +154,9 @@ function Today({ items }) {
             {sched.map((i, idx) => (
               <div className="ev-timeline__item" key={i._id}>
                 <div className="ev-timeline__dot" />
-                {idx !== sched.length - 1 && <div className="ev-timeline__line" />}
+                {idx !== sched.length - 1 && (
+                  <div className="ev-timeline__line" />
+                )}
                 <div className="ev-timeline__card">
                   <div className="ev-timeline__head">
                     <h3 className="ev-card__title">{i.title}</h3>
@@ -147,7 +184,9 @@ function Schedule({ items }) {
   const all = items.filter((i) => i.kind === "schedule");
   const days = [...new Set(all.map((i) => i.day))].sort();
   const [pick, setPick] = useState(null);
-  const day = pick || (days.includes(today) ? today : days.find((d) => d > today) || days.at(-1));
+  const day =
+    pick ||
+    (days.includes(today) ? today : days.find((d) => d > today) || days.at(-1));
 
   if (!days.length) {
     return (
@@ -180,7 +219,9 @@ function Schedule({ items }) {
           {dayItems.map((i, idx) => (
             <div className="ev-timeline__item" key={i._id}>
               <div className="ev-timeline__dot" />
-              {idx !== dayItems.length - 1 && <div className="ev-timeline__line" />}
+              {idx !== dayItems.length - 1 && (
+                <div className="ev-timeline__line" />
+              )}
               <div className="ev-timeline__card">
                 <div className="ev-timeline__head">
                   <h3 className="ev-card__title">{i.title}</h3>
@@ -204,16 +245,25 @@ function Schedule({ items }) {
 ───────────────────────────────────────────── */
 function Venue({ items }) {
   const [cat, setCat] = useState("");
-  const places = items.filter((i) => i.kind === "place" && (!cat || i.category === cat));
+  const places = items.filter(
+    (i) => i.kind === "place" && (!cat || i.category === cat),
+  );
 
   return (
     <div className="ev-stack">
       <div className="ev-chips-scroll">
-        <Chip active={!cat} onClick={() => setCat("")}>All</Chip>
+        <Chip active={!cat} onClick={() => setCat("")}>
+          All
+        </Chip>
         {Object.entries(PLACE_LABEL).map(([k, v]) => {
           const Icon = PLACE_ICONS[k];
           return (
-            <Chip key={k} active={cat === k} onClick={() => setCat(k)} icon={Icon}>
+            <Chip
+              key={k}
+              active={cat === k}
+              onClick={() => setCat(k)}
+              icon={Icon}
+            >
               {v}
             </Chip>
           );
@@ -267,7 +317,12 @@ function Debug({ items }) {
   return (
     <pre className="ev-debug">
       {`today (IST): ${todayIST()}\nitems loaded: ${items.length}\n\n` +
-        items.map((i) => `${i.kind} | ${i.category || "-"} | ${i.day || "-"} | ${i.time || "-"} | ${i.title}`).join("\n")}
+        items
+          .map(
+            (i) =>
+              `${i.kind} | ${i.category || "-"} | ${i.day || "-"} | ${i.time || "-"} | ${i.title}`,
+          )
+          .join("\n")}
     </pre>
   );
 }
@@ -300,10 +355,18 @@ export default function Event() {
 
         {/* Tabs */}
         <nav className="ev-tabs">
-          <Chip active={tab === "today"} onClick={() => setTab("today")}>Today</Chip>
-          <Chip active={false} onClick={() => navigate("/challenges")}>Challenge</Chip>
-          <Chip active={tab === "schedule"} onClick={() => setTab("schedule")}>Schedule</Chip>
-          <Chip active={tab === "venue"} onClick={() => setTab("venue")}>Venue</Chip>
+          <Chip active={tab === "today"} onClick={() => setTab("today")}>
+            Today
+          </Chip>
+          <Chip active={false} onClick={() => navigate("/challenges")}>
+            Challenge
+          </Chip>
+          <Chip active={tab === "schedule"} onClick={() => setTab("schedule")}>
+            Schedule
+          </Chip>
+          <Chip active={tab === "venue"} onClick={() => setTab("venue")}>
+            Venue
+          </Chip>
         </nav>
 
         {/* Content */}

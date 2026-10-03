@@ -3,6 +3,7 @@ import "./config/db.js"
 import mongoose from "mongoose";
 import app from "./app.js";
 import { connectDB } from "./config/db.js";
+import cors from "cors";
 
 const PORT = process.env.PORT || 5000;
 

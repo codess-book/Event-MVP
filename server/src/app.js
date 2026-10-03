@@ -7,6 +7,8 @@ import mongoose from "mongoose";
 import router from "./routes/index.js";
 import { apiLimiter } from "./middleware/rateLimiters.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
+import cors from "cors";
+
 const app = express();
 
 // Render/Vercel proxy ke peeche asli user IP milne ke liye (rate limit sahi chale)
@@ -15,15 +17,25 @@ app.set("trust proxy", 1);
 // Security headers (XSS, clickjacking waghera se bachaav)
 app.use(helmet());
 
-// Sirf apna frontend API call kar sake
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "https://event-oxpnzr3jq-luv47863-6344.vercel.app",
+];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL
-      ? process.env.CLIENT_URL.split(",").map((s) => s.trim())
-      : "http://localhost:5173",
-  }),
-);
+    origin: (origin, callback) => {
+      // Postman/server-to-server requests mein origin nahi hota
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
 
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  })
+);
 // Response gzip: slow network pe chhota data
 app.use(compression());
 

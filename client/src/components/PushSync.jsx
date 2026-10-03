@@ -7,7 +7,7 @@ export default function PushSync() {
   useEffect(() => {
     if (!("Notification" in window) || Notification.permission !== "granted") return;
 
-    syncDeviceToken().catch(() => {}); // refreshes the token on every app open
+    syncDeviceToken().catch((e) => console.error("[push] token failed:", e)) // refreshes the token on every app open
 
     let off = () => {};
     let alive = true;

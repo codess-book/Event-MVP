@@ -427,3 +427,14 @@ body {
   height: 44px;
   font-size: 15px;
 }
+
+
+.route-splash {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+.route-splash__logo {
+  width: 140px;
+  height: auto;
+}

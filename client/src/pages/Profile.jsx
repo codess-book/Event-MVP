@@ -158,13 +158,13 @@ export default function Profile() {
       sub: "नियम / Do's & don'ts",
       to: "/rules",
     },
-    { icon: Vote, title: "Vote", sub: "Pick your favourites", soon: true },
-    {
-      icon: Trophy,
-      title: "Leaderboard",
-      sub: "See who is leading",
-      soon: true,
-    },
+    // { icon: Vote, title: "Vote", sub: "Pick your favourites", soon: true },
+    // {
+    //   icon: Trophy,
+    //   title: "Leaderboard",
+    //   sub: "See who is leading",
+    //   soon: true,
+    // },
 
     ...(isAdmin
       ? [

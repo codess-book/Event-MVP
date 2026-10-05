@@ -13,15 +13,13 @@ const siteUrl = () =>
 
 // One place that builds the push, so admin sends and the test button look the same
 export const buildPush = ({ title, body, link = "/" }) => ({
-  notification: { title: `🙏 जय माता दी | ${title}`, body },
-  data: { link },
-  webpush: {
-    notification: {
-      icon: `${siteUrl()}/pwa-192x192.png`,
-      badge: `${siteUrl()}/pwa-64x64.png`,
-    },
-    fcmOptions: { link: `${siteUrl()}${link}` },
+  data: {
+    title: `🙏 जय माता दी | ${title}`,
+    body,
+    link,
+    icon: `${siteUrl()}/pwa-192x192.png`,
   },
+  webpush: { headers: { Urgency: "high", TTL: "3600" } },
 });
 // Saves the notification (bell list) and pushes it to matching devices.
 // toUser = one person, audience = a group, excludeUser = skip the sender.

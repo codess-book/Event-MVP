@@ -1,0 +1,130 @@
+/* ============================ Edit Profile Sheet ============================ */
+
+/* toast */
+.eps__toast {
+  position: sticky;
+  top: 8px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 auto 12px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  width: fit-content;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  animation: epsSlide 0.22s ease-out;
+}
+.eps__toast--success { background: #059669; }
+.eps__toast--error   { background: #dc2626; }
+@keyframes epsSlide {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* photo */
+.photoedit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0 16px;
+}
+.photoedit__pic { position: relative; }
+.photoedit__ring {
+  padding: 3px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #d946ef, #f43f5e, #f59e0b);
+  display: inline-block;
+}
+.photoedit__ring > * {
+  border-radius: 999px;
+  border: 3px solid #fff;
+  background: #fff;
+  display: block;
+}
+.photoedit__avatar {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 999px;
+}
+.photoedit__fab {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #111;
+  color: #fff;
+  border: 3px solid #fff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.photoedit__fab:active { transform: scale(0.94); }
+.photoedit__fab:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.photoedit__btns {
+  display: flex;
+  gap: 8px;
+}
+
+/* actions row (sticky) */
+.eps__actions {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 12px 0 4px;
+  background: inherit;   /* sheet ke bg se inherit hoga */
+  z-index: 5;
+}
+.eps__btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.12s ease, opacity 0.15s ease;
+  border: none;
+}
+.eps__btn:active:not(:disabled) { transform: scale(0.98); }
+.eps__btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.eps__btn--primary {
+  background: #111;
+  color: #fff;
+}
+.eps__btn--ghost {
+  background: transparent;
+  color: #111;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+/* misc */
+.spin { animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.a2__err {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 13px;
+}

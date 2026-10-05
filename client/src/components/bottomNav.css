@@ -1,0 +1,201 @@
+/* ============================================================
+   BOTTOM NAV — Garba theme (maroon · gold · cream)
+   All classes prefixed with `bnx__`
+   ============================================================ */
+
+:root {
+  --bnx-cream:        #fdf6ec;
+  --bnx-cream-soft:   #f7ecd9;
+  --bnx-cream-deep:   #f0e0c4;
+  --bnx-gold:         #b8860b;
+  --bnx-gold-light:   #d4a24a;
+  --bnx-gold-bright:  #f2c46d;
+  --bnx-gold-dark:    #8b6508;
+  --bnx-maroon:       #6b1f1f;
+  --bnx-maroon-deep:  #4a1414;
+  --bnx-maroon-ink:   #26080e;
+  --bnx-ink-mute:     #8a7566;
+  --bnx-border-gold:  rgba(184, 134, 11, 0.28);
+  --bnx-shadow-nav:   0 12px 32px rgba(74, 20, 20, 0.18);
+}
+
+/* ============================================================
+   WRAPPER — floating pill, safe-area aware
+   ============================================================ */
+.bnx {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  padding: 0 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+}
+
+.bnx__inner {
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+  width: 100%;
+  max-width: 420px;
+  padding: 8px;
+  border-radius: 22px;
+  background:
+    radial-gradient(120% 100% at 50% 0%, rgba(242, 196, 109, 0.06), transparent 60%),
+    linear-gradient(180deg, #2b0c0c 0%, #1c0606 100%);
+  border: 1px solid rgba(242, 196, 109, 0.22);
+  box-shadow:
+    0 14px 40px rgba(38, 8, 14, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ============================================================
+   ITEM
+   ============================================================ */
+.bnx__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 8px 4px 6px;
+  border-radius: 14px;
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  color: rgba(253, 246, 236, 0.55);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.25s ease, transform 0.14s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bnx__item:active {
+  transform: scale(0.94);
+}
+
+.bnx__item:disabled,
+.bnx__item.is-soon {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- icon wrapper (holds glow) ---------- */
+.bnx__iconWrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  transition: background 0.22s ease, transform 0.2s ease;
+}
+
+/* ---------- label ---------- */
+.bnx__label {
+  line-height: 1;
+  transition: opacity 0.2s ease;
+}
+
+/* ============================================================
+   ACTIVE STATE
+   ============================================================ */
+.bnx__item.is-active {
+  color: var(--bnx-gold-bright);
+}
+
+.bnx__item.is-active .bnx__iconWrap {
+  background: linear-gradient(
+    135deg,
+    rgba(242, 196, 109, 0.22) 0%,
+    rgba(184, 134, 11, 0.1) 100%
+  );
+  transform: translateY(-1px);
+}
+
+/* gold glow behind active icon */
+.bnx__iconGlow {
+  position: absolute;
+  inset: -4px;
+  border-radius: 14px;
+  background: radial-gradient(
+    circle,
+    rgba(242, 196, 109, 0.4) 0%,
+    transparent 70%
+  );
+  filter: blur(6px);
+  z-index: -1;
+  animation: bnxPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes bnxPulse {
+  0%, 100% { opacity: 0.6; transform: scale(0.95); }
+  50%      { opacity: 1;   transform: scale(1.1); }
+}
+
+/* ---------- active indicator bar on top ---------- */
+.bnx__item.is-active::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--bnx-gold-bright),
+    transparent
+  );
+  box-shadow: 0 0 10px rgba(242, 196, 109, 0.6);
+}
+
+.bnx__item.is-active .bnx__label {
+  color: var(--bnx-gold-bright);
+  font-weight: 700;
+}
+
+/* ============================================================
+   HOVER (desktop)
+   ============================================================ */
+@media (hover: hover) {
+  .bnx__item:not(.is-active):not(:disabled):hover {
+    color: rgba(253, 246, 236, 0.9);
+  }
+  .bnx__item:not(.is-active):not(:disabled):hover .bnx__iconWrap {
+    background: rgba(242, 196, 109, 0.08);
+  }
+}
+
+/* ============================================================
+   TABLET / DESKTOP
+   ============================================================ */
+@media (min-width: 768px) {
+  .bnx__inner {
+    max-width: 460px;
+  }
+  .bnx__item {
+    font-size: 11px;
+    padding: 10px 6px 8px;
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .bnx__iconGlow { animation: none; }
+  .bnx__item,
+  .bnx__iconWrap { transition: none; }
+}

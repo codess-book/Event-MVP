@@ -13,6 +13,13 @@ export const publicUser = (u) => ({
   businessName: u.businessName,
   sponsorCategory: u.sponsorCategory,
   offers: publicOffers(u.offers),
-   address: u.address || "",
+  address: u.address || "",
   mapLink: u.mapLink || "",
+  links: {
+    website: u.links?.website || "",
+    instagram: u.links?.instagram || "",
+    facebook: u.links?.facebook || "",
+    youtube: u.links?.youtube || "",
+    whatsapp: u.links?.whatsapp || "",
+  },
 });

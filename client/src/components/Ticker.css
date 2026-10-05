@@ -1,0 +1,97 @@
+/* Ticker: full-width running strip stuck to the very top of the screen */
+
+.tk {
+  --tk-gold: #f2c46d;
+
+  width: 100%;
+  margin: 0;
+  /* Keeps the text below the phone's status bar / notch when installed as an app */
+  padding-top: env(safe-area-inset-top, 0px);
+  background: linear-gradient(90deg, #2a060c, #4a0c16 50%, #2a060c);
+  border-bottom: 1px solid rgba(242, 196, 109, 0.45);
+  box-sizing: border-box;
+}
+
+.tk__view {
+  position: relative;
+  overflow: hidden;
+  height: 34px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent);
+}
+
+.tk__track {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: max-content;
+  animation: tk-scroll var(--tk-dur, 24s) linear infinite;
+  will-change: transform;
+}
+
+/* Pause while hovering or holding a finger on it */
+.tk__track:hover,
+.tk__track:active {
+  animation-play-state: paused;
+}
+
+.tk__group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tk__item {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: var(--tk-gold);
+}
+
+.tk__item a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tk__item a:focus-visible {
+  outline: 2px solid var(--tk-gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.tk__dot {
+  width: 5px;
+  height: 5px;
+  margin: 0 18px;
+  transform: rotate(45deg);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+@keyframes tk-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* No motion: show a static, swipeable line instead */
+@media (prefers-reduced-motion: reduce) {
+  .tk__track {
+    animation: none;
+  }
+  .tk__view {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tk__view::-webkit-scrollbar {
+    display: none;
+  }
+}

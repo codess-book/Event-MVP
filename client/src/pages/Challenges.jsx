@@ -1,9 +1,21 @@
 // pages/Challenges.jsx
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Camera, Image as ImageIcon, Trophy, X } from "lucide-react";
+import {
+  ArrowLeft,
+  Camera,
+  Image as ImageIcon,
+  Trophy,
+  X,
+  Sparkles,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+  ZoomIn,
+  Crown,
+} from "lucide-react";
 import { useToast } from "../components/Toast";
-import { useEvent } from "../hooks/events/useEvents"; // match your hook file name
+import { useEvent } from "../hooks/events/useEvents";
 import {
   useMyEntries,
   useWinners,
@@ -13,11 +25,12 @@ import "../auth.css";
 import "../profile.css";
 import "../sponsers.css";
 import "../Lightcards.css";
+import "../challenges.css";
 
 const MAX_MB = 10;
 const isMobile = () => /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-// In-app camera for laptops/desktops (phones use the native camera app instead)
+/* ------------------------------ camera modal ------------------------------ */
 function CameraModal({ facing, onCapture, onClose }) {
   const videoRef = useRef(null);
   const [err, setErr] = useState("");
@@ -38,8 +51,8 @@ function CameraModal({ facing, onCapture, onClose }) {
       })
       .catch(() =>
         setErr(
-          "Could not open the camera. Allow camera access or use Gallery.",
-        ),
+          "Could not open the camera. Allow camera access or use Gallery."
+        )
       );
     return () => {
       cancelled = true;
@@ -58,57 +71,48 @@ function CameraModal({ facing, onCapture, onClose }) {
       (b) =>
         b &&
         onCapture(
-          new File([b], `photo-${Date.now()}.jpg`, { type: "image/jpeg" }),
+          new File([b], `photo-${Date.now()}.jpg`, { type: "image/jpeg" })
         ),
       "image/jpeg",
-      0.9,
+      0.9
     );
   };
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0,0,0,.92)",
-        zIndex: 60,
-        display: "grid",
-        placeItems: "center",
-        padding: 12,
-      }}
-    >
-      <div style={{ width: "100%", maxWidth: 480, textAlign: "center" }}>
+    <div className="chx__camBackdrop">
+      <div className="chx__camBox">
         {err ? (
-          <p style={{ color: "#fff" }}>{err}</p>
+          <div className="chx__camErr">
+            <AlertCircle size={20} />
+            <p>{err}</p>
+          </div>
         ) : (
           <video
             ref={videoRef}
             autoPlay
             playsInline
             muted
-            style={{
-              width: "100%",
-              borderRadius: 14,
-              background: "#000",
-              transform: facing === "user" ? "scaleX(-1)" : "none",
-            }}
+            className="chx__camVideo"
+            style={{ transform: facing === "user" ? "scaleX(-1)" : "none" }}
           />
         )}
-        <div
-          style={{
-            display: "flex",
-            gap: 10,
-            justifyContent: "center",
-            marginTop: 14,
-          }}
-        >
+
+        <div className="chx__camActions">
           {!err && (
-            <button className="a2__btn btn--sm" onClick={snap}>
+            <button
+              type="button"
+              className="chx__btn chx__btn--primary"
+              onClick={snap}
+            >
               <Camera size={16} /> Capture
             </button>
           )}
-          <button className="smallbtn" onClick={onClose}>
-            <X size={15} /> Close
+          <button
+            type="button"
+            className="chx__btn chx__btn--ghost"
+            onClick={onClose}
+          >
+            <X size={16} /> Close
           </button>
         </div>
       </div>
@@ -116,12 +120,14 @@ function CameraModal({ facing, onCapture, onClose }) {
   );
 }
 
+/* ------------------------------ main ------------------------------ */
 export default function Challenges() {
   const toast = useToast();
   const { items } = useEvent();
   const { entries } = useMyEntries();
   const { winners } = useWinners();
   const submit = useSubmitPhoto();
+
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [zoom, setZoom] = useState(null);
@@ -130,8 +136,10 @@ export default function Challenges() {
   const today = new Date().toLocaleDateString("en-CA", {
     timeZone: "Asia/Kolkata",
   });
+
   const challenge = items.find(
-    (i) => i.kind === "update" && i.category === "challenge" && i.day === today,
+    (i) =>
+      i.kind === "update" && i.category === "challenge" && i.day === today
   );
   const mine = challenge && entries.find((e) => e.challenge === challenge._id);
   const facing =
@@ -148,6 +156,7 @@ export default function Challenges() {
     setFile(f);
     setPreview(URL.createObjectURL(f));
   };
+
   const pick = (e) => {
     const f = e.target.files?.[0];
     e.target.value = "";
@@ -165,172 +174,157 @@ export default function Challenges() {
     }
   };
 
-  const btn = {
-    cursor: "pointer",
-    display: "inline-flex",
-    gap: 6,
-    alignItems: "center",
-  };
-  const light = {
-    background: "#fffaf0",
-    color: "#3a0d12",
-    border: "1px solid #ecd9b4",
-    borderRadius: 16,
-    padding: 16,
-  };
-
   return (
-    <div className="pf lc">
+    <div className="pf">
       <div className="pf__wrap">
-        <header className="sp__bar">
-          <Link to="/profile" className="iconbtn" aria-label="Back">
-            <ArrowLeft size={22} />
+        {/* ---------- top bar ---------- */}
+        <header className="chx__bar">
+          <Link to="/profile" className="chx__iconBtn" aria-label="Back">
+            <ArrowLeft size={20} />
           </Link>
-          <span className="sp__barTitle">Challenges</span>
-          <span style={{ width: 42 }} />
+          <span className="chx__barTitle">Challenges</span>
+          <span style={{ width: 40 }} />
         </header>
 
-        <div className="sp__list">
+        <div className="chx__body">
           {!challenge ? (
-            <p className="sheet__empty">
-              Today's challenge isn't out yet. Please check back soon!
-            </p>
+            <div className="chx__empty">
+              <div className="chx__emptyIcon">
+                <Camera size={28} />
+              </div>
+              <h3 className="chx__emptyTitle">No challenge yet</h3>
+              <p className="chx__emptyText">
+                Today's challenge isn't out yet. Please check back soon!
+              </p>
+            </div>
           ) : (
             <>
-              {/* Top: challenge name */}
-              <div style={light}>
-                <span className="badge badge--gold">TODAY'S CHALLENGE</span>
-                <div
-                  style={{
-                    marginTop: 8,
-                    fontSize: 20,
-                    fontWeight: 700,
-                    color: "#6b0f1a",
-                  }}
-                >
-                  {challenge.title}
-                </div>
-                {challenge.body && (
-                  <p style={{ margin: "6px 0 0", color: "#6b5a50" }}>
-                    {challenge.body}
-                  </p>
-                )}
-              </div>
+              {/* ---------- CHALLENGE INFO ---------- */}
+              <section className="chx__hero">
+                <div className="chx__heroGlow" aria-hidden="true" />
 
-              {/* Middle: photo / camera */}
-              <div style={{ ...light, textAlign: "center" }}>
+                <div className="chx__badge">
+                  <Sparkles size={12} />
+                  <span>Today's Challenge</span>
+                </div>
+
+                <h1 className="chx__title">{challenge.title}</h1>
+
+                {challenge.body && (
+                  <p className="chx__desc">{challenge.body}</p>
+                )}
+              </section>
+
+              {/* ---------- PHOTO CARD ---------- */}
+              <section className="chx__photoCard">
                 {shown ? (
-                  <img
-                    src={shown}
-                    alt="Your entry"
+                  <button
+                    type="button"
+                    className="chx__photoBtn"
                     onClick={() => setZoom(shown)}
-                    style={{
-                      width: "100%",
-                      maxHeight: 360,
-                      objectFit: "cover",
-                      borderRadius: 14,
-                      cursor: "zoom-in",
-                    }}
-                  />
+                    aria-label="View full size"
+                  >
+                    <img src={shown} alt="Your entry" className="chx__photo" />
+                    <span className="chx__zoomHint">
+                      <ZoomIn size={14} /> Tap to zoom
+                    </span>
+                  </button>
                 ) : (
-                  <div style={{ padding: "40px 0", opacity: 0.6 }}>
-                    <Camera size={44} />
-                    <p style={{ margin: "8px 0 0" }}>
+                  <div className="chx__placeholder">
+                    <div className="chx__placeholderIcon">
+                      <Camera size={36} />
+                    </div>
+                    <p className="chx__placeholderText">
                       Take a photo or choose one from your gallery
                     </p>
                   </div>
                 )}
+
                 {file && (
-                  <p style={{ margin: "8px 0 0", color: "#6b5a50" }}>
-                    Not uploaded yet. Tap "Upload photo" below.
-                  </p>
+                  <div className="chx__status chx__status--pending">
+                    <AlertCircle size={14} />
+                    <span>Not uploaded yet. Tap "Upload photo" below.</span>
+                  </div>
                 )}
                 {mine && !file && (
-                  <p style={{ margin: "8px 0 0", color: "#6b5a50" }}>
-                    ✅ Submitted{mine.isWinner ? " · 🏆 Winner" : ""}
-                  </p>
+                  <div className="chx__status chx__status--done">
+                    <CheckCircle2 size={14} />
+                    <span>
+                      Submitted
+                      {mine.isWinner && (
+                        <>
+                          {" · "}
+                          <Crown size={12} /> Winner
+                        </>
+                      )}
+                    </span>
+                  </div>
                 )}
+              </section>
 
-                <div
-                  className="adm__btns"
-                  style={{ justifyContent: "center", marginTop: 10 }}
-                >
-                  {isMobile() ? (
-                    <label className="smallbtn" style={btn}>
-                      <Camera size={15} /> Take photo
-                      <input
-                        type="file"
-                        accept="image/*"
-                        capture={facing}
-                        onChange={pick}
-                        hidden
-                      />
-                    </label>
-                  ) : (
-                    <button
-                      className="smallbtn"
-                      style={btn}
-                      onClick={() => setCam(true)}
-                    >
-                      <Camera size={15} /> Take photo
-                    </button>
-                  )}
-                  <label className="smallbtn" style={btn}>
-                    <ImageIcon size={15} /> Gallery
+              {/* ---------- ACTIONS ---------- */}
+              <section className="chx__actions">
+                {isMobile() ? (
+                  <label className="chx__actionBtn">
+                    <Camera size={16} />
+                    <span>Take photo</span>
                     <input
                       type="file"
                       accept="image/*"
+                      capture={facing}
                       onChange={pick}
                       hidden
                     />
                   </label>
-                </div>
-              </div>
+                ) : (
+                  <button
+                    type="button"
+                    className="chx__actionBtn"
+                    onClick={() => setCam(true)}
+                  >
+                    <Camera size={16} />
+                    <span>Take photo</span>
+                  </button>
+                )}
 
-              {/* Bottom: upload */}
+                <label className="chx__actionBtn">
+                  <ImageIcon size={16} />
+                  <span>Gallery</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={pick}
+                    hidden
+                  />
+                </label>
+              </section>
+
+              {/* ---------- UPLOAD ---------- */}
               <button
-                className="a2__btn"
+                type="button"
+                className="chx__uploadBtn"
                 disabled={!file || submit.isMutating}
                 onClick={upload}
               >
-                {submit.isMutating
-                  ? "Uploading…"
-                  : mine
-                    ? "Replace photo"
-                    : "Upload photo"}
+                {submit.isMutating ? (
+                  <>
+                    <Loader2 size={16} className="spin" /> Uploading…
+                  </>
+                ) : mine ? (
+                  <>
+                    <Sparkles size={16} /> Replace photo
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle2 size={16} /> Upload photo
+                  </>
+                )}
               </button>
             </>
           )}
-
-          {/* {winners.length > 0 && (
-            <>
-              <h2 className="pf__section">
-                <Trophy size={16} /> Winners
-              </h2>
-              {winners.map((w) => (
-                <div className="card" key={w.id}>
-                  <img
-                    src={w.photoUrl}
-                    alt={w.title}
-                    onClick={() => setZoom(w.photoUrl)}
-                    style={{
-                      width: "100%",
-                      maxHeight: 260,
-                      objectFit: "cover",
-                      borderRadius: 12,
-                      cursor: "zoom-in",
-                    }}
-                  />
-                  <div className="card__name" style={{ marginTop: 8 }}>
-                    {w.title}
-                  </div>
-                  <div className="card__meta">🏆 {w.name}</div>
-                </div>
-              ))}
-            </>
-          )} */}
         </div>
 
+        {/* ---------- CAMERA ---------- */}
         {cam && (
           <CameraModal
             facing={facing}
@@ -342,24 +336,23 @@ export default function Challenges() {
           />
         )}
 
+        {/* ---------- ZOOM ---------- */}
         {zoom && (
           <div
+            className="chx__zoomBackdrop"
             onClick={() => setZoom(null)}
-            style={{
-              position: "fixed",
-              inset: 0,
-              background: "rgba(0,0,0,.9)",
-              display: "grid",
-              placeItems: "center",
-              zIndex: 50,
-              padding: 12,
-            }}
+            role="dialog"
+            aria-label="Photo preview"
           >
-            <img
-              src={zoom}
-              alt="Full size"
-              style={{ maxWidth: "100%", maxHeight: "100%", borderRadius: 8 }}
-            />
+            <button
+              type="button"
+              className="chx__zoomClose"
+              onClick={() => setZoom(null)}
+              aria-label="Close"
+            >
+              <X size={20} />
+            </button>
+            <img src={zoom} alt="Full size" className="chx__zoomImg" />
           </div>
         )}
       </div>

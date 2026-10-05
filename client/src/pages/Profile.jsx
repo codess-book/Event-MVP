@@ -45,7 +45,7 @@ import { Share2 } from "lucide-react";
 import ShareAppSheet from "../components/ShareAppSheet";
 import { useForegroundPush } from "../hooks/notifications/useForegroundPush";
 import { syncDeviceToken } from "../lib/push";
-
+import Ticker from "../components/Ticker";
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : "");
 
 const fmtT = (t) => {
@@ -232,6 +232,7 @@ export default function Profile() {
 
   return (
     <div className="pf">
+      <Ticker items={["🙏 जय माता दी", "Aaradhna Couple Garba 2026"]} />
       <div className="pf__wrap">
         <header className="pf__hero">
           <div className="topbar">
@@ -270,6 +271,7 @@ export default function Profile() {
               </button>
             </div>
           </div>
+          {/* <HeroBanner sponsor={{ name: "Shree Jewellers", logoUrl: "https://...logo.png" }} /> */}
         </header>
 
         <section className="pf__card">

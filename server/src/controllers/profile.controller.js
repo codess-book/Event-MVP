@@ -7,15 +7,18 @@ import {
   signUploadParams,
 } from "../utils/cloudinary.js";
 
-const dateSchema = z.preprocess((v) => {
-  if (v === "" || v === null || v === undefined) return undefined;
-  if (typeof v === "string") {
-    return /^\d{4}-\d{2}-\d{2}$/.test(v)
-      ? new Date(`${v}T23:59:59.999+05:30`)
-      : new Date(v);
-  }
-  return v;
-}, z.date({ message: "Enter a valid date" }).optional());
+const dateSchema = z.preprocess(
+  (v) => {
+    if (v === "" || v === null || v === undefined) return undefined;
+    if (typeof v === "string") {
+      return /^\d{4}-\d{2}-\d{2}$/.test(v)
+        ? new Date(`${v}T23:59:59.999+05:30`)
+        : new Date(v);
+    }
+    return v;
+  },
+  z.date({ message: "Enter a valid date" }).optional(),
+);
 // Only Google Maps links are accepted, so nobody can store a random or unsafe link
 const mapLinkSchema = z
   .string()
@@ -29,6 +32,29 @@ const mapLinkSchema = z
       ),
     { message: "Paste a Google Maps link" },
   );
+
+// Adds https:// when someone types "instagram.com/myshop"; empty is allowed.
+// Only http(s) links pass, so "javascript:" style links can never be stored.
+const socialLinkSchema = z
+  .string()
+  .trim()
+  .refine(
+    (value) => value === "" || /^https?:\/\/.+/i.test(value),
+    "Please enter a valid URL",
+  )
+  .optional();
+const linksSchema = z.object({
+  website: socialLinkSchema,
+  instagram: socialLinkSchema,
+  facebook: socialLinkSchema,
+  youtube: socialLinkSchema,
+
+  whatsapp: z
+    .string()
+    .trim()
+    .regex(/^\d{0,15}$/, "WhatsApp number should be digits only")
+    .optional(),
+});
 export const offerSchema = z.object({
   title: z.string().trim().min(3, "Offer title is too short").max(80),
   description: z.string().trim().max(300).optional(),
@@ -63,9 +89,10 @@ const profileSchemaFor = (user) => {
         .min(2, "Shop / business name is required")
         .max(80)
         .optional(),
-    //   offer: offerSchema.nullable().optional(), // null removes the offer
+      //   offer: offerSchema.nullable().optional(), // null removes the offer
       address: z.string().trim().max(200).optional(),
       mapLink: mapLinkSchema.optional(),
+      links: linksSchema.optional(),
     });
   }
 
@@ -81,7 +108,8 @@ export const updateProfile = async (req, res, next) => {
       return res.status(401).json({ message: "User no longer exists" });
 
     const data = profileSchemaFor(user).parse(req.body);
-
+console.log("1 RAW:", req.body.links);
+console.log("2 PARSED:", data.links);
     const $set = {};
     const $unset = {};
 
@@ -91,10 +119,34 @@ export const updateProfile = async (req, res, next) => {
     if (user.userType === "sponsor") {
       if (data.businessName !== undefined)
         $set.businessName = data.businessName;
-    //   if (data.offer === null) $unset.offer = 1;
+      //   if (data.offer === null) $unset.offer = 1;
       if (data.address !== undefined) $set.address = data.address;
       if (data.mapLink !== undefined) $set.mapLink = data.mapLink;
-    //   else if (data.offer !== undefined) $set.offer = data.offer; // replaces the whole offer
+      if (data.mapLink !== undefined) $set.mapLink = data.mapLink;
+
+      // Save each link on its own, so sending one field never wipes the others
+      if (data.links) {
+        if (data.links.website !== undefined) {
+          $set["links.website"] = data.links.website;
+        }
+
+        if (data.links.instagram !== undefined) {
+          $set["links.instagram"] = data.links.instagram;
+        }
+
+        if (data.links.facebook !== undefined) {
+          $set["links.facebook"] = data.links.facebook;
+        }
+
+        if (data.links.youtube !== undefined) {
+          $set["links.youtube"] = data.links.youtube;
+        }
+
+        if (data.links.whatsapp !== undefined) {
+          $set["links.whatsapp"] = data.links.whatsapp;
+        }
+      }
+      //   else if (data.offer !== undefined) $set.offer = data.offer; // replaces the whole offer
     }
 
     if (!Object.keys($set).length && !Object.keys($unset).length) {
@@ -104,11 +156,13 @@ export const updateProfile = async (req, res, next) => {
     const update = {};
     if (Object.keys($set).length) update.$set = $set;
     if (Object.keys($unset).length) update.$unset = $unset;
+console.log("3 SET:", $set);
 
     const updated = await User.findByIdAndUpdate(user._id, update, {
       new: true,
       runValidators: true,
     });
+    console.log("4 UPDATED LINKS:", updated?.links);
 
     res.json({ user: publicUser(updated) });
   } catch (err) {

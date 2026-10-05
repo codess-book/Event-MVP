@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(
 
     userType: {
       type: String,
-     enum: ["player", "member", "sponsor", "visitor"],
+      enum: ["player", "member", "sponsor", "visitor"],
       required: true,
     },
 
@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
     photoUrl: { type: String, default: "" },
 
     // Player-only fields
-    passNumber: { type: String},
+    passNumber: { type: String },
     gender: { type: String, enum: ["male", "female"] },
 
     // Sponsor-only fields
@@ -33,6 +33,13 @@ const userSchema = new mongoose.Schema(
     sponsorCategory: { type: String, default: "" }, // assigned later by an admin
     address: { type: String, trim: true, maxlength: 200, default: "" },
     mapLink: { type: String, trim: true, maxlength: 300, default: "" },
+    links: {
+      website: { type: String, trim: true, maxlength: 200, default: "" },
+      instagram: { type: String, trim: true, maxlength: 200, default: "" },
+      facebook: { type: String, trim: true, maxlength: 200, default: "" },
+      youtube: { type: String, trim: true, maxlength: 200, default: "" },
+      whatsapp: { type: String, trim: true, maxlength: 15, default: "" },
+    },
     offers: { type: [offerSchema], default: [] },
 
     role: { type: String, enum: ["user", "admin"], default: "user" },

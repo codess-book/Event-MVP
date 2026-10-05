@@ -5,12 +5,23 @@ export default function Avatar({ user, className = "pf__avatar" }) {
   const [broken, setBroken] = useState(false);
   useEffect(() => setBroken(false), [user.photoUrl]);
 
+  const showImg = user.photoUrl && !broken;
+
   return (
-    <div className={className} aria-hidden="true">
-      {user.photoUrl && !broken ? (
-        <img src={user.photoUrl} alt="" onError={() => setBroken(true)} />
+    <div className={`avatar ${className}`} aria-hidden="true">
+      {showImg ? (
+        <img
+          src={user.photoUrl}
+          alt=""
+          className="avatar__img"
+          onError={() => setBroken(true)}
+          loading="lazy"
+          draggable={false}
+        />
       ) : (
-        user.name?.[0]?.toUpperCase()
+        <span className="avatar__initial">
+          {user.name?.[0]?.toUpperCase() || "?"}
+        </span>
       )}
     </div>
   );

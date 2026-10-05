@@ -1,0 +1,142 @@
+/* PrizeSheet: plain CSS, mobile-first.
+   Uses your existing CSS variables when present, with safe fallbacks. */
+
+.ps {
+  --ps-gold: var(--gold, #d4af37);
+  --ps-text: var(--text, #f4efe6);
+  --ps-muted: var(--muted, rgba(244, 239, 230, 0.55));
+  --ps-line: var(--line, rgba(255, 255, 255, 0.12));
+  --ps-surface: var(--surface, rgba(255, 255, 255, 0.05));
+  --ps-danger: var(--danger, #ff6b6b);
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ps-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Error text on the left, counter on the right */
+.ps-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 16px;
+  padding: 0 4px;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.ps-err {
+  color: var(--ps-danger);
+}
+
+.ps-err--block {
+  margin: 0;
+  padding: 0 4px;
+  font-size: 12px;
+}
+
+.ps-count {
+  margin-left: auto;
+  color: var(--ps-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.ps-count--near {
+  color: var(--ps-gold);
+}
+
+/* Donor group */
+.ps-donor {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--ps-line);
+  border-radius: 14px;
+  background: var(--ps-surface);
+  min-width: 0;
+}
+
+.ps-donor legend {
+  padding: 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ps-muted);
+}
+
+/* Segmented control */
+.ps-seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 3px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--ps-line);
+}
+
+.ps-seg__btn {
+  min-height: 40px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--ps-muted);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ps-seg__btn.is-on {
+  background: var(--ps-gold);
+  color: #17120a;
+}
+
+.ps-seg__btn:focus-visible,
+.ps-select:focus-visible {
+  outline: 2px solid var(--ps-gold);
+  outline-offset: 2px;
+}
+
+.ps-select {
+  width: 100%;
+  min-height: 48px;
+  font-size: 16px; /* 16px stops iOS from zooming on focus */
+}
+
+.ps-select:disabled {
+  opacity: 0.6;
+}
+
+.ps-hint {
+  margin: 0;
+  padding: 0 4px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--ps-muted);
+}
+
+/* Stop the textarea from being resized sideways */
+.ps textarea {
+  resize: none;
+}
+
+/* Disabled submit */
+.ps .a2__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ps-seg__btn {
+    transition: none;
+  }
+}

@@ -4,6 +4,7 @@ import DeviceToken from "../models/DeviceToken.js";
 import Notification from "../models/Notification.js";
 import { isFcmConfigured, messaging } from "../utils/firebase.js";
 import { notify } from "../utils/notify.js";
+import { buildPush } from "../utils/notify.js";
 const tokenSchema = z.object({ token: z.string().trim().min(20).max(4096) });
 
 const sendSchema = z.object({
@@ -97,13 +98,21 @@ export const listNotifications = async (req, res, next) => {
 export const sendTest = async (req, res, next) => {
   try {
     if (!isFcmConfigured()) {
-      return res.status(503).json({ message: "Push is not configured on the server" });
+      return res
+        .status(503)
+        .json({ message: "Push is not configured on the server" });
     }
 
-    const docs = await DeviceToken.find({ user: req.user.id }).select("token").lean();
+    const docs = await DeviceToken.find({ user: req.user.id })
+      .select("token")
+      .lean();
     const tokens = docs.map((d) => d.token);
     if (!tokens.length) {
-      return res.status(400).json({ message: "No device registered. Turn on notifications first." });
+      return res
+        .status(400)
+        .json({
+          message: "No device registered. Turn on notifications first.",
+        });
     }
 
     const site = process.env.FRONTEND_URL || "https://www.aaradhna.site";
@@ -119,11 +128,16 @@ export const sendTest = async (req, res, next) => {
     // Remove tokens that are no longer valid
     const dead = [];
     result.responses.forEach((r, i) => {
-      if (!r.success && DEAD_TOKEN_CODES.has(r.error?.code)) dead.push(tokens[i]);
+      if (!r.success && DEAD_TOKEN_CODES.has(r.error?.code))
+        dead.push(tokens[i]);
     });
     if (dead.length) await DeviceToken.deleteMany({ token: { $in: dead } });
 
-    res.json({ ok: true, sent: result.successCount, failed: result.failureCount });
+    res.json({
+      ok: true,
+      sent: result.successCount,
+      failed: result.failureCount,
+    });
   } catch (err) {
     next(err);
   }

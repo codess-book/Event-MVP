@@ -14,7 +14,7 @@ export default defineConfig({
       registerType: "autoUpdate",
       injectRegister: false, // main.jsx mein khud register karenge
       injectManifest: {
-        globPatterns: ["**/*.{js,css,html,svg,png,ico,woff2}"],
+        globPatterns: ["**/*.{js,css,html,svg,png,ico,woff2 ,mp3}"],
         globIgnores: ["**/og-image.*"],
       },
       manifest: {

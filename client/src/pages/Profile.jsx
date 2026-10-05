@@ -43,6 +43,7 @@ import "../profile.css";
 import InstallBanner from "../components/InstallBanner";
 import { Share2 } from "lucide-react";
 import ShareAppSheet from "../components/ShareAppSheet";
+import { useForegroundPush } from "../hooks/notifications/useForegroundPush";
 
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : "");
 
@@ -64,7 +65,7 @@ export default function Profile() {
   const { items: eventItems } = useEvent();
   const { winners } = useWinners();
   const close = () => setPanel(null);
-
+useForegroundPush();
   if (!user) return null;
 
   const isSponsor = user.userType === "sponsor";

@@ -8,6 +8,14 @@ const offerSchema = new mongoose.Schema({
   validTill: { type: Date },
 });
 
+// Food stall menu item
+const menuItemSchema = new mongoose.Schema({
+  name: { type: String, required: true, trim: true, maxlength: 60 },
+  price: { type: Number, required: true, min: 0, max: 100000 },
+  category: { type: String, trim: true, maxlength: 30, default: "" },
+  available: { type: Boolean, default: true }, // false = sold out
+});
+
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true, maxlength: 60 },
@@ -17,7 +25,7 @@ const userSchema = new mongoose.Schema(
 
     userType: {
       type: String,
-      enum: ["player", "member", "sponsor", "visitor"],
+      enum: ["player", "member", "sponsor", "visitor", "foodPartner"],
       required: true,
     },
 
@@ -41,7 +49,12 @@ const userSchema = new mongoose.Schema(
       whatsapp: { type: String, trim: true, maxlength: 15, default: "" },
     },
     offers: { type: [offerSchema], default: [] },
-
+    // Food-partner-only fields
+    stallNumber: { type: String, trim: true, maxlength: 10, default: "" },
+    isOpen: { type: Boolean, default: true },
+    menu: { type: [menuItemSchema], default: [] },
+    ratingAvg: { type: Number, default: 0, min: 0, max: 5 },
+    ratingCount: { type: Number, default: 0, min: 0 },
     role: { type: String, enum: ["user", "admin"], default: "user" },
     // Sponsors start unapproved and are approved by an admin
     isApproved: { type: Boolean, default: true },
@@ -54,16 +67,16 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// One pass number can belong to only one player
-userSchema.index(
-  { passNumber: 1 },
-  {
-    unique: true,
-    partialFilterExpression: {
-      userType: "player",
-      passNumber: { $type: "string" },
-    },
-  },
-);
+// // One pass number can belong to only one player
+// userSchema.index(
+//   { passNumber: 1 },
+//   {
+//     unique: true,
+//     partialFilterExpression: {
+//       userType: "player",
+//       passNumber: { $type: "string" },
+//     },
+//   },
+// );
 
 export default mongoose.model("User", userSchema);

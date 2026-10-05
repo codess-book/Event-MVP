@@ -1,0 +1,481 @@
+/* ============================================================
+   MENU MANAGER — Garba theme
+   All classes prefixed with `mmx__`
+   ============================================================ */
+
+:root {
+  --mmx-cream: #fdf6ec;
+  --mmx-cream-soft: #f7ecd9;
+  --mmx-cream-deep: #f0e0c4;
+  --mmx-gold: #b8860b;
+  --mmx-gold-light: #d4a24a;
+  --mmx-gold-dark: #8b6508;
+  --mmx-maroon: #6b1f1f;
+  --mmx-maroon-deep: #4a1414;
+  --mmx-green: #22a35c;
+  --mmx-red: #b91c1c;
+  --mmx-orange: #c2410c;
+  --mmx-ink: #2b1810;
+  --mmx-ink-soft: #5a4032;
+  --mmx-ink-mute: #8a7566;
+  --mmx-border: rgba(107, 31, 31, 0.12);
+  --mmx-border-gold: rgba(184, 134, 11, 0.3);
+  --mmx-shadow-sm: 0 2px 8px rgba(74, 20, 20, 0.06);
+  --mmx-shadow-md: 0 8px 22px rgba(74, 20, 20, 0.1);
+  --mmx-radius: 16px;
+}
+
+.mmx,
+.mmx * {
+  box-sizing: border-box;
+}
+
+.mmx {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ============================================================
+   INTRO
+   ============================================================ */
+.mmx__intro {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--mmx-radius);
+  background: linear-gradient(
+    135deg,
+    rgba(194, 65, 12, 0.08),
+    rgba(194, 65, 12, 0.02)
+  );
+  border: 1px dashed rgba(194, 65, 12, 0.3);
+}
+
+.mmx__introIcon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ea580c, var(--mmx-orange));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(194, 65, 12, 0.28);
+}
+
+.mmx__introText {
+  flex: 1;
+  min-width: 0;
+}
+.mmx__introText p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--mmx-maroon-deep);
+  letter-spacing: -0.01em;
+}
+.mmx__introText span {
+  display: block;
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--mmx-ink-mute);
+  font-weight: 600;
+}
+
+/* ============================================================
+   FORM
+   ============================================================ */
+.mmx__form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mmx__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 380px) {
+  .mmx__row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- error ---------- */
+.mmx__err {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(185, 28, 28, 0.06);
+  border: 1px solid rgba(185, 28, 28, 0.22);
+  color: var(--mmx-red);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.mmx__err svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ---------- actions ---------- */
+.mmx__formActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.mmx__btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: none;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    transform 0.14s ease,
+    opacity 0.15s ease,
+    box-shadow 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.mmx__btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.mmx__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mmx__btn--primary {
+  background: linear-gradient(
+    135deg,
+    var(--mmx-maroon) 0%,
+    var(--mmx-maroon-deep) 100%
+  );
+  color: var(--mmx-cream);
+  box-shadow: 0 6px 18px rgba(74, 20, 20, 0.28);
+}
+
+.mmx__btn--ghost {
+  background: transparent;
+  color: var(--mmx-ink-soft);
+  border: 1px solid var(--mmx-border);
+}
+
+/* ============================================================
+   LIST
+   ============================================================ */
+.mmx__listSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mmx__listHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed var(--mmx-border);
+}
+
+.mmx__listTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mmx-gold-dark);
+}
+.mmx__listTitle svg {
+  color: var(--mmx-gold);
+}
+
+.mmx__listCount {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(107, 31, 31, 0.08);
+  color: var(--mmx-maroon);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.mmx__listCount.is-near {
+  background: rgba(184, 134, 11, 0.16);
+  color: var(--mmx-gold-dark);
+}
+
+/* ---------- items container ---------- */
+.mmx__items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ---------- single item ---------- */
+.mmx__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 12px 12px 14px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--mmx-border);
+  box-shadow: var(--mmx-shadow-sm);
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+  min-width: 0;
+}
+
+.mmx__item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--mmx-green), #128c4b);
+  transition: background 0.2s ease;
+}
+
+.mmx__item.is-off {
+  opacity: 0.65;
+}
+.mmx__item.is-off::before {
+  background: linear-gradient(180deg, var(--mmx-red), #7f1d1d);
+}
+
+.mmx__item:hover {
+  box-shadow: var(--mmx-shadow-md);
+}
+
+/* ---------- item main ---------- */
+.mmx__itemMain {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.mmx__itemRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.mmx__status {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--mmx-green);
+  box-shadow: 0 0 0 3px rgba(34, 163, 92, 0.18);
+}
+.mmx__status.is-off {
+  background: var(--mmx-red);
+  box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.18);
+}
+
+.mmx__itemName {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--mmx-maroon-deep);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.mmx__item.is-off .mmx__itemName {
+  text-decoration: line-through;
+  text-decoration-color: rgba(185, 28, 28, 0.4);
+  color: var(--mmx-ink-soft);
+}
+
+/* ---------- meta ---------- */
+.mmx__itemMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-left: 16px;
+}
+
+.mmx__price {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--mmx-maroon);
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.mmx__price svg {
+  opacity: 0.8;
+}
+
+.mmx__catChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(107, 31, 31, 0.06);
+  border: 1px solid var(--mmx-border);
+  color: var(--mmx-ink-soft);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mmx__catChip svg {
+  color: var(--mmx-maroon);
+}
+
+/* ---------- actions ---------- */
+.mmx__itemActions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.mmx__actionBtn {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--mmx-border);
+  color: var(--mmx-ink-soft);
+  cursor: pointer;
+  transition:
+    transform 0.14s ease,
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.mmx__actionBtn:active:not(:disabled) {
+  transform: scale(0.9);
+}
+.mmx__actionBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.mmx__actionBtn--toggle {
+  color: var(--mmx-green);
+  background: rgba(34, 163, 92, 0.08);
+  border-color: rgba(34, 163, 92, 0.22);
+}
+.mmx__actionBtn--toggle:hover:not(:disabled) {
+  background: rgba(34, 163, 92, 0.16);
+}
+.mmx__actionBtn--toggle.is-off {
+  color: var(--mmx-red);
+  background: rgba(185, 28, 28, 0.06);
+  border-color: rgba(185, 28, 28, 0.22);
+}
+
+.mmx__actionBtn--edit {
+  color: var(--mmx-gold-dark);
+  background: rgba(184, 134, 11, 0.08);
+  border-color: var(--mmx-border-gold);
+}
+.mmx__actionBtn--edit:hover:not(:disabled) {
+  background: rgba(184, 134, 11, 0.16);
+}
+
+.mmx__actionBtn--danger {
+  color: var(--mmx-red);
+  background: rgba(185, 28, 28, 0.05);
+  border-color: rgba(185, 28, 28, 0.22);
+}
+.mmx__actionBtn--danger:hover:not(:disabled) {
+  background: rgba(185, 28, 28, 0.12);
+}
+
+/* ============================================================
+   EMPTY
+   ============================================================ */
+.mmx__empty {
+  padding: 32px 20px;
+  text-align: center;
+  border-radius: 14px;
+  border: 1.5px dashed var(--mmx-border-gold);
+  background: linear-gradient(
+    135deg,
+    rgba(212, 162, 74, 0.06),
+    rgba(184, 134, 11, 0.02)
+  );
+}
+
+.mmx__emptyIcon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 10px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 162, 74, 0.2),
+    rgba(184, 134, 11, 0.08)
+  );
+  color: var(--mmx-gold-dark);
+}
+
+.mmx__emptyTitle {
+  margin: 0 0 2px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--mmx-maroon-deep);
+}
+.mmx__emptyText {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--mmx-ink-mute);
+  font-weight: 600;
+}
+
+/* ============================================================
+   MISC
+   ============================================================ */
+.spin {
+  animation: mmxSpin 0.9s linear infinite;
+}
+@keyframes mmxSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}

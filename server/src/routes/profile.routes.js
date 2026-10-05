@@ -6,6 +6,8 @@ import {
 import { requireAuth } from "../middleware/auth.js";
 import { uploadLimiter } from "../middleware/rateLimiters.js";
 import { addOffer, deleteOffer ,updateOffer} from "../controllers/offers.controller.js";
+import { addMenuItem, updateMenuItem, deleteMenuItem } from "../controllers/food.controller.js";
+
 const router = Router();
 
 // Every profile route needs a logged-in user
@@ -14,7 +16,9 @@ router.use(requireAuth);
 router.patch("/", updateProfile);
 router.post("/photo-signature", uploadLimiter, getPhotoSignature);
 
-
+router.post("/menu", addMenuItem);
+router.patch("/menu/:itemId", updateMenuItem);
+router.delete("/menu/:itemId", deleteMenuItem);
 router.post("/offers", addOffer);
 router.put("/offers/:offerId", updateOffer);
 router.delete("/offers/:offerId", deleteOffer);

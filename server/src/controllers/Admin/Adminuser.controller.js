@@ -5,7 +5,7 @@ import User from "../../models/User.js";
 import Notification from "../../models/Notification.js";
 import ResetRequest from "../../models/ResetRequest.js";
 
-const TYPES = ["player", "member", "sponsor"];
+const TYPES = ["player", "member", "sponsor", "foodPartner", "visitor"];
 const notAdmin = { role: { $ne: "admin" } }; // admin accounts is panel se touch nahi hote
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const bad = (res) => res.status(400).json({ message: "Invalid user id" });
@@ -46,9 +46,13 @@ export const userStats = async (req, res, next) => {
       { $match: notAdmin },
       { $group: { _id: { t: "$userType", a: "$isApproved" }, n: { $sum: 1 } } },
     ]);
+    // const byType = Object.fromEntries(
+    //   TYPES.map((t) => [t, { total: 0, pending: 0 }]),
+    // );
     const byType = Object.fromEntries(
       TYPES.map((t) => [t, { total: 0, pending: 0 }]),
     );
+
     let total = 0;
     for (const { _id, n } of rows) {
       total += n;

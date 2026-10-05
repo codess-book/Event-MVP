@@ -21,6 +21,10 @@ import {
   ScrollText,
   Users,
   Gift,
+  Loader2,
+  Eye,
+  EyeOff,
+  // Star,
 } from "lucide-react";
 import OfferCarousel from "../components/OfferCarousel";
 import BottomNav from "../components/BottomNav";
@@ -46,8 +50,14 @@ import ShareAppSheet from "../components/ShareAppSheet";
 import { useForegroundPush } from "../hooks/notifications/useForegroundPush";
 import { syncDeviceToken } from "../lib/push";
 import Ticker from "../components/Ticker";
+import { UtensilsCrossed, Star } from "lucide-react";
+import MenuManagerSheet from "../components/MenuManagerSheet";
+import { useUpdateProfile } from "../hooks/profile/userProfile";
+
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : "");
 
+const TYPE_LABEL = { foodPartner: "Food Partner" };
+const typeLabel = (t) => TYPE_LABEL[t] || cap(t);
 const fmtT = (t) => {
   const [h, m] = t.split(":").map(Number);
   return `${h % 12 || 12}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
@@ -67,9 +77,18 @@ export default function Profile() {
   const { winners } = useWinners();
   const close = () => setPanel(null);
   useForegroundPush();
+  const save = useUpdateProfile();
   if (!user) return null;
 
   const isSponsor = user.userType === "sponsor";
+  const isFood = user.userType === "foodPartner";
+  const onToggleOpen = async () => {
+    try {
+      await save.trigger({ isOpen: !user.isOpen });
+    } catch (e) {
+      toast(e.message, "error");
+    }
+  };
   const isAdmin = user.role === "admin";
   const offers = user.offers || [];
 
@@ -145,7 +164,12 @@ export default function Profile() {
       to: "/challenges",
     },
     { icon: Gift, title: "Prizes", sub: "See what you can win", to: "/prizes" },
-
+    {
+      icon: UtensilsCrossed,
+      title: "Food Stalls",
+      sub: "Menu, prices & ratings",
+      to: "/food",
+    },
     {
       icon: Users,
       title: "Members",
@@ -216,6 +240,18 @@ export default function Profile() {
             sub: "Pick winners",
             to: "/admin/challenges",
           },
+          {
+            icon: Store,
+            title: "Add Food Partner",
+            sub: "Create stall login",
+            to: "/admin/food-partners",
+          },
+          {
+            icon: Store,
+            title: "Food Partners",
+            sub: "List & details",
+            to: "/admin/food-list",
+          },
         ]
       : []),
   ];
@@ -228,6 +264,7 @@ export default function Profile() {
     user.gender && ["Gender", cap(user.gender)],
     user.businessName && ["Business", user.businessName],
     user.sponsorCategory && ["Category", user.sponsorCategory],
+    user.stallNumber && ["Stall number", user.stallNumber],
   ].filter(Boolean);
 
   return (
@@ -286,9 +323,11 @@ export default function Profile() {
             </button>
           </div>
           <h1 className="pf__name">
-            {isSponsor && user.businessName ? user.businessName : user.name}
+            {(isSponsor || isFood) && user.businessName
+              ? user.businessName
+              : user.name}
           </h1>
-          {isSponsor && user.businessName && (
+          {(isSponsor || isFood) && user.businessName && (
             <p className="pf__owner">{user.name}</p>
           )}
           <span className="pf__badge">
@@ -617,9 +656,74 @@ export default function Profile() {
           </>
         )}
 
+        {isFood && (
+          <section className="fdp">
+            <div className="fdp__head">
+              <div className="fdp__titleRow">
+                <span className="fdp__titleIcon">
+                  <UtensilsCrossed size={14} />
+                </span>
+                <h2 className="fdp__title">Your food stall</h2>
+              </div>
+              <span
+                className={`fdp__status ${user.isOpen ? "is-open" : "is-closed"}`}
+              >
+                <span className="fdp__statusDot" />
+                {user.isOpen ? "Open" : "Closed"}
+              </span>
+            </div>
+
+            <div className="fdp__stats">
+              <div className="fdp__stat">
+                <span className="fdp__statNum">
+                  {user.ratingCount ? user.ratingAvg.toFixed(1) : "—"}
+                </span>
+                <span className="fdp__statLabel">
+                  <Star size={10} fill="currentColor" />
+                  {user.ratingCount
+                    ? `${user.ratingCount} ratings`
+                    : "No ratings yet"}
+                </span>
+              </div>
+
+              <div className="fdp__stat">
+                <span className="fdp__statNum">{user.menu?.length || 0}</span>
+                <span className="fdp__statLabel">Menu items</span>
+              </div>
+            </div>
+
+            <div className="fdp__actions">
+              <button
+                type="button"
+                className={`fdp__btn ${user.isOpen ? "fdp__btn--close" : "fdp__btn--open"}`}
+                disabled={save.isMutating}
+                onClick={onToggleOpen}
+              >
+                {save.isMutating ? (
+                  <Loader2 size={14} className="spin" />
+                ) : user.isOpen ? (
+                  <EyeOff size={14} />
+                ) : (
+                  <Eye size={14} />
+                )}
+                {user.isOpen ? "Close stall" : "Open stall"}
+              </button>
+
+              <button
+                type="button"
+                className="fdp__btn fdp__btn--primary"
+                onClick={() => setPanel("foodmenu")}
+              >
+                <UtensilsCrossed size={14} />
+                Manage menu
+              </button>
+            </div>
+          </section>
+        )}
+
         <h2 className="pf__section">Quick actions</h2>
         <div className="pf__grid">
-          {items.map(({ icon: Icon, title, sub, action, to, soon }) => {
+          {/* {items.map(({ icon: Icon, title, sub, action, to, soon }) => {
             const inner = (
               <>
                 <span className="tile__ic">
@@ -639,6 +743,36 @@ export default function Profile() {
             ) : (
               <button
                 key={title}
+                className="tile"
+                disabled={soon}
+                onClick={action}
+              >
+                {inner}
+              </button>
+            );
+          })} */}
+
+          {items.map(({ icon: Icon, title, sub, action, to, soon }, i) => {
+            const key = `${title}-${i}`;
+            const inner = (
+              <>
+                <span className="tile__ic">
+                  <Icon size={22} />
+                </span>
+                <span>
+                  <div className="tile__t">{title}</div>
+                  <div className="tile__s">{sub}</div>
+                </span>
+                {soon && <span className="tile__soon">SOON</span>}
+              </>
+            );
+            return to ? (
+              <Link key={key} to={to} className="tile">
+                {inner}
+              </Link>
+            ) : (
+              <button
+                key={key}
                 className="tile"
                 disabled={soon}
                 onClick={action}
@@ -668,10 +802,11 @@ export default function Profile() {
               </div>
             </div>
             <nav className="drawer__list">
-              {items.map(({ icon: Icon, title, action, to, soon }) =>
-                to ? (
+              {items.map(({ icon: Icon, title, action, to, soon }, i) => {
+                const key = `${title}-${i}`;
+                return to ? (
                   <Link
-                    key={title}
+                    key={key}
                     to={to}
                     className="drawer__item"
                     onClick={close}
@@ -680,7 +815,7 @@ export default function Profile() {
                   </Link>
                 ) : (
                   <button
-                    key={title}
+                    key={key}
                     className="drawer__item"
                     disabled={soon}
                     onClick={() => {
@@ -690,8 +825,8 @@ export default function Profile() {
                   >
                     <Icon size={20} /> {title} {soon && <small>SOON</small>}
                   </button>
-                ),
-              )}
+                );
+              })}
             </nav>
             <div className="drawer__foot">
               <button className="drawer__item" onClick={onLogout}>
@@ -717,6 +852,7 @@ export default function Profile() {
       {panel === "offer" && isSponsor && (
         <OfferSheet offer={editing} onClose={close} />
       )}
+
       {panel === "share" && <ShareAppSheet onClose={close} />}
       {panel === "bell" && (
         <Sheet title="Notifications" onClose={close}>
@@ -747,6 +883,9 @@ export default function Profile() {
             </ul>
           )}
         </Sheet>
+      )}
+      {panel === "foodmenu" && isFood && (
+        <MenuManagerSheet user={user} onClose={close} />
       )}
     </div>
   );

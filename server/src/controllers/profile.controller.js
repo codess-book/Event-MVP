@@ -95,6 +95,19 @@ const profileSchemaFor = (user) => {
       links: linksSchema.optional(),
     });
   }
+  if (user.userType === "foodPartner") {
+    return z.object({
+      ...base,
+      businessName: z
+        .string()
+        .trim()
+        .min(2, "Shop name is required")
+        .max(80)
+        .optional(),
+      stallNumber: z.string().trim().max(10).optional(),
+      isOpen: z.boolean().optional(),
+    });
+  }
 
   // Unknown fields (phone, passNumber, role, offer for non-sponsors...) are stripped by zod
   return z.object(base);
@@ -108,8 +121,8 @@ export const updateProfile = async (req, res, next) => {
       return res.status(401).json({ message: "User no longer exists" });
 
     const data = profileSchemaFor(user).parse(req.body);
-console.log("1 RAW:", req.body.links);
-console.log("2 PARSED:", data.links);
+    // console.log("1 RAW:", req.body.links);
+    // console.log("2 PARSED:", data.links);
     const $set = {};
     const $unset = {};
 
@@ -146,6 +159,11 @@ console.log("2 PARSED:", data.links);
           $set["links.whatsapp"] = data.links.whatsapp;
         }
       }
+      if (user.userType === "foodPartner") {
+  if (data.businessName !== undefined) $set.businessName = data.businessName;
+  if (data.stallNumber !== undefined) $set.stallNumber = data.stallNumber;
+  if (data.isOpen !== undefined) $set.isOpen = data.isOpen;
+}
       //   else if (data.offer !== undefined) $set.offer = data.offer; // replaces the whole offer
     }
 
@@ -156,7 +174,7 @@ console.log("2 PARSED:", data.links);
     const update = {};
     if (Object.keys($set).length) update.$set = $set;
     if (Object.keys($unset).length) update.$unset = $unset;
-console.log("3 SET:", $set);
+    console.log("3 SET:", $set);
 
     const updated = await User.findByIdAndUpdate(user._id, update, {
       new: true,

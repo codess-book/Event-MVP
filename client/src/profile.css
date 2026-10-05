@@ -205,7 +205,7 @@
    ============================================ */
 .pf__card {
   position: relative;
-    z-index: 1; 
+  z-index: 1;
   margin: -68px 16px 0;
   padding: 0 20px 22px;
   text-align: center;
@@ -235,7 +235,7 @@
 
 .pf__avatarWrap {
   position: relative;
-   z-index: 1;
+  z-index: 1;
   width: 104px;
   margin: -20px auto 0;
 }
@@ -1480,4 +1480,216 @@ a.nitem .nitem__d {
 .rule--help {
   background: linear-gradient(#fff8e8, #fbe8c0);
   border-color: #ecd08a;
+}
+
+/* ============================================================
+   FOOD PARTNER PANEL — Profile page
+   ============================================================ */
+
+.fdp {
+  margin: 0 16px 16px;
+  padding: 16px;
+  border-radius: 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(234, 88, 12, 0.08) 0%,
+    rgba(234, 88, 12, 0.02) 100%
+  );
+  border: 1px solid rgba(234, 88, 12, 0.22);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.fdp::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #ea580c, #c2410c);
+}
+
+/* ---------- head ---------- */
+.fdp__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.fdp__titleRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fdp__titleIcon {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ea580c, #c2410c);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.28);
+}
+
+.fdp__title {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #4a1414;
+}
+
+/* ---------- status ---------- */
+.fdp__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.fdp__status.is-open {
+  background: rgba(34, 163, 92, 0.12);
+  border: 1px solid rgba(34, 163, 92, 0.3);
+  color: #166b3a;
+}
+.fdp__status.is-closed {
+  background: rgba(156, 163, 175, 0.15);
+  border: 1px solid rgba(156, 163, 175, 0.3);
+  color: #4b5563;
+}
+
+.fdp__statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 0 0 3px currentColor;
+  opacity: 0.35;
+}
+.fdp__status.is-open .fdp__statusDot {
+  opacity: 1;
+  animation: fdpPulse 2s ease-in-out infinite;
+}
+
+@keyframes fdpPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ---------- stats ---------- */
+.fdp__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.fdp__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(107, 31, 31, 0.1);
+}
+
+.fdp__statNum {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #4a1414;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.fdp__statLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #8a7566;
+}
+.fdp__statLabel svg {
+  color: #b8860b;
+}
+
+/* ---------- actions ---------- */
+.fdp__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.fdp__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.18s ease,
+    opacity 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+}
+.fdp__btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+.fdp__btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.fdp__btn--open {
+  background: linear-gradient(135deg, #22a35c, #166b3a);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(34, 163, 92, 0.28);
+}
+
+.fdp__btn--close {
+  background: rgba(185, 28, 28, 0.06);
+  color: #b91c1c;
+  border-color: rgba(185, 28, 28, 0.28);
+}
+
+.fdp__btn--primary {
+  background: linear-gradient(135deg, #6b1f1f, #4a1414);
+  color: #fdf6ec;
+  box-shadow: 0 4px 12px rgba(74, 20, 20, 0.24);
+}
+
+/* ---------- spin ---------- */
+.fdp .spin {
+  animation: fdpSpin 0.9s linear infinite;
+}
+@keyframes fdpSpin {
+  to {
+    transform: rotate(360deg);
+  }
 }

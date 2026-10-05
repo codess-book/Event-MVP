@@ -12,6 +12,7 @@ import {
   Check,
   Loader2,
   AlertCircle,
+  UtensilsCrossed,
 } from "lucide-react";
 import Sheet from "./Sheet";
 import Avatar from "./Avatar";
@@ -29,16 +30,30 @@ const URL_RE = /^https?:\/\/.+\..+/i;
 const PHONE_RE = /^\d{10,15}$/;
 
 /* ------------------------------- validators ------------------------------ */
-function validate({ name, isSponsor, businessName, mapLink, links }) {
+function validate({ name, isSponsor, isFood, businessName, mapLink, links }) {
   const e = {};
   if (!name?.trim()) e.name = "Name is required";
   else if (name.trim().length < 2) e.name = "Name is too short";
   else if (name.trim().length > 60) e.name = "Name is too long";
 
-  if (isSponsor) {
+  //   if (isSponsor) {
+  //     if (!businessName?.trim()) e.businessName = "Business name is required";
+  //     else if (businessName.trim().length < 2) e.businessName = "Too short";
+
+  //     if (mapLink && !URL_RE.test(mapLink.trim()))
+  //       e.mapLink = "Enter a valid URL (https://…)";
+  //     if (links.website && !URL_RE.test(links.website.trim()))
+  //       e.website = "Enter a valid URL (https://…)";
+  //     if (links.whatsapp && !PHONE_RE.test(links.whatsapp))
+  //       e.whatsapp = "Enter 10–15 digit number";
+  //   }
+  //   return e;
+  // }
+  if (isSponsor || isFood) {
     if (!businessName?.trim()) e.businessName = "Business name is required";
     else if (businessName.trim().length < 2) e.businessName = "Too short";
-
+  }
+  if (isSponsor) {
     if (mapLink && !URL_RE.test(mapLink.trim()))
       e.mapLink = "Enter a valid URL (https://…)";
     if (links.website && !URL_RE.test(links.website.trim()))
@@ -48,12 +63,13 @@ function validate({ name, isSponsor, businessName, mapLink, links }) {
   }
   return e;
 }
-
 export default function EditProfileSheet({ user, onClose }) {
   const fileRef = useRef(null);
   const save = useUpdateProfile();
   const upload = useUploadPhoto();
   const remove = useRemovePhoto();
+  const isFood = user?.userType === "foodPartner";
+  const [stallNumber, setStallNumber] = useState(user?.stallNumber ?? "");
 
   const busy = save.isMutating || upload.isMutating;
   const error = upload.error || save.error;
@@ -80,8 +96,8 @@ export default function EditProfileSheet({ user, onClose }) {
 
   /* ------------------------------ derived state ---------------------------- */
   const errors = useMemo(
-    () => validate({ name, isSponsor, businessName, mapLink, links }),
-    [name, isSponsor, businessName, mapLink, links],
+    () => validate({ name, isSponsor, isFood, businessName, mapLink, links }),
+    [name, isSponsor, isFood, businessName, mapLink, links],
   );
   const hasErrors = Object.keys(errors).length > 0;
 
@@ -176,6 +192,15 @@ export default function EditProfileSheet({ user, onClose }) {
     }
 
     try {
+      // const payload = isSponsor
+      //   ? {
+      //       name: name.trim(),
+      //       businessName: businessName.trim(),
+      //       address: address.trim(),
+      //       mapLink: mapLink.trim(),
+      //       links,
+      //     }
+      //   : { name: name.trim() };
       const payload = isSponsor
         ? {
             name: name.trim(),
@@ -184,7 +209,13 @@ export default function EditProfileSheet({ user, onClose }) {
             mapLink: mapLink.trim(),
             links,
           }
-        : { name: name.trim() };
+        : isFood
+          ? {
+              name: name.trim(),
+              businessName: businessName.trim(),
+              stallNumber: stallNumber.trim(),
+            }
+          : { name: name.trim() };
 
       await save.trigger(payload);
       setToast({ type: "success", message: "Profile saved" });
@@ -288,24 +319,42 @@ export default function EditProfileSheet({ user, onClose }) {
           required
         />
 
+{(isSponsor || isFood) && (
+  <IconField
+    icon={Store}
+    id="e-biz"
+    label="Shop / Business Name"
+    value={businessName}
+    onChange={(e) => {
+      clearErrors();
+      setBusinessName(e.target.value);
+    }}
+    onBlur={() => setTouched((t) => ({ ...t, businessName: true }))}
+    error={touched.businessName && errors.businessName}
+    maxLength={80}
+    autoComplete="organization"
+    disabled={busy}
+    required
+  />
+)}
+{isFood && (
+  <IconField
+    icon={UtensilsCrossed}
+    id="e-stall"
+    label="Stall number"
+    maxLength={10}
+    value={stallNumber}
+    onChange={(e) => {
+      clearErrors();
+      setStallNumber(e.target.value);
+    }}
+    disabled={busy}
+  />
+)}
+
         {isSponsor && (
           <>
-            <IconField
-              icon={Store}
-              id="e-biz"
-              label="Shop / Business Name"
-              value={businessName}
-              onChange={(e) => {
-                clearErrors();
-                setBusinessName(e.target.value);
-              }}
-              onBlur={() => setTouched((t) => ({ ...t, businessName: true }))}
-              error={touched.businessName && errors.businessName}
-              maxLength={80}
-              autoComplete="organization"
-              disabled={busy}
-              required
-            />
+           
             <IconField
               icon={MapPin}
               id="e-addr"

@@ -21,6 +21,9 @@ import Members from "./pages/Members";
 import Rules from "./pages/Rules";
 import InstallPage from "./pages/Installpage";
 import GlobalPush from "./components/GlobalPush";
+import AdminFoodPartners from "./pages/AdminFoodPartners";
+import Food from "./pages/Food";
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -32,6 +35,7 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/install" element={<InstallPage />} />
+         
         </Route>
 
         {/* only for logeed user */}
@@ -46,6 +50,7 @@ export default function App() {
           <Route path="/prizes" element={<Prizes />} />
           <Route path="/members" element={<Members />} />
           <Route path="/rules" element={<Rules />} />
+           <Route path="/food" element={<Food />} />
         </Route>
 
         <Route element={<ProtectedRoute adminOnly />}>
@@ -67,6 +72,11 @@ export default function App() {
           <Route path="/admin/notify" element={<AdminNotify />} />
           <Route path="/admin/event" element={<AdminEvent />} />
           <Route path="/admin/challenges" element={<AdminChallenges />} />
+          <Route path="/admin/food-partners" element={<AdminFoodPartners />} />
+          <Route
+            path="/admin/food-list"
+            element={<AdminUsers type="foodPartner" title="Food partners" />}
+          />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

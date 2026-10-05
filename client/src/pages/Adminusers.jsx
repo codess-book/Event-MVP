@@ -32,8 +32,10 @@ import {
   useAdminUsers,
   useSetApproval,
   useResetPassword,
+
 } from "../hooks/admin/useAdminUsers";
 import "../auth.css";
+import { UtensilsCrossed } from "lucide-react";  
 import "../profile.css";
 import "../sponsers.css";
 import "../admin-users.css";
@@ -330,6 +332,7 @@ const TYPE_TABS = [
   { key: "player", label: "Players", icon: UserRound },
   { key: "member", label: "Members", icon: UserCheck },
   { key: "sponsor", label: "Sponsors", icon: Store },
+   { key: "foodPartner", label: "Food", icon: UtensilsCrossed },  
   { key: "visitor", label: "Visitors", icon: Users },
 ];
 

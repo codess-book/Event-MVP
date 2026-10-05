@@ -92,3 +92,39 @@ export const listNotifications = async (req, res, next) => {
     next(err);
   }
 };
+
+// Sends a push to the logged-in user's own devices (for the "Send test" button)
+export const sendTest = async (req, res, next) => {
+  try {
+    if (!isFcmConfigured()) {
+      return res.status(503).json({ message: "Push is not configured on the server" });
+    }
+
+    const docs = await DeviceToken.find({ user: req.user.id }).select("token").lean();
+    const tokens = docs.map((d) => d.token);
+    if (!tokens.length) {
+      return res.status(400).json({ message: "No device registered. Turn on notifications first." });
+    }
+
+    const site = process.env.FRONTEND_URL || "https://www.aaradhna.site";
+    const result = await messaging().sendEachForMulticast({
+      tokens,
+      notification: {
+        title: "Test notification",
+        body: "Push notifications are working on this device.",
+      },
+      webpush: { fcmOptions: { link: `${site}/profile` } },
+    });
+
+    // Remove tokens that are no longer valid
+    const dead = [];
+    result.responses.forEach((r, i) => {
+      if (!r.success && DEAD_TOKEN_CODES.has(r.error?.code)) dead.push(tokens[i]);
+    });
+    if (dead.length) await DeviceToken.deleteMany({ token: { $in: dead } });
+
+    res.json({ ok: true, sent: result.successCount, failed: result.failureCount });
+  } catch (err) {
+    next(err);
+  }
+};

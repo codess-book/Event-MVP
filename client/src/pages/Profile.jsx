@@ -235,14 +235,6 @@ export default function Profile() {
           <div className="topbar">
             <button
               className="iconbtn"
-              aria-label="Share app"
-              onClick={() => setPanel("share")}
-            >
-              <Share2 size={20} />
-            </button>
-
-            <button
-              className="iconbtn"
               aria-label="Open menu"
               onClick={() => setPanel("menu")}
             >
@@ -250,6 +242,13 @@ export default function Profile() {
             </button>
 
             <div className="topbar__right">
+              <button
+                className="iconbtn"
+                aria-label="Share app"
+                onClick={() => setPanel("share")}
+              >
+                <Share2 size={20} />
+              </button>
               <button
                 className="iconbtn"
                 aria-label="Notifications"

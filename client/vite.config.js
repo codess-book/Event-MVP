@@ -15,6 +15,7 @@ export default defineConfig({
       injectRegister: false, // main.jsx mein khud register karenge
       injectManifest: {
         globPatterns: ["**/*.{js,css,html,svg,png,ico,woff2}"],
+        globIgnores: ["**/og-image.*"],
       },
       manifest: {
         name: "Aaradhna Navratri Garba",

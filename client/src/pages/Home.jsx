@@ -13,9 +13,11 @@ export default function Home() {
 
   return (
     <main className="home">
-      <h1 className="auth__brand" style={{ textAlign: "left", fontSize: 34 }}>
-        Aaradhna
-      </h1>
+      <img
+        src="/aradhana-logo.png"
+        alt="Aaradhna"
+        style={{ display: "block", height: 48, width: "auto", marginBottom: 8 }}
+      />
       <p className="auth__tag" style={{ textAlign: "left" }}>
         Welcome, {user?.name}
       </p>

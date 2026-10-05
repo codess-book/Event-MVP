@@ -11,6 +11,9 @@
       name="description"
       content="Aaradhna garba - register, vote and stay updated."
     />
+    <link rel="canonical" href="https://www.aaradhna.site/" />
+    <meta name="robots" content="index, follow" />
+    <meta name="format-detection" content="telephone=no" />
 
     <!-- Favicon and app icons -->
     <link rel="icon" type="image/png" href="/favicon.png" />
@@ -18,6 +21,14 @@
 
     <!-- Theme -->
     <meta name="theme-color" content="#14070a" />
+    <meta name="color-scheme" content="dark" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #14070a;
+      }
+    </style>
 
     <!-- iOS PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -28,15 +39,36 @@
       content="black-translucent"
     />
 
-    <!-- Share preview (WhatsApp, etc.) -->
+    <!-- Share preview (WhatsApp, Facebook, etc.) -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Aaradhna" />
+    <meta property="og:locale" content="en_IN" />
     <meta property="og:title" content="Aaradhna" />
     <meta
       property="og:description"
       content="Aaradhna garba - register, vote and stay updated."
     />
-    <meta property="og:url" content="https://www.aaradhna.site" />
-    <meta property="og:image" content="https://www.aaradhna.site/og-image.png" />
+    <meta property="og:url" content="https://www.aaradhna.site/" />
+    <meta
+      property="og:image"
+      content="https://www.aaradhna.site/og-image.jpg"
+    />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Aaradhna garba" />
+
+    <!-- Twitter / X card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Aaradhna" />
+    <meta
+      name="twitter:description"
+      content="Aaradhna garba - register, vote and stay updated."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.aaradhna.site/og-image.jpg"
+    />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -47,6 +79,7 @@
     />
   </head>
   <body>
+    <noscript>Please enable JavaScript to use Aaradhna.</noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

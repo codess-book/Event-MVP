@@ -20,9 +20,11 @@ import Prizes from "./pages/Prizes";
 import Members from "./pages/Members";
 import Rules from "./pages/Rules";
 import InstallPage from "./pages/Installpage";
+import GlobalPush from "./components/GlobalPush";
 export default function App() {
   return (
     <BrowserRouter>
+      <GlobalPush />
       <Routes>
         {/* Only for logged-out users */}
         <Route element={<PublicOnlyRoute />}>
@@ -44,7 +46,6 @@ export default function App() {
           <Route path="/prizes" element={<Prizes />} />
           <Route path="/members" element={<Members />} />
           <Route path="/rules" element={<Rules />} />
-          
         </Route>
 
         <Route element={<ProtectedRoute adminOnly />}>

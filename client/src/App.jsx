@@ -29,6 +29,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/install" element={<InstallPage />} />
         </Route>
 
         {/* only for logeed user */}
@@ -43,7 +44,7 @@ export default function App() {
           <Route path="/prizes" element={<Prizes />} />
           <Route path="/members" element={<Members />} />
           <Route path="/rules" element={<Rules />} />
-          <Route path="/install" element={<InstallPage />} />
+          
         </Route>
 
         <Route element={<ProtectedRoute adminOnly />}>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
-import "../install.css";
+import "../Install.css";
 
 const APP_URL = "https://www.aaradhna.site";
 const SHARE_TEXT = "Install the Aaradhna Garba app on your phone:";

@@ -41,6 +41,8 @@ import { removeDeviceToken } from "../lib/push";
 import "../auth.css";
 import "../profile.css";
 import InstallBanner from "../components/InstallBanner";
+import { Share2 } from "lucide-react";
+import ShareAppSheet from "../components/ShareAppSheet";
 
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : "");
 
@@ -233,12 +235,20 @@ export default function Profile() {
           <div className="topbar">
             <button
               className="iconbtn"
+              aria-label="Share app"
+              onClick={() => setPanel("share")}
+            >
+              <Share2 size={20} />
+            </button>
+
+            <button
+              className="iconbtn"
               aria-label="Open menu"
               onClick={() => setPanel("menu")}
             >
               <Menu size={22} />
             </button>
-          
+
             <div className="topbar__right">
               <button
                 className="iconbtn"
@@ -639,7 +649,7 @@ export default function Profile() {
         <div className="pf__spacer" />
         <BottomNav />
       </div>
-
+      {panel === "share" && <ShareAppSheet onClose={close} />}
       {panel === "menu" && (
         <div className="drawer__bg" onClick={close}>
           <aside

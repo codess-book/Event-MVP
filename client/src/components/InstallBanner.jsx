@@ -47,9 +47,9 @@ export default function InstallBanner() {
           How to
         </Link>
       )}
-      <button className="iconbtn" aria-label="Dismiss" onClick={hide}>
+      {/* <button className="iconbtn" aria-label="Dismiss" onClick={hide}>
         <X size={16} />
-      </button>
+      </button> */}
     </div>
   );
 }

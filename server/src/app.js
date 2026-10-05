@@ -21,12 +21,15 @@ const allowedOrigins = [
   "http://localhost:5174",
   "http://localhost:4173",
 
-  "https://event-mvp-three.vercel.app",
+  // Custom domain
+  "https://www.aaradhna.site",
+  "https://aaradhna.site",
 
+  // Old Vercel domains (keep so existing installs keep working)
+  "https://event-mvp-three.vercel.app",
   "https://event-mvp-git-main-luv47863-6344.vercel.app",
   "https://event-oxpnzr3jq-luv47863-6344.vercel.app",
 ];
-
 app.use(
   cors({
     origin: (origin, callback) => {

@@ -41,10 +41,16 @@ export default function ForgotPassword() {
 
   return (
     <main className="auth">
-      <h1 className="auth__brand">Aaradhna</h1>
-      <p className="auth__tag">Navratri Garba</p>
-      <h2 className="auth__title">Forgot password</h2>
+    <div className="auth__brand">
+        <img src="/aradhana-logo.png" alt="Aaradhna" className="auth__logo" />
+        <p className="auth__brand-sub">Couple Garba</p>
+      </div>
 
+      <div className="auth__divider">
+        <span className="auth__divider-line" />
+        <span className="auth__divider-om">ॐ</span>
+        <span className="auth__divider-line" />
+      </div>
       {step === "request" && (
         <form className="auth__form" onSubmit={onRequest}>
           <Field

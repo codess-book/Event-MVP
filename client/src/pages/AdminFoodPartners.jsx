@@ -25,7 +25,7 @@ import { useToast } from "../components/Toast";
 import { useCreateFoodPartner } from "../hooks/food/useFood";
 import "../auth.css";
 import "../profile.css";
-import "../food.css";
+import "../Food.css";
 import "../admin-food-partners.css";
 
 const EMPTY = {

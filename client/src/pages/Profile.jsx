@@ -649,7 +649,7 @@ export default function Profile() {
         <div className="pf__spacer" />
         <BottomNav />
       </div>
-      {panel === "share" && <ShareAppSheet onClose={close} />}
+
       {panel === "menu" && (
         <div className="drawer__bg" onClick={close}>
           <aside
@@ -714,7 +714,7 @@ export default function Profile() {
       {panel === "offer" && isSponsor && (
         <OfferSheet offer={editing} onClose={close} />
       )}
-
+      {panel === "share" && <ShareAppSheet onClose={close} />}
       {panel === "bell" && (
         <Sheet title="Notifications" onClose={close}>
           {notifications.length === 0 ? (

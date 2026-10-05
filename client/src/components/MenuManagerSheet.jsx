@@ -24,7 +24,7 @@ import {
   useUpdateMenuItem,
   useDeleteMenuItem,
 } from "../hooks/food/useFood";
-import "../food.css";
+import "../Food.css";
 import "../menu-manager.css";
 
 const EMPTY = { name: "", price: "", category: "" };
@@ -175,9 +175,7 @@ export default function MenuManagerSheet({ user, onClose }) {
             <UtensilsCrossed size={18} />
           </div>
           <div className="mmx__introText">
-            <p>
-              {editId ? "Editing an item" : "Add items for your stall"}
-            </p>
+            <p>{editId ? "Editing an item" : "Add items for your stall"}</p>
             <span>
               {editId
                 ? "Make your changes and tap Update"
@@ -276,9 +274,7 @@ export default function MenuManagerSheet({ user, onClose }) {
             <h3 className="mmx__listTitle">
               <Sparkles size={13} /> Your items
             </h3>
-            <span
-              className={`mmx__listCount ${nearLimit ? "is-near" : ""}`}
-            >
+            <span className={`mmx__listCount ${nearLimit ? "is-near" : ""}`}>
               {menu.length}/{MAX_ITEMS}
             </span>
           </header>

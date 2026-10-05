@@ -19,7 +19,7 @@ import AdminChallenges from "./pages/AdminChallenges";
 import Prizes from "./pages/Prizes";
 import Members from "./pages/Members";
 import Rules from "./pages/Rules";
-
+import InstallPage from "./pages/Installpage";
 export default function App() {
   return (
     <BrowserRouter>
@@ -42,7 +42,8 @@ export default function App() {
           <Route path="/challenges" element={<Challenges />} />
           <Route path="/prizes" element={<Prizes />} />
           <Route path="/members" element={<Members />} />
-       <Route path="/rules" element={<Rules />} />
+          <Route path="/rules" element={<Rules />} />
+          <Route path="/install" element={<InstallPage />} />
         </Route>
 
         <Route element={<ProtectedRoute adminOnly />}>

@@ -1,0 +1,183 @@
+.inst {
+  --bg: #14070a;
+  --maroon: #6e0f1c;
+  --cream: #fbf1e3;
+  --gold: #d9a441;
+  --muted: #c9b8aa;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  padding: 28px 20px calc(40px + env(safe-area-inset-bottom));
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--bg);
+  color: var(--cream);
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+.inst__logo {
+  display: block;
+  height: 56px;
+  width: auto;
+  margin: 0 auto 18px;
+}
+
+.inst__title {
+  margin: 0 0 6px;
+  text-align: center;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.inst__lead {
+  margin: 0 auto 22px;
+  max-width: 32ch;
+  text-align: center;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.inst__done {
+  padding: 14px;
+  margin: 0 0 24px;
+  text-align: center;
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  color: var(--gold);
+}
+
+.inst__tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+
+.inst__tab {
+  padding: 11px 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.inst__tab.is-on {
+  background: var(--maroon);
+  color: var(--cream);
+}
+
+.inst__note {
+  margin: 0 0 18px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--gold);
+}
+
+/* Illustrated steps */
+.inst__steps {
+  list-style: none;
+  margin: 0 0 36px;
+  padding: 0;
+  display: grid;
+  gap: 26px;
+}
+
+.inst__art {
+  display: grid;
+  place-items: center;
+  padding: 14px 0 8px;
+  margin-bottom: 12px;
+  background: var(--cream);
+  border-radius: 18px;
+}
+
+.inst__art svg {
+  width: 150px;
+  height: auto;
+}
+
+.inst__step h2 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.inst__step p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* QR and share */
+.inst__share {
+  padding: 22px 18px 18px;
+  border: 1px solid rgba(217, 164, 65, 0.55);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.inst__qr {
+  width: min(240px, 70vw);
+  margin: 0 auto 10px;
+  padding: 6px;
+  background: #fff;
+  border-radius: 12px;
+}
+
+.inst__qr canvas {
+  display: block;
+}
+
+.inst__url {
+  margin: 0 0 16px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.inst__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.inst__btn {
+  padding: 13px 10px;
+  border: 1px solid rgba(251, 241, 227, 0.3);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--cream);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.inst__btn--gold {
+  width: 100%;
+  margin-bottom: 18px;
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--bg);
+}
+
+.inst__msg {
+  min-height: 20px;
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--gold);
+}
+
+.inst button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}

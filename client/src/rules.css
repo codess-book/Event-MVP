@@ -1,0 +1,433 @@
+/* ============================================================
+   RULES & REGULATIONS PAGE — Garba theme
+   All classes prefixed with `rlx__`
+   ============================================================ */
+
+:root {
+  --rlx-cream:       #fdf6ec;
+  --rlx-cream-soft:  #f7ecd9;
+  --rlx-cream-deep:  #f0e0c4;
+  --rlx-gold:        #b8860b;
+  --rlx-gold-light:  #d4a24a;
+  --rlx-gold-dark:   #8b6508;
+  --rlx-maroon:      #6b1f1f;
+  --rlx-maroon-deep: #4a1414;
+  --rlx-ink:         #2b1810;
+  --rlx-ink-soft:    #5a4032;
+  --rlx-ink-mute:    #8a7566;
+  --rlx-border:      rgba(107, 31, 31, 0.12);
+  --rlx-border-gold: rgba(184, 134, 11, 0.3);
+  --rlx-shadow-sm:   0 2px 8px rgba(74, 20, 20, 0.06);
+  --rlx-shadow-md:   0 8px 22px rgba(74, 20, 20, 0.1);
+  --rlx-radius:      16px;
+}
+
+.rlx,
+.rlx * { box-sizing: border-box; }
+
+.rlx {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  padding-bottom: 24px;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.rlx__header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px 12px;
+  padding-top: calc(14px + env(safe-area-inset-top, 0px));
+  background: rgba(253, 246, 236, 0.85);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--rlx-border);
+}
+
+.rlx__backBtn {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--rlx-border-gold);
+  color: var(--rlx-maroon);
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: transform 0.14s ease, background 0.18s ease, color 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.rlx__backBtn:active { transform: scale(0.92); }
+.rlx__backBtn:hover {
+  background: var(--rlx-maroon);
+  color: var(--rlx-cream);
+  border-color: var(--rlx-maroon);
+}
+
+.rlx__headerCenter {
+  flex: 1;
+  text-align: center;
+  line-height: 1.15;
+  min-width: 0;
+}
+
+.rlx__headerEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rlx-gold);
+}
+
+.rlx__headerTitle {
+  margin: 3px 0 0;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--rlx-maroon-deep);
+}
+
+/* ============================================================
+   LANGUAGE SWITCH
+   ============================================================ */
+.rlx__langWrap {
+  padding: 16px 16px 0;
+}
+
+.rlx__lang {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 14px;
+  background: rgba(107, 31, 31, 0.06);
+  border: 1px solid var(--rlx-border);
+}
+
+.rlx__langBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  color: var(--rlx-ink-soft);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.14s ease;
+  -webkit-tap-highlight-color: transparent;
+  font-family: inherit;
+}
+.rlx__langBtn:active { transform: scale(0.97); }
+
+.rlx__langBtn.is-active {
+  background: linear-gradient(
+    135deg,
+    var(--rlx-maroon) 0%,
+    var(--rlx-maroon-deep) 100%
+  );
+  color: var(--rlx-cream);
+  box-shadow: 0 6px 16px rgba(74, 20, 20, 0.24);
+}
+
+/* ============================================================
+   SUBTITLE
+   ============================================================ */
+.rlx__sub {
+  margin: 16px 16px 14px;
+  padding: 0 4px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--rlx-ink-mute);
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ============================================================
+   RULES LIST
+   ============================================================ */
+.rlx__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 16px;
+}
+
+/* ---------- rule card ---------- */
+.rlx__rule {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--rlx-radius);
+  background: #fff;
+  border: 1px solid var(--rlx-border);
+  box-shadow: var(--rlx-shadow-sm);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.14s ease;
+}
+.rlx__rule::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--rlx-gold-light), var(--rlx-gold-dark));
+}
+.rlx__rule:hover {
+  box-shadow: var(--rlx-shadow-md);
+  transform: translateY(-1px);
+}
+
+/* ---------- number ---------- */
+.rlx__ruleNum {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 162, 74, 0.18),
+    rgba(184, 134, 11, 0.08)
+  );
+  color: var(--rlx-gold-dark);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid var(--rlx-border-gold);
+}
+
+/* ---------- body ---------- */
+.rlx__ruleBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rlx__ruleHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.rlx__ruleIcon {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: linear-gradient(
+    135deg,
+    var(--rlx-maroon) 0%,
+    var(--rlx-maroon-deep) 100%
+  );
+  color: var(--rlx-cream);
+  box-shadow: 0 2px 8px rgba(74, 20, 20, 0.2);
+}
+
+.rlx__ruleTitle {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--rlx-maroon-deep);
+  line-height: 1.25;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.rlx__ruleDesc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--rlx-ink-soft);
+  word-break: break-word;
+}
+
+/* ============================================================
+   IMPORTANT NOTE
+   ============================================================ */
+.rlx__note {
+  position: relative;
+  margin: 18px 16px;
+  padding: 16px;
+  border-radius: var(--rlx-radius);
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    rgba(184, 134, 11, 0.1) 0%,
+    rgba(107, 31, 31, 0.05) 100%
+  );
+  border: 1px solid var(--rlx-border-gold);
+}
+
+.rlx__noteGlow {
+  position: absolute;
+  top: -60px;
+  right: -50px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: rgba(212, 162, 74, 0.15);
+  filter: blur(35px);
+  pointer-events: none;
+}
+
+.rlx__noteHead {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  color: var(--rlx-gold-dark);
+}
+.rlx__noteHead strong {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.rlx__note p {
+  position: relative;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--rlx-ink-soft);
+  font-weight: 500;
+}
+
+/* ============================================================
+   HELP BLOCK
+   ============================================================ */
+.rlx__help {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 16px;
+  padding: 14px;
+  border-radius: var(--rlx-radius);
+  background: #fff;
+  border: 1px solid var(--rlx-border);
+  box-shadow: var(--rlx-shadow-sm);
+  flex-wrap: wrap;
+}
+
+.rlx__helpIcon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    var(--rlx-maroon) 0%,
+    var(--rlx-maroon-deep) 100%
+  );
+  color: var(--rlx-cream);
+  box-shadow: 0 6px 16px rgba(74, 20, 20, 0.24);
+}
+
+.rlx__helpText {
+  flex: 1;
+  min-width: 0;
+}
+.rlx__helpText h3 {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--rlx-maroon-deep);
+}
+.rlx__helpText p {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  color: var(--rlx-ink-mute);
+  font-weight: 600;
+}
+
+.rlx__helpBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    var(--rlx-gold-light),
+    var(--rlx-gold)
+  );
+  color: var(--rlx-maroon-deep);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  box-shadow: 0 6px 16px rgba(184, 134, 11, 0.32);
+  transition: transform 0.14s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.rlx__helpBtn:active {
+  transform: scale(0.96);
+  box-shadow: 0 4px 12px rgba(184, 134, 11, 0.24);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (min-width: 640px) {
+  .rlx__header,
+  .rlx__langWrap,
+  .rlx__sub,
+  .rlx__list,
+  .rlx__note,
+  .rlx__help {
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ============================================================
+   HINDI FONT SUPPORT
+   ============================================================ */
+.rlx__ruleTitle,
+.rlx__ruleDesc,
+.rlx__sub,
+.rlx__note p,
+.rlx__helpText h3,
+.rlx__helpText p {
+  font-feature-settings: "kern" 1;
+}
+
+/* Devanagari specific — better line height for Hindi */
+.rlx__langBtn[aria-selected="true"] ~ .rlx__list,
+:lang(hi) .rlx__ruleDesc {
+  line-height: 1.7;
+}

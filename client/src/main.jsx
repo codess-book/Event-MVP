@@ -1,3 +1,4 @@
+import "./hooks/pwa/useInstall";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { SWRConfig } from "swr";

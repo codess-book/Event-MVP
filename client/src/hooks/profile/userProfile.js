@@ -46,3 +46,13 @@ async function uploadPhoto(_key, { arg: file }) {
 
 export const useUploadPhoto = () =>
   useSWRMutation("/profile/photo", uploadPhoto, { onSuccess: syncUser });
+
+
+export function useRemovePhoto() {
+  return useSWRMutation("/api/v1/profile/photo", (url) =>
+    fetch(url, { method: "DELETE", credentials: "include" }).then((r) => {
+      if (!r.ok) throw new Error("Could not remove photo");
+      return r.json();
+    })
+  );
+}

@@ -49,7 +49,7 @@ export default function App() {
         </Route>
 
         <Route element={<ProtectedRoute adminOnly />}>
-          <Route path="/admin" element={<AdminDashboard />} />
+          {/* <Route path="/admin" element={<AdminDashboard />} /> */}
           <Route
             path="/admin/users"
             element={<AdminUsers title="All users" />}

@@ -16,7 +16,11 @@ import {
 import Sheet from "./Sheet";
 import Avatar from "./Avatar";
 import IconField from "./IconField";
-import { useUploadPhoto, useUpdateProfile } from "../hooks/profile/userProfile";
+import {
+  useUploadPhoto,
+  useUpdateProfile,
+  useRemovePhoto,
+} from "../hooks/profile/userProfile";
 import { FaInstagram, FaFacebook, FaYoutube } from "react-icons/fa";
 import "./edit.css";
 /* ------------------------------- constants ------------------------------- */
@@ -49,6 +53,8 @@ export default function EditProfileSheet({ user, onClose }) {
   const fileRef = useRef(null);
   const save = useUpdateProfile();
   const upload = useUploadPhoto();
+  const remove = useRemovePhoto();
+
   const busy = save.isMutating || upload.isMutating;
   const error = upload.error || save.error;
 
@@ -75,7 +81,7 @@ export default function EditProfileSheet({ user, onClose }) {
   /* ------------------------------ derived state ---------------------------- */
   const errors = useMemo(
     () => validate({ name, isSponsor, businessName, mapLink, links }),
-    [name, isSponsor, businessName, mapLink, links]
+    [name, isSponsor, businessName, mapLink, links],
   );
   const hasErrors = Object.keys(errors).length > 0;
 
@@ -83,7 +89,16 @@ export default function EditProfileSheet({ user, onClose }) {
     save.reset?.();
     upload.reset?.();
   }, [save, upload]);
-
+  const onRemove = async () => {
+    clearErrors();
+    try {
+      await save.trigger({ photoUrl: null });
+      setPreview(null);
+      setToast({ type: "success", message: "Photo removed" });
+    } catch (err) {
+      setToast({ type: "error", message: err?.message || "Could not remove" });
+    }
+  };
   /* ----------------------------- side effects ------------------------------ */
   // Esc to close
   const handleClose = useCallback(() => {
@@ -143,17 +158,6 @@ export default function EditProfileSheet({ user, onClose }) {
     }
   };
 
-  const onRemove = async () => {
-    clearErrors();
-    setPreview(null);
-    try {
-      await upload.trigger(null);
-      setToast({ type: "success", message: "Photo removed" });
-    } catch (err) {
-      setToast({ type: "error", message: err?.message || "Could not remove" });
-    }
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
     if (busy) return;
@@ -200,7 +204,11 @@ export default function EditProfileSheet({ user, onClose }) {
     <Sheet title="Edit profile" onClose={handleClose}>
       {toast && (
         <div className={`eps__toast eps__toast--${toast.type}`} role="status">
-          {toast.type === "success" ? <Check size={16} /> : <AlertCircle size={16} />}
+          {toast.type === "success" ? (
+            <Check size={16} />
+          ) : (
+            <AlertCircle size={16} />
+          )}
           <span>{toast.message}</span>
         </div>
       )}
@@ -268,7 +276,10 @@ export default function EditProfileSheet({ user, onClose }) {
           id="e-name"
           label="Full Name"
           value={name}
-          onChange={(e) => { clearErrors(); setName(e.target.value); }}
+          onChange={(e) => {
+            clearErrors();
+            setName(e.target.value);
+          }}
           onBlur={() => setTouched((t) => ({ ...t, name: true }))}
           error={touched.name && errors.name}
           maxLength={60}
@@ -284,7 +295,10 @@ export default function EditProfileSheet({ user, onClose }) {
               id="e-biz"
               label="Shop / Business Name"
               value={businessName}
-              onChange={(e) => { clearErrors(); setBusinessName(e.target.value); }}
+              onChange={(e) => {
+                clearErrors();
+                setBusinessName(e.target.value);
+              }}
               onBlur={() => setTouched((t) => ({ ...t, businessName: true }))}
               error={touched.businessName && errors.businessName}
               maxLength={80}
@@ -299,7 +313,10 @@ export default function EditProfileSheet({ user, onClose }) {
               placeholder="Shop no, area, city"
               maxLength={200}
               value={address}
-              onChange={(e) => { clearErrors(); setAddress(e.target.value); }}
+              onChange={(e) => {
+                clearErrors();
+                setAddress(e.target.value);
+              }}
               autoComplete="street-address"
               disabled={busy}
             />
@@ -310,7 +327,10 @@ export default function EditProfileSheet({ user, onClose }) {
               placeholder="https://maps.app.goo.gl/..."
               maxLength={300}
               value={mapLink}
-              onChange={(e) => { clearErrors(); setMapLink(e.target.value); }}
+              onChange={(e) => {
+                clearErrors();
+                setMapLink(e.target.value);
+              }}
               onBlur={() => setTouched((t) => ({ ...t, mapLink: true }))}
               error={touched.mapLink && errors.mapLink}
               inputMode="url"

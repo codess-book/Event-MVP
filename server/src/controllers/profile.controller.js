@@ -122,7 +122,7 @@ console.log("2 PARSED:", data.links);
       //   if (data.offer === null) $unset.offer = 1;
       if (data.address !== undefined) $set.address = data.address;
       if (data.mapLink !== undefined) $set.mapLink = data.mapLink;
-      if (data.mapLink !== undefined) $set.mapLink = data.mapLink;
+      // if (data.mapLink !== undefined) $set.mapLink = data.mapLink;
 
       // Save each link on its own, so sending one field never wipes the others
       if (data.links) {

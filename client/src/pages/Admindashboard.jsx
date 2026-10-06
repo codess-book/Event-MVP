@@ -11,7 +11,7 @@ export default function AdminDashboard() {
     { to: "/admin/users", label: "All users", n: stats?.total },
     {
       to: "/admin/players",
-      label: "Players",
+      label: "Players.",
       n: t?.player.total,
       pending: t?.player.pending,
     },

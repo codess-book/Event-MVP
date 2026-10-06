@@ -269,7 +269,14 @@ export default function Profile() {
 
   return (
     <div className="pf">
-      <Ticker items={["🙏 जय माता दी", "Aaradhna Couple Garba 2026"]} />
+      <Ticker
+        items={[
+          "🙏 जय माता दी",
+          "Aaradhna Couple Garba 2026",
+          "✨ Proudly Presenting Our Title Sponsor 👑 — Shree Shubham Electronic & Furniture",
+        ]}
+        speed={38}
+      />
       <div className="pf__wrap">
         <header className="pf__hero">
           <div className="topbar">

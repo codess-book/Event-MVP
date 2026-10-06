@@ -583,7 +583,7 @@ export default function Profile() {
           </div>
         )}
 
-           <SponsorBanner />  
+        <SponsorBanner />
 
         <Link
           to="/event"

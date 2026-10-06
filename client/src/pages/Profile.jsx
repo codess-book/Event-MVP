@@ -53,6 +53,7 @@ import Ticker from "../components/Ticker";
 import { UtensilsCrossed, Star } from "lucide-react";
 import MenuManagerSheet from "../components/MenuManagerSheet";
 import { useUpdateProfile } from "../hooks/profile/userProfile";
+import ProfileCard from "./profileCard";
 
 function SponsorBanner() {
   return (
@@ -346,7 +347,7 @@ export default function Profile() {
           {/* <HeroBanner sponsor={{ name: "Shree Jewellers", logoUrl: "https://...logo.png" }} /> */}
         </header>
 
-        <section className="pf__card">
+        {/* <section className="pf__card">
           <div className="pf__avatarWrap">
             <Avatar user={user} />
             <button
@@ -384,7 +385,8 @@ export default function Profile() {
               </span>
             )}
           </div>
-        </section>
+        </section> */}
+             <ProfileCard user={user} onEdit={() => setPanel("edit")} stats={isAdmin ? stats : undefined} />
         {winners[0] && (
           <div
             style={{

@@ -1,0 +1,217 @@
+/* Optional: index.html <head> mein ye font add karo (nahi karoge to serif fallback chalega)
+   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet"> */
+
+.pc {
+  --maroon: #6b0f1a;
+  --maroon-2: #8a1626;
+  --gold: #d9a441;
+  --gold-soft: #f2c46d;
+  --cream: #fbf3e4;
+  position: relative;
+  margin-top: 84px;
+  padding: 0 16px 20px;
+  text-align: center;
+  border-radius: 28px;
+  background:
+    radial-gradient(120% 60% at 50% 0%, #fffaf0 0%, var(--cream) 60%, #f6e8cf 100%);
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 0 4px rgba(107, 15, 26, 0.08), 0 14px 34px rgba(60, 10, 16, 0.28);
+  color: var(--maroon);
+}
+
+/* decorative art: clip yahin hota hai, card par nahi, taaki avatar ring bahar nikal sake */
+.pc__art { position: absolute; inset: 0; overflow: hidden; border-radius: 26px; pointer-events: none; }
+
+.pc__mandala {
+  position: absolute;
+  inset: 40% auto auto 50%;
+  width: 340px;
+  transform: translate(-50%, -30%);
+  color: var(--gold);
+  opacity: 0.16;
+  pointer-events: none;
+}
+.pc__stick {
+  position: absolute;
+  top: 6px;
+  left: 4px;
+  width: 92px;
+  opacity: 0.95;
+  pointer-events: none;
+}
+.pc__stick.is-flip { left: auto; right: 4px; transform: scaleX(-1); }
+
+/* avatar ring */
+.pc__ring {
+  position: relative;
+  z-index: 1;
+  width: 132px;
+  height: 132px;
+  margin: -66px auto 0;
+  padding: 6px;
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(#f4ead2 0 12deg, #c9a45a 12deg 24deg);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+.pc__avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #1a0508;
+  background: #000;
+}
+.pc__avatar > * { width: 100% !important; height: 100% !important; border-radius: 50%; object-fit: cover; }
+
+.pc__bell {
+  position: absolute;
+  width: 20px;
+  transform-origin: 50% 0;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+  animation: pcSwing 3.2s ease-in-out infinite;
+}
+.pc__bell:nth-of-type(even) { animation-delay: 0.6s; }
+@keyframes pcSwing { 50% { rotate: 7deg; } }
+
+.pc__edit {
+  position: absolute;
+  right: -2px;
+  top: 8px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: var(--maroon);
+  color: var(--gold-soft);
+  cursor: pointer;
+}
+.pc__edit:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+/* text */
+.pc__name {
+  position: relative;
+  z-index: 1;
+  margin: 22px 0 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--maroon);
+}
+.pc__owner { position: relative; margin: 4px 0 0; font-size: 14px; opacity: 0.75; }
+
+.pc__badge {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin-top: 14px;
+  padding: 7px 26px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--maroon);
+  background: linear-gradient(#fbe3a4, #e6b653);
+  border: 2px solid #b98529;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 3px 8px rgba(120, 80, 10, 0.25);
+}
+
+/* phone + peacocks */
+.pc__phoneRow {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  margin-top: 14px;
+}
+.pc__peacock { width: 52px; flex-shrink: 0; }
+.pc__peacock.is-flip { transform: scaleX(-1); }
+.pc__phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 20px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #4a1017;
+  background: #fffaf0;
+  border: 1px solid #ead7b0;
+  box-shadow: 0 2px 6px rgba(80, 40, 10, 0.12);
+}
+
+.pc__chips {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.pc__chips span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  background: rgba(107, 15, 26, 0.07);
+}
+
+/* admin stats */
+.pc__stats {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 18px;
+}
+.pc__stat {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--maroon);
+  background: linear-gradient(#fffaf0, #fbefd6);
+  border: 2.5px solid var(--maroon);
+  box-shadow: 0 0 0 2px var(--gold) inset, 0 4px 10px rgba(60, 10, 16, 0.18);
+  font-size: 15px;
+  font-weight: 600;
+}
+.pc__stat:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.pc__ico { width: 30px; height: 30px; flex-shrink: 0; }
+.pc__ico--wide { width: 38px; }
+.pc__statNum { font-size: 17px; }
+.pc__statNote {
+  position: absolute;
+  top: -9px;
+  right: 14px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  color: #fff;
+  background: var(--maroon-2);
+}
+
+@media (max-width: 360px) {
+  .pc__stick { width: 70px; }
+  .pc__name { font-size: 29px; }
+  .pc__peacock { width: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pc__bell { animation: none; }
+}

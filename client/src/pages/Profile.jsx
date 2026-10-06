@@ -561,27 +561,26 @@ export default function Profile() {
           </div>
         )}
 
-        {isAdmin && stats && (
-          <div
-            className="chips2"
-            style={{ justifyContent: "center", margin: "12px 0" }}
-          >
-            <Link to="/admin/users" className="chip2">
-              Users {stats.total}
-            </Link>
-            <Link to="/admin/players" className="chip2">
-              Players {stats.byType.player.total}
-            </Link>
-            <Link to="/admin/members" className="chip2">
-              Members {stats.byType.member.total}
-            </Link>
-            <Link to="/admin/sponsors" className="chip2">
-              Sponsors {stats.byType.sponsor.total}
-              {stats.byType.sponsor.pending > 0 &&
-                ` · ${stats.byType.sponsor.pending} pending`}
-            </Link>
-          </div>
-        )}
+    {isAdmin && stats && (
+  <div className="admin-stats-row">
+    <Link to="/admin/users" className="admin-stat">
+      <span className="admin-stat__num">{stats.total}</span>
+      <span className="admin-stat__label">Users</span>
+    </Link>
+    <Link to="/admin/players" className="admin-stat">
+      <span className="admin-stat__num">{stats.byType.player.total}</span>
+      <span className="admin-stat__label">Players</span>
+    </Link>
+    <Link to="/admin/members" className="admin-stat">
+      <span className="admin-stat__num">{stats.byType.member.total}</span>
+      <span className="admin-stat__label">Members</span>
+    </Link>
+    <Link to="/admin/sponsors" className="admin-stat admin-stat--gold">
+      <span className="admin-stat__num">{stats.byType.sponsor.total}</span>
+      <span className="admin-stat__label">Sponsors</span>
+    </Link>
+  </div>
+)}
 
         <SponsorBanner />
 

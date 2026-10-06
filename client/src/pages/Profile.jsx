@@ -582,7 +582,9 @@ export default function Profile() {
             </Link>
           </div>
         )}
-<Link to="/event"
+
+           <SponsorBanner />  
+
         <Link
           to="/event"
           style={{

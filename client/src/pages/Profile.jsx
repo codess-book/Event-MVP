@@ -271,9 +271,9 @@ export default function Profile() {
     <div className="pf">
       <Ticker
         items={[
-          "🙏 जय माता दी",
+          "🙏जय माता दी",
           "Aaradhna Couple Garba 2026",
-          "✨ Proudly Presenting Our Title Sponsor 👑 — Shree Shubham Electronic & Furniture",
+          "✨Proudly Presenting Our Title Sponsor 👑Shree Shubham Electronic & Furniture",
         ]}
         speed={38}
       />

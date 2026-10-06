@@ -562,65 +562,90 @@ export default function Profile() {
         )}
 
         {isAdmin && stats && (
-          <div className="admin-stats-row">
-            <Link to="/admin/users" className="admin-stat">
-              <span className="admin-stat__num">{stats.total}</span>
-              <span className="admin-stat__label">Users</span>
+          <div
+            className="chips2"
+            style={{ justifyContent: "center", margin: "12px 0" }}
+          >
+            <Link to="/admin/users" className="chip2">
+              Users {stats.total}
             </Link>
-            <Link to="/admin/players" className="admin-stat">
-              <span className="admin-stat__num">
-                {stats.byType.player.total}
-              </span>
-              <span className="admin-stat__label">Players</span>
+            <Link to="/admin/players" className="chip2">
+              Players {stats.byType.player.total}
             </Link>
-            <Link to="/admin/members" className="admin-stat">
-              <span className="admin-stat__num">
-                {stats.byType.member.total}
-              </span>
-              <span className="admin-stat__label">Members</span>
+            <Link to="/admin/members" className="chip2">
+              Members {stats.byType.member.total}
             </Link>
-            <Link to="/admin/sponsors" className="admin-stat admin-stat--gold">
-              <span className="admin-stat__num">
-                {stats.byType.sponsor.total}
-              </span>
-              <span className="admin-stat__label">Sponsors</span>
+            <Link to="/admin/sponsors" className="chip2">
+              Sponsors {stats.byType.sponsor.total}
+              {stats.byType.sponsor.pending > 0 &&
+                ` · ${stats.byType.sponsor.pending} pending`}
             </Link>
           </div>
         )}
 
-        <SponsorBanner />
+           <SponsorBanner />  
 
-        <Link to="/event" className="today-card">
-          {/* Decorative glow */}
-          <span className="today-card__glow" aria-hidden="true" />
-
-          <div className="today-card__head">
-            <span className="today-card__headIcon">
-              <CalendarDays size={14} />
-            </span>
-            <span>TODAY AT AARADHNA</span>
+        <Link
+          to="/event"
+          style={{
+            display: "block",
+            margin: "14px 0",
+            padding: "14px 16px",
+            borderRadius: 16,
+            textDecoration: "none",
+            color: "#fff",
+            background: "linear-gradient(135deg,#6b0f1a,#8a1626)",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              color: "#f2c46d",
+              fontSize: 12,
+              fontWeight: 700,
+              letterSpacing: 1,
+            }}
+          >
+            <CalendarDays size={16} /> TODAY AT AARADHNA
           </div>
 
           {bannerRows.length ? (
-            <div className="today-card__body">
-              {bannerRows.map(([label, value]) => (
-                <div key={label} className="today-row">
-                  <span className="today-row__label">{label}</span>
-                  <span className="today-row__value">{value}</span>
-                </div>
-              ))}
-            </div>
+            bannerRows.map(([label, value]) => (
+              <div
+                key={label}
+                style={{
+                  display: "flex",
+                  gap: 10,
+                  marginTop: 8,
+                  alignItems: "baseline",
+                }}
+              >
+                <span
+                  style={{
+                    minWidth: 104,
+                    fontSize: 12,
+                    color: "#f2c46d",
+                    fontWeight: 700,
+                  }}
+                >
+                  {label}
+                </span>
+                <span style={{ fontWeight: 600 }}>{value}</span>
+              </div>
+            ))
           ) : (
-            <div className="today-card__empty">
+            <div style={{ marginTop: 8, fontWeight: 600 }}>
               Nothing posted for today yet
             </div>
           )}
 
-          <div className="today-card__cta">
-            Tap to see full event
-            <span className="today-card__ctaArrow">→</span>
+          <div style={{ marginTop: 10, fontSize: 13, opacity: 0.85 }}>
+            Tap to see full event →
           </div>
         </Link>
+
         {!user.isApproved && (
           <div className="pf__notice">
             Your {user.userType} account is waiting for admin approval. You will

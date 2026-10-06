@@ -53,7 +53,7 @@ import Ticker from "../components/Ticker";
 import { UtensilsCrossed, Star } from "lucide-react";
 import MenuManagerSheet from "../components/MenuManagerSheet";
 import { useUpdateProfile } from "../hooks/profile/userProfile";
-import ProfileCard from "./profileCard";
+import ProfileCard from "./Profilecard";
 
 function SponsorBanner() {
   return (

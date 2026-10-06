@@ -232,38 +232,27 @@
     transparent
   );
 }
-
 .pf__avatarWrap {
   position: relative;
-  width: 72px; /* pehle 96px tha — 24px kam */
-  height: 72px;
-  margin: -40px auto 8px; /* pehle -56px auto 12px */
+  width: 72px !important;
+  height: 72px !important;
+  margin: -40px auto 8px !important;
 }
 
-.pf__avatar {
-  width: 104px;
-  height: 104px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg, #b8932a 0%, #f0d77a 50%, #b8932a 100%);
-  border: 4px solid #fffdf8;
+.pf__avatarWrap .avatar,
+.pf__avatarWrap > img,
+.pf__avatarWrap > div:first-child,
+.pf__avatarWrap > * {
+  width: 72px !important;
+  height: 72px !important;
+  border-radius: 50% !important;
+  border: 3px solid #fff !important;
   box-shadow:
-    0 0 0 1px rgba(212, 175, 55, 0.4),
-    0 12px 28px -8px rgba(90, 10, 22, 0.35);
-  color: #4a1a06;
-  font-family: var(--font-display, "Cormorant Garamond", Georgia, serif);
-  font-size: 46px;
-  font-weight: 700;
-  overflow: hidden;
-  position: relative;
-}
-.pf__avatar img,
-.drawer__avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+    0 0 0 2px #c89235,
+    0 6px 18px rgba(42, 10, 16, 0.22) !important;
+  object-fit: cover !important;
+  background: #6b0f1a !important;
+  display: block !important;
 }
 .pf__edit {
   position: absolute;
@@ -1822,7 +1811,9 @@ a.nitem .nitem__d {
   background: rgba(107, 15, 26, 0.1);
 }
 
-.admin-stat:hover { background: #f7efe2; }
+.admin-stat:hover {
+  background: #f7efe2;
+}
 
 .admin-stat__num {
   font-size: 16px;
@@ -1844,5 +1835,9 @@ a.nitem .nitem__d {
   border: 1px solid rgba(200, 146, 53, 0.5);
 }
 
-.admin-stat--gold .admin-stat__num { color: #4a0a12; }
-.admin-stat--gold .admin-stat__label { color: #6b0f1a; }
+.admin-stat--gold .admin-stat__num {
+  color: #4a0a12;
+}
+.admin-stat--gold .admin-stat__label {
+  color: #6b0f1a;
+}

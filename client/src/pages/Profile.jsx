@@ -169,6 +169,12 @@ export default function Profile() {
       sub: "Upload today's photo",
       to: "/challenges",
     },
+    {
+      icon: Megaphone,
+      title: "Offers",
+      sub: "Deals from our sponsors",
+      to: "/offers",
+    },
     { icon: Gift, title: "Prizes", sub: "See what you can win", to: "/prizes" },
     {
       icon: UtensilsCrossed,

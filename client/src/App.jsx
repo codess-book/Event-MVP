@@ -51,6 +51,7 @@ export default function App() {
           <Route path="/members" element={<Members />} />
           <Route path="/rules" element={<Rules />} />
            <Route path="/food" element={<Food />} />
+           <Route path="/offers" element={<Offers />} />
         </Route>
 
         <Route element={<ProtectedRoute adminOnly />}>

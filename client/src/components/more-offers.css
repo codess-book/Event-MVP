@@ -1,0 +1,251 @@
+/* ============================================================
+   "Offers from our sponsors" strip on the profile page.
+   All classes use the mof- prefix so nothing is overwritten.
+   ============================================================ */
+.mof {
+  --mof-maroon: #6b0f1a;
+  --mof-maroon-2: #8a1626;
+  --mof-gold: #c89235;
+  --mof-paper: #fffaf0;
+  --mof-ink: #2a0a10;
+  --mof-muted: rgba(42, 10, 16, 0.6);
+  --mof-line: rgba(107, 15, 26, 0.13);
+
+  box-sizing: border-box;
+  margin: 16px 0;
+  color: var(--mof-ink);
+}
+.mof *,
+.mof *::before,
+.mof *::after { box-sizing: border-box; }
+
+/* ---------- Header ---------- */
+.mof-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding: 0 2px;
+}
+.mof-title {
+  position: relative;
+  margin: 0;
+  padding-left: 11px;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.1px;
+}
+.mof-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  bottom: 2px;
+  width: 4px;
+  border-radius: 4px;
+  background: linear-gradient(var(--mof-gold), var(--mof-maroon));
+}
+.mof-sub {
+  margin: 3px 0 0 11px;
+  font-size: 12px;
+  color: var(--mof-muted);
+}
+.mof-all {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 4px 0 10px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--mof-maroon);
+  background: rgba(200, 146, 53, 0.16);
+}
+.mof-all:active { opacity: 0.8; }
+.mof-all:focus-visible,
+.mof-card:focus-visible,
+.mof-more:focus-visible {
+  outline: 2px solid var(--mof-gold);
+  outline-offset: 2px;
+}
+
+/* ---------- Scroll row ---------- */
+.mof-row {
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  padding: 2px 2px 10px;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 2px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+.mof-row::-webkit-scrollbar { display: none; }
+.mof-item {
+  flex: 0 0 min(76%, 270px);
+  scroll-snap-align: start;
+  display: flex;
+}
+.mof-row.is-single .mof-item { flex: 1 1 100%; }
+.mof-item--end { flex: 0 0 112px; }
+
+/* ---------- Card ---------- */
+.mof-card {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  overflow: hidden;
+  border-radius: 16px;
+  text-decoration: none;
+  color: inherit;
+  background: var(--mof-paper);
+  border: 1px solid var(--mof-line);
+  box-shadow: 0 6px 16px rgba(107, 15, 26, 0.07);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+/* Gold hairline across the top */
+.mof-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--mof-maroon), var(--mof-gold));
+}
+.mof-card:active { transform: scale(0.985); }
+
+.mof-top { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.mof-logo {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #fff;
+  border: 1px solid var(--mof-line);
+}
+.mof-logo--ph {
+  display: inline-grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #f8d98b;
+  background: var(--mof-maroon);
+  border: 0;
+}
+.mof-sp { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.mof-spName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 800;
+}
+.mof-spCat {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  color: var(--mof-muted);
+}
+
+.mof-offerTitle {
+  margin: 0;
+  min-height: 2.6em; /* keeps all cards the same height */
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- Footer ---------- */
+.mof-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px dashed var(--mof-line);
+}
+.mof-meta { min-width: 0; display: flex; flex-wrap: wrap; gap: 5px; }
+.mof-tag,
+.mof-valid {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.mof-tag { color: #f8d98b; background: var(--mof-maroon); }
+.mof-valid { color: var(--mof-muted); background: rgba(107, 15, 26, 0.07); }
+.mof-valid.is-urgent { color: #9a1b1b; background: rgba(200, 40, 40, 0.12); }
+.mof-go {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #f8d98b;
+  background: linear-gradient(135deg, var(--mof-maroon), var(--mof-maroon-2));
+}
+
+/* ---------- "See all" end tile ---------- */
+.mof-more {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 16px;
+  font-size: 12.5px;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+  color: var(--mof-maroon);
+  background: rgba(200, 146, 53, 0.12);
+  border: 1.5px dashed rgba(200, 146, 53, 0.7);
+}
+.mof-more__ic {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #f8d98b;
+  background: var(--mof-maroon);
+}
+
+/* ---------- Larger phones / tablets ---------- */
+@media (min-width: 520px) {
+  .mof-item { flex-basis: 250px; }
+}
+@media (max-width: 360px) {
+  .mof-item { flex-basis: 82%; }
+  .mof-title { font-size: 15px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mof-card { transition: none; }
+}

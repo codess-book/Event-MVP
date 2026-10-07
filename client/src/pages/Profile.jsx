@@ -22,6 +22,7 @@ import {
   Users,
   Gift,
   Loader2,
+  Offers ,
   Eye,
   EyeOff,
   // Star,
@@ -57,7 +58,7 @@ import { useOffers } from "../hooks/offers/useOffers";
 import TitleSponsorBanner from "../components/TitleSponsorBanner";
 import MoreOffers from "../components/MoreOffers";
 import OffersBanner from "../components/OffersBanner";
-
+import Offers from "./Offers";
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : "");
 
 const TYPE_LABEL = { foodPartner: "Food Partner" };

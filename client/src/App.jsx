@@ -23,6 +23,8 @@ import InstallPage from "./pages/Installpage";
 import GlobalPush from "./components/GlobalPush";
 import AdminFoodPartners from "./pages/AdminFoodPartners";
 import Food from "./pages/Food";
+import Offers from "./pages/Offers";
+
 
 export default function App() {
   return (
@@ -35,7 +37,6 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/install" element={<InstallPage />} />
-         
         </Route>
 
         {/* only for logeed user */}
@@ -50,8 +51,8 @@ export default function App() {
           <Route path="/prizes" element={<Prizes />} />
           <Route path="/members" element={<Members />} />
           <Route path="/rules" element={<Rules />} />
-           <Route path="/food" element={<Food />} />
-           <Route path="/offers" element={<Offers />} />
+          <Route path="/food" element={<Food />} />
+          <Route path="/offers" element={<Offers />} />
         </Route>
 
         <Route element={<ProtectedRoute adminOnly />}>

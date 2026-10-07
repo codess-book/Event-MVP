@@ -4,7 +4,7 @@ import { ArrowLeft, CalendarDays, Tag, Gift, Store } from "lucide-react";
 import { useOffers, markOffersSeen } from "../hooks/offers/useOffers";
 import BottomNav from "../components/BottomNav";
 import "../auth.css";
-import "../profile.css";
+// import "../profile.css";
 import "../offers.css";
 
 const fmt = (d) =>

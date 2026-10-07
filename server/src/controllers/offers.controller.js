@@ -5,7 +5,7 @@ import { publicUser } from "../utils/publicUser.js";
 import { notify } from "../utils/notify.js";
 const MAX_OFFERS = 5;
 
-const PUSH_COOLDOWN_MS = 10 * 60 * 1000;  //10 min
+const PUSH_COOLDOWN_MS = 10 * 60 * 1000; //10 min
 // const PUSH_COOLDOWN_MS = 10 * 1000  //10sec  for testing
 
 // Loads the logged-in sponsor, or sends the error response and returns null
@@ -115,3 +115,52 @@ async function announceOffer(user, offerTitle) {
     createdBy: user._id,
   });
 }
+
+const VISIBLE = { userType: "sponsor", isApproved: true };
+
+// Start of today in IST, so an offer valid "till today" is still shown all day
+const startOfTodayIST = () => {
+  const d = new Date(Date.now() + 5.5 * 3600 * 1000);
+  d.setUTCHours(0, 0, 0, 0);
+  return new Date(d.getTime() - 5.5 * 3600 * 1000);
+};
+
+export const listOffers = async (req, res, next) => {
+  try {
+    const sponsors = await User.find(VISIBLE)
+      .select("businessName name photoUrl sponsorCategory offers")
+      .limit(200)
+      .lean();
+
+    const cutoff = startOfTodayIST();
+    const offers = [];
+
+    for (const s of sponsors) {
+      for (const o of s.offers || []) {
+        // Skip expired offers
+        if (o.validTill && new Date(o.validTill) < cutoff) continue;
+        offers.push({
+          id: String(o._id),
+          title: o.title,
+          description: o.description || "",
+          tag: o.tag || o.discount || "",
+          validTill: o.validTill || null,
+          imageUrl: o.imageUrl || o.photoUrl || "",
+          createdAt: o.createdAt || o._id.getTimestamp(), // ObjectId fallback
+          sponsor: {
+            id: String(s._id),
+            name: s.businessName || s.name,
+            photoUrl: s.photoUrl || "",
+            category: s.sponsorCategory || "",
+          },
+        });
+      }
+    }
+
+    offers.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    res.set("Cache-Control", "private, max-age=30");
+    res.json({ offers });
+  } catch (err) {
+    next(err);
+  }
+};

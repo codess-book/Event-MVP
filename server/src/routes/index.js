@@ -12,7 +12,7 @@ import prizeRoutes from "./prizes.routes.js";
 import membersRoutes from "./members.routes.js";
 import foodRoutes from "./food.routes.js";
 import adminFoodRoutes from "./adminFood.routes.js";
-
+import offerroutes from "./offers.routes.js";
 const router = Router();
 
 router.use("/auth", authLimiter, authRoutes);
@@ -31,4 +31,5 @@ router.use("/members", membersRoutes);
 
 router.use("/food-stalls", foodRoutes);
 router.use("/admin/food-partners", adminFoodRoutes);
+router.use("/offers",offerroutes);
 export default router;

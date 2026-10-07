@@ -53,36 +53,11 @@ import Ticker from "../components/Ticker";
 import { UtensilsCrossed, Star } from "lucide-react";
 import MenuManagerSheet from "../components/MenuManagerSheet";
 import { useUpdateProfile } from "../hooks/profile/userProfile";
+import { useOffers } from "../hooks/offers/useOffers";
+import TitleSponsorBanner from "../components/TitleSponsorBanner";
+import MoreOffers from "../components/MoreOffers";
+import OffersBanner from "../components/OffersBanner";
 
-
-function SponsorBanner() {
-  return (
-    <div className="sponsor-banner">
-      <div className="sponsor-banner__text">
-        <div className="sponsor-banner__label">Our Title Sponsor</div>
-        <div className="sponsor-banner__name">Shree Shubham</div>
-        <div className="sponsor-banner__sub">Electronic and Furniture</div>
-        <div className="sponsor-banner__tagline">
-          Your Home · Our Commitment
-        </div>
-      </div>
-
-      <div className="sponsor-banner__divider" />
-
-      <div className="sponsor-banner__logo">
-        <img
-          src="/sponsors/shubham-logo.png"
-          alt="Shree Shubham"
-          onError={(e) => {
-            e.currentTarget.style.display = "none";
-            e.currentTarget.parentElement.innerHTML =
-              '<span style="font-weight:800;color:#6b0f1a;font-size:16px;">SS</span>';
-          }}
-        />
-      </div>
-    </div>
-  );
-}
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : "");
 
 const TYPE_LABEL = { foodPartner: "Food Partner" };
@@ -107,6 +82,8 @@ export default function Profile() {
   const close = () => setPanel(null);
   useForegroundPush();
   const save = useUpdateProfile();
+
+  const { offers: allOffers, newCount } = useOffers();
   if (!user) return null;
 
   const isSponsor = user.userType === "sponsor";
@@ -583,8 +560,9 @@ export default function Profile() {
             </Link>
           </div>
         )}
-
-           <SponsorBanner />  
+        <OffersBanner count={newCount} total={allOffers.length} />
+        <TitleSponsorBanner />
+        <MoreOffers offers={allOffers} />
 
         <Link
           to="/event"

@@ -2,8 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
   ArrowLeft,
-  ArrowRight,
-  CalendarDays,
   Gift,
   RefreshCw,
   Store,
@@ -14,29 +12,6 @@ import { useOffers, markOffersSeen } from "../hooks/offers/useOffers";
 import BottomNav from "../components/BottomNav";
 import OfferCard from "../components/OfferCard";
 import "../offers.css";
-
-const TZ = "Asia/Kolkata";
-const istDay = (d) => new Date(d).toLocaleDateString("en-CA", { timeZone: TZ });
-
-const fmtDate = (d) =>
-  new Date(d).toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "short",
-    timeZone: TZ,
-  });
-
-// Returns { text, urgent } for the validity pill
-function validity(validTill) {
-  if (!validTill) return null;
-  const left = Math.round(
-    (Date.parse(istDay(validTill)) - Date.parse(istDay(Date.now()))) / 864e5,
-  );
-  if (left < 0) return null;
-  if (left === 0) return { text: "Ends today", urgent: true };
-  if (left <= 3)
-    return { text: `${left} day${left > 1 ? "s" : ""} left`, urgent: true };
-  return { text: `Valid till ${fmtDate(validTill)}`, urgent: false };
-}
 
 function Logo({ src, name, className }) {
   const [failed, setFailed] = useState(false);
@@ -53,49 +28,6 @@ function Logo({ src, name, className }) {
       loading="lazy"
       onError={() => setFailed(true)}
     />
-  );
-}
-
-function OfferCard({ offer }) {
-  const [imgFailed, setImgFailed] = useState(false);
-  const showImg = offer.imageUrl && !imgFailed;
-  const v = validity(offer.validTill);
-
-  return (
-    <article className="ofx-card">
-      {showImg && (
-        <div className="ofx-card__media">
-          <img
-            src={offer.imageUrl}
-            alt=""
-            loading="lazy"
-            onError={() => setImgFailed(true)}
-          />
-          {offer.tag && <span className="ofx-card__badge">{offer.tag}</span>}
-        </div>
-      )}
-
-      <div className="ofx-card__body">
-        {!showImg && offer.tag && (
-          <span className="ofx-card__tag">
-            <Tag size={11} aria-hidden="true" /> {offer.tag}
-          </span>
-        )}
-        <h3 className="ofx-card__title">{offer.title}</h3>
-        {offer.description && (
-          <p className="ofx-card__desc">{offer.description}</p>
-        )}
-        {v && (
-          <span className={`ofx-card__valid ${v.urgent ? "is-urgent" : ""}`}>
-            <CalendarDays size={12} aria-hidden="true" /> {v.text}
-          </span>
-        )}
-
-        <Link to={`/sponsors/${offer.sponsor.id}`} className="ofx-more">
-          Know more <ArrowRight size={14} aria-hidden="true" />
-        </Link>
-      </div>
-    </article>
   );
 }
 
@@ -166,7 +98,7 @@ export default function Offers() {
           </div>
         </section>
 
-        {/* Filter chips: always visible once there is at least one sponsor */}
+        {/* Filter chips */}
         {groups.length > 0 && (
           <nav className="ofx-chips" aria-label="Filter by sponsor">
             <button
@@ -262,8 +194,12 @@ export default function Offers() {
 
             <div className="ofx-list">
               {g.items.map((o) => (
-  <OfferCard key={o.id} offer={o} to={`/sponsors/${o.sponsor.id}`} />
-))}
+                <OfferCard
+                  key={o.id}
+                  offer={o}
+                  to={`/sponsors/${o.sponsor.id}`}
+                />
+              ))}
             </div>
           </section>
         ))}

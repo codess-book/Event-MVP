@@ -441,6 +441,28 @@
     font-size: 15px;
   }
 }
+.ofx-more {
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 42px;
+  margin-top: 6px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #f8d98b;
+  background: linear-gradient(135deg, var(--ofx-maroon), var(--ofx-maroon-2));
+  transition: transform 0.12s;
+}
+.ofx-more:active { transform: scale(0.98); }
+.ofx-more:focus-visible { outline: 2px solid var(--ofx-gold); outline-offset: 2px; }
+
+/* Sponsor header is a link now */
+.ofx-sp { text-decoration: none; color: inherit; }
+.ofx-sp:active { opacity: 0.85; }
 @media (prefers-reduced-motion: reduce) {
   .ofx-skel__head,
   .ofx-skel__card {

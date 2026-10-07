@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
   ArrowLeft,
+  ArrowRight,
   CalendarDays,
   Gift,
   RefreshCw,
@@ -88,6 +89,10 @@ function OfferCard({ offer }) {
             <CalendarDays size={12} aria-hidden="true" /> {v.text}
           </span>
         )}
+
+        <Link to={`/sponsors/${offer.sponsor.id}`} className="ofx-more">
+          Know more <ArrowRight size={14} aria-hidden="true" />
+        </Link>
       </div>
     </article>
   );
@@ -160,8 +165,8 @@ export default function Offers() {
           </div>
         </section>
 
-        {/* Filter chips */}
-        {groups.length > 1 && (
+        {/* Filter chips: always visible once there is at least one sponsor */}
+        {groups.length > 0 && (
           <nav className="ofx-chips" aria-label="Filter by sponsor">
             <button
               type="button"
@@ -235,7 +240,7 @@ export default function Offers() {
             className="ofx-group"
             aria-label={g.sponsor.name}
           >
-            <header className="ofx-sp">
+            <Link to={`/sponsors/${g.sponsor.id}`} className="ofx-sp">
               <Logo
                 src={g.sponsor.photoUrl}
                 name={g.sponsor.name}
@@ -252,7 +257,7 @@ export default function Offers() {
               <span className="ofx-sp__count">
                 {g.items.length} offer{g.items.length > 1 ? "s" : ""}
               </span>
-            </header>
+            </Link>
 
             <div className="ofx-list">
               {g.items.map((o) => (

@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useOffers, markOffersSeen } from "../hooks/offers/useOffers";
 import BottomNav from "../components/BottomNav";
+import OfferCard from "../components/OfferCard";
 import "../offers.css";
 
 const TZ = "Asia/Kolkata";
@@ -261,8 +262,8 @@ export default function Offers() {
 
             <div className="ofx-list">
               {g.items.map((o) => (
-                <OfferCard key={o.id} offer={o} />
-              ))}
+  <OfferCard key={o.id} offer={o} to={`/sponsors/${o.sponsor.id}`} />
+))}
             </div>
           </section>
         ))}

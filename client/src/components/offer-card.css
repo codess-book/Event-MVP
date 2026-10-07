@@ -1,0 +1,289 @@
+/* ============================================================
+   Premium offer card. Every class is prefixed oc- so nothing leaks.
+   --oc-notch must match the background behind the card.
+   ============================================================ */
+.oc {
+  --oc-gold: #f2c46d;
+  --oc-gold-2: #c89235;
+  --oc-notch: #fbf3e4;
+
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 18px;
+  color: #fff;
+  background: linear-gradient(160deg, #2b0710 0%, #4a0c16 55%, #26080e 100%);
+  border: 1px solid rgba(242, 196, 109, 0.5);
+  box-shadow:
+    0 14px 30px rgba(42, 10, 16, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.oc *,
+.oc *::before,
+.oc *::after {
+  box-sizing: border-box;
+}
+
+/* Gold hairline on the top edge */
+.oc::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 18%;
+  right: 18%;
+  height: 2px;
+  z-index: 2;
+  background: linear-gradient(90deg, transparent, var(--oc-gold), transparent);
+}
+
+/* ---------- Poster image: shown fully, never cropped ---------- */
+.oc__media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: #0d0305;
+}
+.oc__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 460px;
+  object-fit: contain;
+}
+.oc__media::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 48px;
+  pointer-events: none;
+  background: linear-gradient(to top, #2b0710, transparent);
+}
+
+/* ---------- Discount badge ---------- */
+.oc__badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: calc(100% - 24px);
+  padding: 6px 12px;
+  overflow: hidden;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: #3a0a12;
+  background: linear-gradient(135deg, #f8d98b, var(--oc-gold-2));
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+}
+.oc__badge::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40%;
+  left: -60%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  animation: oc-shine 3.2s ease-in-out infinite;
+}
+@keyframes oc-shine {
+  0%,
+  60% {
+    left: -60%;
+  }
+  100% {
+    left: 130%;
+  }
+}
+
+/* ---------- Header when there is no image ---------- */
+.oc__hero {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 16px 4px;
+}
+.oc__heroIc {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: var(--oc-gold);
+  background: rgba(242, 196, 109, 0.1);
+  border: 1px solid rgba(242, 196, 109, 0.45);
+}
+.oc__heroTag {
+  min-width: 0;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.3px;
+  overflow-wrap: anywhere;
+  color: var(--oc-gold);
+  background: linear-gradient(135deg, #fbe3a2, var(--oc-gold-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---------- Body ---------- */
+.oc__body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px 16px;
+}
+.oc__sp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.oc__logo {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(242, 196, 109, 0.6);
+}
+.oc__logo--ph {
+  display: inline-grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #3a0a12;
+  background: var(--oc-gold);
+}
+.oc__spName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--oc-gold);
+}
+.oc__title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  color: #fff;
+}
+.oc__desc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* ---------- Ticket tear line with side notches ---------- */
+.oc__tear {
+  position: relative;
+  height: 0;
+  margin: 8px -16px 4px;
+  border-top: 1.5px dashed rgba(242, 196, 109, 0.4);
+}
+.oc__tear::before,
+.oc__tear::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--oc-notch);
+  border: 1px solid rgba(242, 196, 109, 0.5);
+}
+.oc__tear::before {
+  left: -10px;
+}
+.oc__tear::after {
+  right: -10px;
+}
+
+/* ---------- Footer ---------- */
+.oc__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4px;
+}
+.oc__valid {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--oc-gold);
+  background: rgba(242, 196, 109, 0.12);
+  border: 1px solid rgba(242, 196, 109, 0.28);
+}
+.oc__valid.is-urgent {
+  color: #ffc2c2;
+  background: rgba(255, 90, 90, 0.16);
+  border-color: rgba(255, 120, 120, 0.4);
+}
+.oc__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  color: #3a0a12;
+  background: linear-gradient(135deg, #f8d98b, var(--oc-gold-2));
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+  transition: transform 0.12s;
+}
+.oc__cta:active {
+  transform: scale(0.97);
+}
+.oc__cta:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+@media (max-width: 360px) {
+  .oc__title {
+    font-size: 16px;
+  }
+  .oc__heroTag {
+    font-size: 22px;
+  }
+  .oc__cta {
+    padding: 0 13px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .oc__badge::after {
+    animation: none;
+    display: none;
+  }
+  .oc__cta {
+    transition: none;
+  }
+}

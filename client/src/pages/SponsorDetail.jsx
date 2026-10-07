@@ -24,6 +24,7 @@ import {
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 import BottomNav from "../components/BottomNav";
 import { useSponsor } from "../hooks/sponsors/useSponsors";
+import OfferCard from "../components/OfferCard";
 import "../sponser-detail.css";
 
 /* ------------------------------ helpers ------------------------------ */
@@ -388,7 +389,7 @@ export default function SponsorDetail() {
               {liveOffers.length > 0 ? (
                 <div className="sdp-offers">
                   {liveOffers.map((o, i) => (
-                    <OfferItem key={o.id || o._id || i} offer={o} />
+                    <OfferCard key={o.id || o._id || i} offer={o} />
                   ))}
                 </div>
               ) : (

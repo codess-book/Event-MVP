@@ -15,7 +15,7 @@
 .tk__view {
   position: relative;
   overflow: hidden;
-  height: 34px;
+  height: 40px;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent);
   mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent);
 }

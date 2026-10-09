@@ -275,7 +275,8 @@ export default function OfferSheet({ offer, onClose }) {
             Cancel
           </button>
           <button
-            className="a2__btn os-btn os-btn--primary"
+            type="submit"
+            className="os-btn os-btn--primary"
             disabled={!canSubmit}
           >
             {isMutating ? "Saving…" : offer ? "Save changes" : "Add offer"}

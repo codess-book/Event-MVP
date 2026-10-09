@@ -185,8 +185,15 @@
 }
 .os-btn--primary {
   width: 100%;
+  border: 0;
+  background: var(--os-maroon);
+  color: #fff;
+  font-size: 1rem;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--os-maroon) 30%, transparent);
 }
-
+.os-btn--primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--os-maroon) 88%, #000);
+}
 /* ---------- Focus + motion ---------- */
 .os-chip:focus-visible,
 .os-btn:focus-visible {

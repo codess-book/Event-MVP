@@ -1,13 +1,12 @@
 import { NavLink } from "react-router-dom";
-import { Home, CalendarDays,Gift , User, Menu ,Store} from "lucide-react";
+import { Home, Gift, LifeBuoy, Store } from "lucide-react";
 
 // `to` means the page exists; items without it show as "coming soon"
 const ITEMS = [
-  { label: "Home", icon: Home  , to: "/profile"},
+  { label: "Home", icon: Home, to: "/profile" },
   { label: "Sponsors", icon: Store, to: "/sponsors" },
-//   
   { label: "Prizes", icon: Gift, to: "/prizes" },
-  { label: "Profile", icon: User, to: "/profile" },
+  { label: "Help", icon: LifeBuoy, to: "/help" },
 ];
 
 export default function BottomNav() {

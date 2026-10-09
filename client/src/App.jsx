@@ -24,7 +24,7 @@ import GlobalPush from "./components/GlobalPush";
 import AdminFoodPartners from "./pages/AdminFoodPartners";
 import Food from "./pages/Food";
 import Offers from "./pages/Offers";
-
+import HelpDesk from "./pages/Helpdesk";
 
 export default function App() {
   return (
@@ -53,7 +53,8 @@ export default function App() {
           <Route path="/rules" element={<Rules />} />
           <Route path="/food" element={<Food />} />
           <Route path="/offers" element={<Offers />} />
-        </Route>
+<Route path="/help" element={<HelpDesk />} />
+</Route>
 
         <Route element={<ProtectedRoute adminOnly />}>
           {/* <Route path="/admin" element={<AdminDashboard />} /> */}

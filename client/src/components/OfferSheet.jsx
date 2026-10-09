@@ -132,9 +132,7 @@ export default function OfferSheet({ offer, onClose }) {
           </div>
           <div className="os-ticket__side">
             <span className="os-ticket__code">{form.code || "NO CODE"}</span>
-            <span
-              className={`os-ticket__valid${expired ? " is-expired" : ""}`}
-            >
+            <span className={`os-ticket__valid${expired ? " is-expired" : ""}`}>
               {form.validTill
                 ? `${expired ? "Expired" : "Valid till"} ${prettyDate(form.validTill)}`
                 : "No expiry"}

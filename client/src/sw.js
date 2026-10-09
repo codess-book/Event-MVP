@@ -5,7 +5,7 @@ import { StaleWhileRevalidate } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
 import { initializeApp } from "firebase/app";
-import { getMessaging } from "firebase/messaging/sw";
+import { getMessaging ,onBackgroundMessage} from "firebase/messaging/sw";
 
 // A new version takes over as soon as it is installed
 self.skipWaiting();
@@ -41,4 +41,32 @@ initializeApp({
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 });
-getMessaging();
+const messaging = getMessaging();
+
+// Server data-only push bhejta hai, isliye notification yahan manually dikhana padta hai.
+// Firebase yeh tab hi call karta hai jab app ka koi window visible nahi hota.
+onBackgroundMessage(messaging, (payload) => {
+  const d = payload.data || {};
+  return self.registration.showNotification(d.title || "Aaradhna", {
+    body: d.body || "",
+    icon: d.icon || "/pwa-192x192.png",
+    badge: "/pwa-64x64.png",
+    data: { link: d.link || "/" },
+  });
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const url = new URL(event.notification.data?.link || "/", self.location.origin).href;
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
+      for (const c of list) {
+        if ("focus" in c) {
+          c.navigate(url);
+          return c.focus();
+        }
+      }
+      return self.clients.openWindow(url);
+    }),
+  );
+});

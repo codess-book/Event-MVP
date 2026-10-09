@@ -5,7 +5,7 @@ const notificationSchema = new mongoose.Schema(
     title: { type: String, required: true, trim: true, maxlength: 60 },
     body: { type: String, required: true, trim: true, maxlength: 200 },
   audience: { type: String, enum: ["all", "player", "member", "sponsor", "visitor", "user"], default: "all" },
-    type: { type: String, enum: ["announcement", "offer", "account"], default: "announcement" },
+    type: { type: String, enum: ["announcement", "offer", "prize"], default: "announcement" },
     toUser: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     excludeUser: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     link: { type: String, default: "/" },

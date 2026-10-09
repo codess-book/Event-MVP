@@ -21,6 +21,7 @@ export const buildPush = ({ title, body, link = "/" }) => ({
   },
   webpush: { headers: { Urgency: "high", TTL: "3600" } },
 });
+
 // Saves the notification (bell list) and pushes it to matching devices.
 // toUser = one person, audience = a group, excludeUser = skip the sender.
 export async function notify({
@@ -66,25 +67,48 @@ export async function notify({
   }
   const filter = conds.length ? { $and: conds } : {};
 
-  const tokens = (
-    await DeviceToken.find(filter).select("token -_id").lean()
-  ).map((d) => d.token);
+  // Same token twice = same device twice = duplicate notification, so dedupe
+  const tokens = [
+    ...new Set(
+      (await DeviceToken.find(filter).select("token -_id").lean()).map(
+        (d) => d.token,
+      ),
+    ),
+  ];
 
   let sent = 0;
   const dead = [];
   for (let i = 0; i < tokens.length; i += 500) {
     const chunk = tokens.slice(i, i + 500);
-    const result = await messaging().sendEachForMulticast({
-      tokens: chunk,
-      ...buildPush({ title, body, link }),
-    });
-    sent += result.successCount;
-    result.responses.forEach((r, idx) => {
-      if (!r.success && DEAD_TOKEN_CODES.has(r.error?.code))
-        dead.push(chunk[idx]);
-    });
+    try {
+      const result = await messaging().sendEachForMulticast({
+        tokens: chunk,
+        ...buildPush({ title, body, link }),
+      });
+      sent += result.successCount;
+      result.responses.forEach((r, idx) => {
+        if (!r.success && DEAD_TOKEN_CODES.has(r.error?.code))
+          dead.push(chunk[idx]);
+      });
+    } catch (e) {
+      // One failed chunk must not stop the rest
+      console.error("[notify] chunk failed:", e.message);
+    }
   }
   if (dead.length) await DeviceToken.deleteMany({ token: { $in: dead } });
 
   return { pushed: true, sent, devices: tokens.length };
 }
+
+// Never throws, so it can never break the request that called it
+export const notifySafe = (opts) =>
+  notify(opts).catch((e) => console.error("[notify] failed:", e?.message || e));
+
+// Has this user already sent this type of notification in the last few minutes?
+// Used so a sponsor cannot spam everyone.
+export const recentlySent = async ({ createdBy, type, minutes = 10 }) =>
+  !!(await Notification.exists({
+    createdBy,
+    type,
+    createdAt: { $gte: new Date(Date.now() - minutes * 60 * 1000) },
+  }));

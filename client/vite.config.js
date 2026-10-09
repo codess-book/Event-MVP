@@ -7,16 +7,16 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
-    VitePWA({
-      strategies: "injectManifest",
-      srcDir: "src",
-      filename: "sw.js",
-      registerType: "autoUpdate",
-      injectRegister: false, // main.jsx mein khud register karenge
-      injectManifest: {
-        globPatterns: ["**/*.{js,css,html,svg,png,ico,woff2 ,mp3}"],
-        globIgnores: ["**/og-image.*"],
-      },
+  VitePWA({
+  strategies: "injectManifest",
+  srcDir: "src",
+  filename: "sw.js",
+  registerType: "autoUpdate",
+  injectRegister: false, // main.jsx mein khud register karenge
+  injectManifest: {
+    globPatterns: ["**/*.{js,css,html,svg,png,ico,woff2,mp3}"],
+    globIgnores: ["**/og-image.*"],
+  },
       manifest: {
         name: "Aaradhna Navratri Garba",
         short_name: "Aaradhna",

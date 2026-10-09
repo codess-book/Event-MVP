@@ -3,8 +3,7 @@ import User from "../models/User.js";
 import DeviceToken from "../models/DeviceToken.js";
 import Notification from "../models/Notification.js";
 import { isFcmConfigured, messaging } from "../utils/firebase.js";
-import { notify } from "../utils/notify.js";
-import { buildPush } from "../utils/notify.js";
+import { notify, buildPush } from "../utils/notify.js";
 const tokenSchema = z.object({ token: z.string().trim().min(20).max(4096) });
 
 const sendSchema = z.object({
@@ -115,14 +114,14 @@ export const sendTest = async (req, res, next) => {
         });
     }
 
-    const site = process.env.FRONTEND_URL || "https://www.aaradhna.site";
+    // const site = process.env.FRONTEND_URL || "https://www.aaradhna.site";
     const result = await messaging().sendEachForMulticast({
       tokens,
-      notification: {
+      ...buildPush({
         title: "Test notification",
         body: "Push notifications are working on this device.",
-      },
-      webpush: { fcmOptions: { link: `${site}/profile` } },
+        link: "/profile",
+      }),
     });
 
     // Remove tokens that are no longer valid

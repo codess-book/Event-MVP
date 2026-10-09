@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { z } from "zod";
 import Prize from "../models/Prize.js";
 import User from "../models/User.js";
-import { notify } from "../utils/notify.js";
+import { notify, recentlySent } from "../utils/notify.js";
 
 const MAX_PER_SPONSOR = 10;
 
@@ -15,7 +15,8 @@ const prizeSchema = z.object({
   donorName: z.string().trim().max(60).optional(),
 });
 
-const loadMe = (req) => User.findById(req.user.id).select("role userType isApproved");
+const loadMe = (req) =>
+  User.findById(req.user.id).select("role userType isApproved");
 
 const toPublic = (p, me) => {
   const s = p.sponsor;
@@ -26,7 +27,12 @@ const toPublic = (p, me) => {
     description: p.description || "",
     forWhat: p.forWhat || "",
     donor: s
-      ? { type: "sponsor", id: s._id, name: s.businessName, photoUrl: s.photoUrl || "" }
+      ? {
+          type: "sponsor",
+          id: s._id,
+          name: s.businessName,
+          photoUrl: s.photoUrl || "",
+        }
       : { type: "person", name: p.donorName },
     canEdit: me.role === "admin" || isOwner,
     createdAt: p.createdAt,
@@ -45,7 +51,9 @@ export const listPrizes = async (req, res, next) => {
       .lean();
 
     // Hide prizes of sponsors who are not approved (admin still sees everything)
-    const visible = docs.filter((p) => !p.sponsor || p.sponsor.isApproved || me.role === "admin");
+    const visible = docs.filter(
+      (p) => !p.sponsor || p.sponsor.isApproved || me.role === "admin",
+    );
     res.json({ prizes: visible.map((p) => toPublic(p, me)) });
   } catch (err) {
     next(err);
@@ -70,36 +78,64 @@ export const addPrize = async (req, res, next) => {
         if (!mongoose.isValidObjectId(data.sponsorId)) {
           return res.status(400).json({ message: "Invalid sponsor" });
         }
-        const sp = await User.findOne({ _id: data.sponsorId, userType: "sponsor" }).select("_id");
+        const sp = await User.findOne({
+          _id: data.sponsorId,
+          userType: "sponsor",
+        }).select("_id");
         if (!sp) return res.status(404).json({ message: "Sponsor not found" });
         doc.sponsor = sp._id;
       } else if (data.donorName) {
         doc.donorName = data.donorName;
       } else {
-        return res.status(400).json({ message: "Choose a sponsor or enter the donor's name" });
+        return res
+          .status(400)
+          .json({ message: "Choose a sponsor or enter the donor's name" });
       }
     } else if (me.userType === "sponsor" && me.isApproved) {
       const count = await Prize.countDocuments({ sponsor: me._id });
       if (count >= MAX_PER_SPONSOR) {
-        return res.status(400).json({ message: `You can add up to ${MAX_PER_SPONSOR} prizes` });
+        return res
+          .status(400)
+          .json({ message: `You can add up to ${MAX_PER_SPONSOR} prizes` });
       }
       doc.sponsor = me._id;
     } else {
-      return res.status(403).json({ message: "Only approved sponsors can add prizes" });
+      return res
+        .status(403)
+        .json({ message: "Only approved sponsors can add prizes" });
     }
 
     const prize = await Prize.create(doc);
     res.status(201).json({ id: prize._id });
 
-    // Only admin-added prizes are broadcast, so sponsors cannot spam everyone
-    if (me.role === "admin") {
-      notify({
-        type: "announcement",
-        title: "New prize 🏆",
-        body: data.title.slice(0, 200),
+   
+    // Response jaane ke baad notification (admin + sponsor dono ke liye)
+    try {
+      const isAdmin = me.role === "admin";
+
+      // Sponsor 10 min mein sirf ek baar sabko broadcast kar sakta hai
+      if (
+        !isAdmin &&
+        (await recentlySent({ createdBy: me._id, type: "prize" }))
+      )
+        return;
+
+      const donor = doc.sponsor
+        ? (await User.findById(doc.sponsor).select("businessName").lean())
+            ?.businessName
+        : doc.donorName;
+
+      await notify({
+        type: "prize",
+        title: "New prize 🎁",
+        body: `${data.title}${donor ? ` · by ${donor}` : ""}`.slice(0, 200),
         link: "/prizes",
         createdBy: me._id,
-      }).catch((e) => console.error("Prize push failed:", e.message));
+        // Sponsor ko apna hi notification na jaye. Admin ke case mein sab ko jaye.
+        excludeUser: isAdmin ? undefined : me._id,
+      });
+    } catch (e) {
+      console.error("Prize push failed:", e.message);
     }
   } catch (err) {
     next(err);
@@ -112,9 +148,18 @@ async function loadEditable(req, res) {
     res.status(400).json({ message: "Invalid prize id" });
     return null;
   }
-  const [me, prize] = await Promise.all([loadMe(req), Prize.findById(req.params.id)]);
-  if (!me) { res.status(401).json({ message: "User no longer exists" }); return null; }
-  if (!prize) { res.status(404).json({ message: "Prize not found" }); return null; }
+  const [me, prize] = await Promise.all([
+    loadMe(req),
+    Prize.findById(req.params.id),
+  ]);
+  if (!me) {
+    res.status(401).json({ message: "User no longer exists" });
+    return null;
+  }
+  if (!prize) {
+    res.status(404).json({ message: "Prize not found" });
+    return null;
+  }
   const isOwner = prize.sponsor && String(prize.sponsor) === String(me._id);
   if (me.role !== "admin" && !isOwner) {
     res.status(403).json({ message: "You cannot change this prize" });

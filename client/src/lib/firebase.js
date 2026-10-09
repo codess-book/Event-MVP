@@ -7,9 +7,6 @@ import {
   isSupported,
 } from "firebase/messaging";
 const k = import.meta.env.VITE_FIREBASE_API_KEY;
-console.log("[fb-debug] key:", JSON.stringify(k), "len:", k?.length, "start:", k?.slice(0, 4));
-console.log("[fb-debug] project:", JSON.stringify(import.meta.env.VITE_FIREBASE_PROJECT_ID));
-console.log("[fb-debug] appId:", JSON.stringify(import.meta.env.VITE_FIREBASE_APP_ID));
 
 const app = initializeApp({
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,

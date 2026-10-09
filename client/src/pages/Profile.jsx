@@ -331,56 +331,56 @@ export default function Profile() {
           {/* <HeroBanner sponsor={{ name: "Shree Jewellers", logoUrl: "https://...logo.png" }} /> */}
         </header>
 
-    <section className="pf__card">
-  {/* 🔑 CARD BACKGROUND IMAGE — ye naya div add karo */}
-  <div
-    className="pf__cardBg"
-    style={{ backgroundImage: "url('/back-p.jpg')" }}
-    aria-hidden="true"
-  />
+        <section className="pf__card">
+          {/* 🔑 CARD BACKGROUND IMAGE — ye naya div add karo */}
+          <div
+            className="pf__cardBg"
+            style={{ backgroundImage: "url('/back-p.jpg')" }}
+            aria-hidden="true"
+          />
 
-  <div className="pf__avatarWrap">
-    <Avatar user={user} />
-    <button
-      className="pf__edit"
-      aria-label="Edit profile"
-      onClick={() => setPanel("edit")}
-    >
-      <Pencil size={15} />
-    </button>
-  </div>
+          <div className="pf__avatarWrap">
+            <Avatar user={user} />
+            <button
+              className="pf__edit"
+              aria-label="Edit profile"
+              onClick={() => setPanel("edit")}
+            >
+              <Pencil size={15} />
+            </button>
+          </div>
 
-  <h1 className="pf__name">
-    {(isSponsor || isFood) && user.businessName
-      ? user.businessName
-      : user.name}
-  </h1>
+          <h1 className="pf__name">
+            {(isSponsor || isFood) && user.businessName
+              ? user.businessName
+              : user.name}
+          </h1>
 
-  {(isSponsor || isFood) && user.businessName && (
-    <p className="pf__owner">{user.name}</p>
-  )}
+          {(isSponsor || isFood) && user.businessName && (
+            <p className="pf__owner">{user.name}</p>
+          )}
 
-  <span className="pf__badge">
-    {cap(user.userType)}
-    {user.sponsorCategory ? ` · ${user.sponsorCategory}` : ""}
-  </span>
+          <span className="pf__badge">
+            {cap(user.userType)}
+            {user.sponsorCategory ? ` · ${user.sponsorCategory}` : ""}
+          </span>
 
-  <div className="chips2">
-    <span className="chip2">
-      <Phone size={14} /> {user.phone}
-    </span>
-    {user.passNumber && (
-      <span className="chip2">
-        <Ticket size={14} /> Pass {user.passNumber}
-      </span>
-    )}
-    {user.gender && (
-      <span className="chip2">
-        <UserIcon size={14} /> {cap(user.gender)}
-      </span>
-    )}
-  </div>
-</section>
+          <div className="chips2">
+            <span className="chip2">
+              <Phone size={14} /> {user.phone}
+            </span>
+            {user.passNumber && (
+              <span className="chip2">
+                <Ticket size={14} /> Pass {user.passNumber}
+              </span>
+            )}
+            {user.gender && (
+              <span className="chip2">
+                <UserIcon size={14} /> {cap(user.gender)}
+              </span>
+            )}
+          </div>
+        </section>
         {winners[0] && (
           <div
             style={{

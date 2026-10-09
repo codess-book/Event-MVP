@@ -332,6 +332,12 @@ export default function Profile() {
         </header>
 
         <section className="pf__card">
+         <div
+    className="pf__cardBg"
+    style={{ backgroundImage: "url('/back-p.jpg')" }}
+    aria-hidden="true"
+  />
+
           <div className="pf__avatarWrap">
             <Avatar user={user} />
             <button

@@ -2160,3 +2160,45 @@ a.nitem .nitem__d {
   }
 }
 
+/* ---------- CARD WITH BACKGROUND IMAGE ---------- */
+.pf__card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* background image layer (light + warm) */
+.pf__cardBg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* 🔑 halka rakho taaki text readable rahe */
+  opacity: 0.15;
+
+  /* warm tint to match cream theme */
+  filter: saturate(0.9) contrast(0.95);
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* cream gradient over the image for extra softness */
+.pf__cardBg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(253, 246, 234, 0.6) 0%,
+    rgba(253, 246, 234, 0.9) 100%
+  );
+}
+
+/* make sure all card content sits above the image */
+.pf__card > *:not(.pf__cardBg) {
+  position: relative;
+  z-index: 1;
+}

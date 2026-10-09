@@ -10,7 +10,9 @@ import {
   Copy,
   LifeBuoy,
   MapPinned,
+  ArrowLeft,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // adjust if you use a different router
 import { useToast } from "../components/Toast";
 import "./help-desk.css";
 
@@ -20,9 +22,8 @@ import "./help-desk.css";
    so nothing broken ever reaches your users.
 ---------------------------------------------------------------- */
 const TEAM = [
-  { name: "Member 1 name", role: "Event coordinator", phone: "" },
-  { name: "Member 2 name", role: "Lost & found desk", phone: "" },
-  { name: "Member 3 name", role: "Volunteer head", phone: "" },
+  { name: "Rahul Sharma", role: "Event coordinator", phone: "7000418456" },
+  { name: "Priya Verma", role: "Lost & found desk", phone: "9926492003" },
 ];
 
 /* Public emergency numbers (India). */
@@ -45,6 +46,7 @@ const isValid = (p) => cleanPhone(p).length === 10;
 
 export default function HelpDesk() {
   const toast = useToast();
+  const navigate = useNavigate();
   const team = TEAM.filter((m) => isValid(m.phone));
 
   const copy = async (text) => {
@@ -56,8 +58,28 @@ export default function HelpDesk() {
     }
   };
 
+  const goBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <main className="hd">
+      {/* ---------- Top bar with back button ---------- */}
+      <div className="hd-topbar">
+        <button
+          type="button"
+          className="hd-back"
+          onClick={goBack}
+          aria-label="Go back"
+        >
+          <ArrowLeft size={20} />
+        </button>
+      </div>
+
       <header className="hd-head">
         <span className="hd-head__ic" aria-hidden="true">
           <LifeBuoy size={22} />

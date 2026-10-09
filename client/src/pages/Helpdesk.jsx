@@ -22,8 +22,8 @@ import "./help-desk.css";
    so nothing broken ever reaches your users.
 ---------------------------------------------------------------- */
 const TEAM = [
-  { name: "Rahul Sharma", role: "Event coordinator", phone: "7000418456" },
-  { name: "Priya Verma", role: "Lost & found desk", phone: "9926492003" },
+  { phone: "7000418456" },
+  {  phone: "9926492003" },
 ];
 
 /* Public emergency numbers (India). */
@@ -144,8 +144,8 @@ export default function HelpDesk() {
               return (
                 <li key={m.name} className="hd-person">
                   <div className="hd-person__info">
-                    <strong>{m.name}</strong>
-                    <span>{m.role}</span>
+                    {/* <strong>{m.name}</strong>
+                    <span>{m.role}</span> */}
                     <span className="hd-person__num">+91 {ph}</span>
                   </div>
                   <div className="hd-person__act">

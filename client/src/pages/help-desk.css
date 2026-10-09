@@ -1,32 +1,44 @@
 /* ============================================================
    HELP DESK · Aaradhna
-   Professional, industry-standard UI
-   Refactored from existing .hd theme (maroon/cream palette)
+   Professional Dark Theme · Industry Standard
    ============================================================ */
 
 /* ---------- DESIGN TOKENS ---------- */
 .hd {
+  /* brand accents (kept from original palette) */
   --hd-maroon: #6e0f1c;
-  --hd-maroon-dark: #570b16;
-  --hd-cream: #fbf1e3;
-  --hd-cream-2: #f7ead8;
-  --hd-gold: #b9791a;
-  --hd-ink: #2b1a1d;
-  --hd-muted: #7a666a;
-  --hd-line: #e6d6c4;
-  --hd-red: #b3261e;
-  --hd-red-dark: #8f1d17;
-  --hd-white: #ffffff;
+  --hd-maroon-light: #8f1a2b;
+  --hd-gold: #d99a3a;
+  --hd-gold-soft: #b9791a;
+  --hd-red: #d6362c;
+  --hd-red-dark: #a82315;
 
-  /* surfaces & elevation */
+  /* dark surfaces */
+  --hd-bg: #0f0a0b;
+  --hd-surface: #1a1214;
+  --hd-surface-2: #221719;
+  --hd-surface-3: #2a1d20;
+  --hd-border: #33242a;
+  --hd-border-soft: #2a1d20;
+
+  /* text */
+  --hd-ink: #f5ede4;
+  --hd-ink-soft: #e0d4c6;
+  --hd-muted: #a08e88;
+  --hd-faint: #7a666a;
+
+  /* radii */
   --hd-radius-sm: 10px;
   --hd-radius: 16px;
   --hd-radius-lg: 20px;
-  --hd-shadow-sm: 0 1px 2px rgba(43, 26, 29, 0.04),
-                  0 1px 3px rgba(43, 26, 29, 0.06);
-  --hd-shadow: 0 4px 12px rgba(43, 26, 29, 0.06),
-               0 2px 4px rgba(43, 26, 29, 0.04);
-  --hd-shadow-lg: 0 12px 28px -8px rgba(179, 38, 30, 0.32);
+
+  /* shadows (dark-optimized) */
+  --hd-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4),
+                  0 1px 3px rgba(0, 0, 0, 0.3);
+  --hd-shadow: 0 4px 14px rgba(0, 0, 0, 0.35),
+               0 2px 6px rgba(0, 0, 0, 0.25);
+  --hd-shadow-lg: 0 12px 28px -8px rgba(214, 54, 44, 0.45),
+                  0 4px 12px rgba(0, 0, 0, 0.4);
 
   /* layout */
   max-width: 560px;
@@ -40,6 +52,8 @@
     Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: var(--hd-bg);
+  min-height: 100vh;
 }
 
 /* ---------- HEADER ---------- */
@@ -56,10 +70,11 @@
   width: 48px;
   height: 48px;
   border-radius: 14px;
-  background: linear-gradient(145deg, var(--hd-maroon) 0%, var(--hd-maroon-dark) 100%);
+  background: linear-gradient(145deg, var(--hd-maroon-light) 0%, var(--hd-maroon) 100%);
   color: #fff;
   flex-shrink: 0;
-  box-shadow: 0 6px 14px -4px rgba(110, 15, 28, 0.45);
+  box-shadow: 0 6px 16px -4px rgba(110, 15, 28, 0.7),
+              inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .hd-head h1 {
@@ -92,11 +107,21 @@
   box-shadow: var(--hd-shadow-lg);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   border: 1px solid rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+}
+
+.hd-sos::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 45%);
+  pointer-events: none;
 }
 
 .hd-sos:hover {
   transform: translateY(-1px);
-  box-shadow: 0 16px 32px -8px rgba(179, 38, 30, 0.42);
+  box-shadow: 0 16px 34px -8px rgba(214, 54, 44, 0.55),
+              0 4px 14px rgba(0, 0, 0, 0.45);
 }
 
 .hd-sos:active {
@@ -109,9 +134,11 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.16);
   border: 1px solid rgba(255, 255, 255, 0.22);
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .hd-sos__txt {
@@ -120,6 +147,8 @@
   flex: 1;
   min-width: 0;
   gap: 2px;
+  position: relative;
+  z-index: 1;
 }
 
 .hd-sos__txt strong {
@@ -139,6 +168,8 @@
 .hd-sos > svg:last-child {
   opacity: 0.85;
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
 /* ---------- SECTIONS ---------- */
@@ -153,7 +184,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--hd-maroon);
+  color: var(--hd-gold);
 }
 
 /* ---------- EMERGENCY GRID ---------- */
@@ -172,20 +203,21 @@
   gap: 2px;
   height: 100%;
   padding: 16px;
-  border: 1px solid var(--hd-line);
+  border: 1px solid var(--hd-border);
   border-radius: var(--hd-radius);
-  background: var(--hd-white);
+  background: var(--hd-surface);
   color: inherit;
   text-decoration: none;
   box-shadow: var(--hd-shadow-sm);
   transition: transform 0.15s ease, box-shadow 0.15s ease,
-    border-color 0.15s ease;
+    border-color 0.15s ease, background 0.15s ease;
 }
 
 .hd-card:hover {
   transform: translateY(-2px);
-  border-color: #d8c3aa;
-  box-shadow: var(--hd-shadow);
+  border-color: var(--hd-maroon-light);
+  background: var(--hd-surface-2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
 }
 
 .hd-card:active {
@@ -199,8 +231,9 @@
   height: 38px;
   margin-bottom: 8px;
   border-radius: 11px;
-  background: var(--hd-cream);
-  color: var(--hd-maroon);
+  background: var(--hd-surface-3);
+  color: var(--hd-gold);
+  border: 1px solid var(--hd-border-soft);
 }
 
 .hd-card__num {
@@ -208,7 +241,7 @@
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  color: var(--hd-maroon);
+  color: var(--hd-ink);
   font-variant-numeric: tabular-nums;
 }
 
@@ -223,15 +256,16 @@
   display: flex;
   gap: 14px;
   padding: 16px;
-  border: 1px dashed var(--hd-gold);
+  border: 1px dashed var(--hd-gold-soft);
   border-radius: var(--hd-radius);
-  background: var(--hd-cream);
+  background: linear-gradient(145deg, var(--hd-surface) 0%, var(--hd-surface-2) 100%);
   color: var(--hd-gold);
 }
 
 .hd-tips > svg {
   flex-shrink: 0;
   margin-top: 2px;
+  color: var(--hd-gold);
 }
 
 .hd-tips ol {
@@ -242,7 +276,7 @@
   gap: 8px;
   font-size: 0.88rem;
   line-height: 1.5;
-  color: var(--hd-ink);
+  color: var(--hd-ink-soft);
 }
 
 .hd-tips li::marker {
@@ -266,16 +300,18 @@
   justify-content: space-between;
   gap: 12px;
   padding: 14px 16px;
-  border: 1px solid var(--hd-line);
+  border: 1px solid var(--hd-border);
   border-radius: var(--hd-radius);
-  background: var(--hd-white);
+  background: var(--hd-surface);
   box-shadow: var(--hd-shadow-sm);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    background 0.15s ease;
 }
 
 .hd-person:hover {
-  border-color: #d8c3aa;
-  box-shadow: var(--hd-shadow);
+  border-color: var(--hd-maroon-light);
+  background: var(--hd-surface-2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .hd-person__info {
@@ -298,13 +334,13 @@
   font-weight: 500;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--hd-muted);
+  color: var(--hd-faint);
 }
 
 .hd-person__num {
   font-size: 0.92rem;
   font-weight: 600;
-  color: var(--hd-maroon);
+  color: var(--hd-gold);
   margin-top: 3px;
   font-variant-numeric: tabular-nums;
 }
@@ -321,10 +357,10 @@
   place-items: center;
   width: 42px;
   height: 42px;
-  border: 1px solid var(--hd-line);
+  border: 1px solid var(--hd-border);
   border-radius: 12px;
-  background: var(--hd-cream);
-  color: var(--hd-maroon);
+  background: var(--hd-surface-2);
+  color: var(--hd-gold);
   cursor: pointer;
   text-decoration: none;
   transition: background 0.15s ease, border-color 0.15s ease,
@@ -332,8 +368,9 @@
 }
 
 .hd-ic:hover {
-  background: var(--hd-cream-2);
-  border-color: #d8c3aa;
+  background: var(--hd-surface-3);
+  border-color: var(--hd-gold-soft);
+  color: var(--hd-gold);
   transform: translateY(-1px);
 }
 
@@ -342,34 +379,36 @@
 }
 
 .hd-ic--call {
-  background: var(--hd-maroon);
-  border-color: var(--hd-maroon);
+  background: linear-gradient(145deg, var(--hd-maroon-light) 0%, var(--hd-maroon) 100%);
+  border-color: var(--hd-maroon-light);
   color: #fff;
+  box-shadow: 0 4px 12px -2px rgba(110, 15, 28, 0.6);
 }
 
 .hd-ic--call:hover {
-  background: var(--hd-maroon-dark);
-  border-color: var(--hd-maroon-dark);
+  background: linear-gradient(145deg, var(--hd-maroon) 0%, #570b16 100%);
+  border-color: var(--hd-maroon);
   color: #fff;
+  box-shadow: 0 6px 16px -2px rgba(110, 15, 28, 0.75);
 }
 
 /* ---------- EMPTY STATE ---------- */
 .hd-empty {
   margin: 0;
   padding: 18px 16px;
-  border: 1px dashed var(--hd-line);
+  border: 1px dashed var(--hd-border);
   border-radius: var(--hd-radius);
   font-size: 0.88rem;
   line-height: 1.5;
   text-align: center;
   color: var(--hd-muted);
-  background: var(--hd-cream);
+  background: var(--hd-surface);
 }
 
 /* ---------- FOCUS (accessibility) ---------- */
 .hd a:focus-visible,
 .hd button:focus-visible {
-  outline: 3px solid rgba(110, 15, 28, 0.45);
+  outline: 3px solid rgba(217, 154, 58, 0.55);
   outline-offset: 2px;
   border-radius: 8px;
 }

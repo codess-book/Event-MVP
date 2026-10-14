@@ -1,19 +1,8 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import {
-  Trophy,
-  Plus,
-  Pencil,
-  Trash2,
-  Heart,
-  Sparkles,
-  Gift,
-  Search,
-  X,
-  Inbox,
-  AlertCircle,
-  Loader2,
-  ShieldCheck,
+  Trophy, Plus, Pencil, Trash2, Heart, Sparkles, Gift,
+  Search, X, Inbox, AlertCircle, Loader2, ShieldCheck,
 } from "lucide-react";
 import BottomNav from "../components/BottomNav";
 import Avatar from "../components/Avatar";
@@ -30,40 +19,22 @@ import "../prizes.css";
 function ConfirmDialog({ open, prize, busy, onCancel, onConfirm }) {
   if (!open) return null;
   return (
-    <div className="prx__dialogBackdrop" onClick={busy ? undefined : onCancel}>
-      <div className="prx__dialog" onClick={(e) => e.stopPropagation()}>
-        <div className="prx__dialogIcon">
+    <div className="pz__dialogBackdrop" onClick={busy ? undefined : onCancel}>
+      <div className="pz__dialog" onClick={(e) => e.stopPropagation()}>
+        <div className="pz__dialogIcon">
           <Trash2 size={22} />
         </div>
-        <h3 className="prx__dialogTitle">Remove this prize?</h3>
-        <p className="prx__dialogText">
+        <h3 className="pz__dialogTitle">Remove this prize?</h3>
+        <p className="pz__dialogText">
           <strong>{prize?.title}</strong> will be permanently removed. This
           can't be undone.
         </p>
-        <div className="prx__dialogActions">
-          <button
-            type="button"
-            className="prx__btn prx__btn--ghost"
-            onClick={onCancel}
-            disabled={busy}
-          >
+        <div className="pz__dialogActions">
+          <button type="button" className="pz__btn pz__btn--ghost" onClick={onCancel} disabled={busy}>
             Cancel
           </button>
-          <button
-            type="button"
-            className="prx__btn prx__btn--danger"
-            onClick={onConfirm}
-            disabled={busy}
-          >
-            {busy ? (
-              <>
-                <Loader2 size={14} className="spin" /> Removing…
-              </>
-            ) : (
-              <>
-                <Trash2 size={14} /> Remove
-              </>
-            )}
+          <button type="button" className="pz__btn pz__btn--danger" onClick={onConfirm} disabled={busy}>
+            {busy ? (<><Loader2 size={14} className="pz__spin" /> Removing…</>) : (<><Trash2 size={14} /> Remove</>)}
           </button>
         </div>
       </div>
@@ -74,14 +45,14 @@ function ConfirmDialog({ open, prize, busy, onCancel, onConfirm }) {
 /* ------------------------------ skeleton ------------------------------ */
 function Skeleton() {
   return (
-    <div className="prx__list">
+    <div className="pz__list">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="prx__card prx__card--sk">
-          <div className="sk sk--line" style={{ width: 60, height: 60, borderRadius: 18 }} />
+        <div key={i} className="pz__card pz__card--sk">
+          <div className="pz__sk" style={{ width: 60, height: 60, borderRadius: 18 }} />
           <div style={{ flex: 1 }}>
-            <div className="sk sk--line" style={{ width: "60%", height: 16 }} />
-            <div className="sk sk--line" style={{ width: "35%", height: 12, marginTop: 8 }} />
-            <div className="sk sk--line" style={{ width: "80%", height: 12, marginTop: 10 }} />
+            <div className="pz__sk" style={{ width: "60%", height: 16 }} />
+            <div className="pz__sk" style={{ width: "35%", height: 12, marginTop: 8 }} />
+            <div className="pz__sk" style={{ width: "80%", height: 12, marginTop: 10 }} />
           </div>
         </div>
       ))}
@@ -92,20 +63,20 @@ function Skeleton() {
 /* ------------------------------ empty state ------------------------------ */
 function EmptyState({ filtered, onReset }) {
   return (
-    <div className="prx__empty">
-      <div className="prx__emptyIcon">
+    <div className="pz__empty">
+      <div className="pz__emptyIcon">
         {filtered ? <Inbox size={28} /> : <Trophy size={28} />}
       </div>
-      <h3 className="prx__emptyTitle">
+      <h3 className="pz__emptyTitle">
         {filtered ? "No prizes match" : "No prizes yet"}
       </h3>
-      <p className="prx__emptyText">
+      <p className="pz__emptyText">
         {filtered
           ? "Try a different search or category."
           : "Prizes will appear here as soon as they're announced."}
       </p>
       {filtered && (
-        <button type="button" className="prx__emptyBtn" onClick={onReset}>
+        <button type="button" className="pz__emptyBtn" onClick={onReset}>
           Show all prizes
         </button>
       )}
@@ -120,14 +91,13 @@ export default function Prizes() {
   const { prizes = [], isLoading, error } = usePrizes();
   const del = useDeletePrize();
 
-  const [sheet, setSheet] = useState(null); // null | { prize }
+  const [sheet, setSheet] = useState(null);
   const [query, setQuery] = useState("");
   const [confirming, setConfirming] = useState(null);
 
   const isAdmin = user?.role === "admin";
   const canAdd = isAdmin || (user?.userType === "sponsor" && user?.isApproved);
 
-  /* filtered list */
   const shown = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return prizes;
@@ -142,7 +112,6 @@ export default function Prizes() {
 
   const isFiltered = query.trim() !== "";
 
-  /* ------------------------------ delete ------------------------------ */
   const handleDeleteConfirmed = async () => {
     if (!confirming) return;
     try {
@@ -157,48 +126,37 @@ export default function Prizes() {
   return (
     <div className="pf">
       <div className="pf__wrap">
-        <div className="prx">
-          {/* ---------- HEADER ---------- */}
-          <header className="prx__head">
-            <div className="prx__headTop">
+        <div className="pz">
+          <header className="pz__head">
+            <div className="pz__headTop">
               <div>
-                <h1 className="prx__title">
+                <h1 className="pz__title">
                   Prizes
-                  <Sparkles size={16} className="prx__titleSpark" />
+                  <Sparkles size={16} className="pz__spark" />
                 </h1>
-                <p className="prx__subtitle">
-                  Play your best · win something special
-                </p>
+                <p className="pz__sub">Play your best · win something special</p>
               </div>
               {prizes.length > 0 && (
-                <span className="prx__count">{prizes.length}</span>
+                <span className="pz__count">{prizes.length}</span>
               )}
             </div>
 
-            {/* admin / sponsor CTA */}
             {canAdd && (
-              <button
-                type="button"
-                className="prx__addBtn"
-                onClick={() => setSheet({ prize: null })}
-              >
-                <span className="prx__addBtnIcon">
-                  <Plus size={18} />
-                </span>
-                <span className="prx__addBtnText">
+              <button type="button" className="pz__add" onClick={() => setSheet({ prize: null })}>
+                <span className="pz__addIcon"><Plus size={18} /></span>
+                <span className="pz__addText">
                   <strong>Add a prize</strong>
                   <small>Announce something new</small>
                 </span>
               </button>
             )}
 
-            {/* search — only if there are prizes */}
             {prizes.length > 0 && (
-              <div className="prx__search">
-                <Search size={16} className="prx__searchIcon" />
+              <div className="pz__search">
+                <Search size={16} className="pz__searchIcon" />
                 <input
                   type="search"
-                  className="prx__searchInput"
+                  className="pz__searchInput"
                   placeholder="Search prizes, donors or category"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
@@ -207,7 +165,7 @@ export default function Prizes() {
                 {query && (
                   <button
                     type="button"
-                    className="prx__searchClear"
+                    className="pz__searchClear"
                     onClick={() => setQuery("")}
                     aria-label="Clear search"
                   >
@@ -218,12 +176,11 @@ export default function Prizes() {
             )}
           </header>
 
-          {/* ---------- BODY ---------- */}
-          <div className="prx__body">
+          <div className="pz__body">
             {isLoading && <Skeleton />}
 
             {error && !isLoading && (
-              <div className="prx__err" role="alert">
+              <div className="pz__err" role="alert">
                 <AlertCircle size={16} />
                 <div>
                   <strong>Couldn't load prizes</strong>
@@ -233,91 +190,71 @@ export default function Prizes() {
             )}
 
             {!isLoading && !error && shown.length === 0 && (
-              <EmptyState
-                filtered={isFiltered}
-                onReset={() => setQuery("")}
-              />
+              <EmptyState filtered={isFiltered} onReset={() => setQuery("")} />
             )}
 
             {!isLoading && !error && shown.length > 0 && (
-              <div className="prx__list">
+              <div className="pz__list">
                 {shown.map((p) => {
                   const isSponsorDonor = p.donor?.type === "sponsor";
-
                   return (
-                    <article key={p.id} className="prx__card">
-                      {/* trophy tile */}
-                      <div className="prx__tile">
-                        <Trophy size={22} />
-                      </div>
+                    <article key={p.id} className="pz__card">
+                      <div className="pz__tile"><Trophy size={22} /></div>
 
-                      {/* content */}
-                      <div className="prx__content">
-                        <div className="prx__titleRow">
-                          <h3 className="prx__prizeTitle">{p.title}</h3>
+                      <div className="pz__content">
+                        <div className="pz__titleRow">
+                          <h3 className="pz__prizeTitle">{p.title}</h3>
                         </div>
 
                         {p.forWhat && (
-                          <span className="prx__badge">
+                          <span className="pz__badge">
                             <Gift size={11} />
                             {p.forWhat}
                           </span>
                         )}
 
                         {p.description && (
-                          <p className="prx__desc">{p.description}</p>
+                          <p className="pz__desc">{p.description}</p>
                         )}
 
-                        {/* donor */}
                         {isSponsorDonor ? (
-                          <Link
-                            to={`/sponsors/${p.donor.id}`}
-                            className="prx__donor prx__donor--link"
-                          >
+                          <Link to={`/sponsors/${p.donor.id}`} className="pz__donor pz__donor--link">
                             <Avatar
-                              user={{
-                                name: p.donor.name,
-                                photoUrl: p.donor.photoUrl,
-                              }}
-                              className="prx__donorAv"
+                              user={{ name: p.donor.name, photoUrl: p.donor.photoUrl }}
+                              className="pz__donorAv"
                             />
-                            <span className="prx__donorText">
-                              Sponsored by{" "}
-                              <strong>{p.donor.name}</strong>
+                            <span className="pz__donorText">
+                              Sponsored by <strong>{p.donor.name}</strong>
                             </span>
-                            <ShieldCheck size={13} className="prx__donorVerify" />
+                            <ShieldCheck size={13} className="pz__donorVerify" />
                           </Link>
                         ) : (
-                          <div className="prx__donor">
-                            <span className="prx__donorHeart">
+                          <div className="pz__donor">
+                            <span className="pz__donorHeart">
                               <Heart size={14} fill="currentColor" />
                             </span>
-                            <span className="prx__donorText">
-                              Gifted by{" "}
-                              <strong>{p.donor?.name || "Anonymous"}</strong>
+                            <span className="pz__donorText">
+                              Gifted by <strong>{p.donor?.name || "Anonymous"}</strong>
                             </span>
                           </div>
                         )}
 
-                        {/* actions */}
                         {p.canEdit && (
-                          <div className="prx__actions">
+                          <div className="pz__actions">
                             <button
                               type="button"
-                              className="prx__btn prx__btn--edit"
+                              className="pz__btn pz__btn--edit"
                               onClick={() => setSheet({ prize: p })}
                             >
-                              <Pencil size={14} />
-                              Edit
+                              <Pencil size={14} /> Edit
                             </button>
                             <button
                               type="button"
-                              className="prx__btn prx__btn--danger"
+                              className="pz__btn pz__btn--danger"
                               disabled={del.isMutating}
                               onClick={() => setConfirming(p)}
                             >
-                              <Trash2 size={14} />
-                              Remove
+                              <Trash2 size={14} /> Remove
                             </button>
                           </div>
                         )}
@@ -334,7 +271,6 @@ export default function Prizes() {
         <BottomNav />
       </div>
 
-      {/* ---------- prize editor sheet ---------- */}
       {sheet && (
         <PrizeSheet
           prize={sheet.prize}
@@ -343,7 +279,6 @@ export default function Prizes() {
         />
       )}
 
-      {/* ---------- confirm delete ---------- */}
       <ConfirmDialog
         open={!!confirming}
         prize={confirming}
